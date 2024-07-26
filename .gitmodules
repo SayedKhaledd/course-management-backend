@@ -4,3 +4,6 @@
 [submodule "keycloak-backend-client"]
 	path = keycloak-backend-client
 	url = https://github.com/SayedKhaledd/keycloak-backend-client.git
+[submodule "backend-structure-python-script"]
+	path = backend-structure-python-script
+	url = https://github.com/SayedKhaledd/backend-structure-python-script.git
