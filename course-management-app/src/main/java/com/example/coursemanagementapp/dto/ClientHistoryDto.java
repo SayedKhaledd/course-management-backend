@@ -1,5 +1,4 @@
 package com.example.coursemanagementapp.dto;
-
 import com.example.backendcoreservice.dto.AbstractDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class DoctorHistoryDto extends AbstractDto {
-    private Long id;
+public class ClientHistoryDto extends AbstractDto {
+private Long id;
 
 }

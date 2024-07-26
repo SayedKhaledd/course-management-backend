@@ -1,5 +1,4 @@
 package com.example.coursemanagementapp.model;
-
 import com.example.backendcoreservice.model.AbstractEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -13,11 +12,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Entity
-@Table(name = "doctor_history")
-public class DoctorHistory extends AbstractEntity {
+@Table(name = "client_history")
+public class ClientHistory extends AbstractEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "doctor_history_id_sequence")
-    @SequenceGenerator(name = "doctor_history_id_sequence", sequenceName = "doctor_history_id_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "client_history_id_sequence")
+    @SequenceGenerator(name = "client_history_id_sequence", sequenceName = "client_history_id_sequence", allocationSize = 1)
     private Long id;
 
 }
