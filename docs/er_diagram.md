@@ -1,3 +1,4 @@
+```mermaid
 erDiagram
 USER {
 LONG Id
@@ -87,7 +88,7 @@ STRING Role
         STRING Role
     }
     
-    INSTALLMENTS {
+    INSTALLMENT {
         LONG Id
         LONG EnrollmentId
         DOUBLE Amount
@@ -96,14 +97,14 @@ STRING Role
         LONG PaymentMethodId
     }
     
-    EVALUATIONS {
+    EVALUATION {
         LONG Id
         LONG EnrollmentId
         LONG ExamId
         STRING Status
     }
     
-    EXAMS {
+    EXAM {
         LONG Id
         STRING Name
     }
@@ -118,16 +119,16 @@ STRING Role
         STRING Status
     }
     
-    USER ||--|| CLIENT : "creates"
-    CLIENT ||--|| CLIENT_HISTORY : "has"
-    CLIENT ||--|| ENROLLMENT : "has"
-    REFERRAL_SOURCE ||--|| CLIENT : "has"
+    USER ||--o{ CLIENT : "creates"
+    CLIENT ||..o{ CLIENT_HISTORY : "has"
+    CLIENT ||..o{ ENROLLMENT : "has"
+    CLIENT ||--||  REFERRAL_SOURCE: "has"
     ACTION ||--|| CLIENT : "takes"
     PAYMENT_METHOD ||--|| ENROLLMENT : "uses"
     REFUND_REASON ||--|| REFUND : "explains"
     SPECIALITY ||--|| COURSE : "belongs to"
-    COURSE ||--|| ENROLLMENT : "has"
-    ENROLLMENT ||--|| INSTALLMENTS : "divides"
-    ENROLLMENT ||--|| EVALUATIONS : "evaluates"
-    EXAMS ||--|| EVALUATIONS : "tests"
-    ENROLLMENT ||--|| REFUND : "may have"
+    COURSE ||--o{ ENROLLMENT : "has"
+    ENROLLMENT ||--o{ INSTALLMENT : "divides"
+    ENROLLMENT ||--o{ EVALUATION : "evaluates"
+    EXAM ||--|| EVALUATION : "tests"
+    ENROLLMENT ||--o{ REFUND : "may have"
