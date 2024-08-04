@@ -7,7 +7,7 @@ CREATE SEQUENCE public.client_id_sequence
     MAXVALUE 9223372036854775807 CACHE 1;
 
 ALTER SEQUENCE public.client_id_sequence
-    OWNER TO ${user.owner};
+    OWNER TO ${user_owner};
 
 CREATE TABLE public.client
 (
@@ -27,9 +27,12 @@ CREATE TABLE public.client
     created_by               CHARACTER VARYING(100) NOT NULL,
     modified_by              CHARACTER VARYING(100) NOT NULL,
     marked_as_deleted        BOOLEAN                NOT NULL DEFAULT FALSE,
-    CONSTRAINT referral_source_pk PRIMARY KEY (id),
-    CONSTRAINT referral_source_source_unique UNIQUE (source)
+    CONSTRAINT client_pk PRIMARY KEY (id),
+    CONSTRAINT client_email_uq UNIQUE (email),
+    CONSTRAINT client_phone_number_uq UNIQUE (phone_number),
+    CONSTRAINT client_alternative_phone_number_uq UNIQUE (alternative_phone_number)
+
 );
 
 ALTER TABLE public.client
-    OWNER TO ${user.owner};
+    OWNER TO ${user_owner};

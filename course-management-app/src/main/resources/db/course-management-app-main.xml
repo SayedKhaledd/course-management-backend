@@ -5,4 +5,16 @@
 
 
     <include file="/db/changelog/20240726_client_table.sql"/>
+    <include file="/db/changelog/20240804_course_table.sql"/>
+    <include file="/db/changelog/20240726_referral_source_table.sql"/>
+    <include file="/db/changelog/20240804_action_taken_table.sql"/>
+    <include file="/db/changelog/20240804_payment_method_table.sql"/>
+    <include file="/db/changelog/20240804_enrollment_table.sql"/>
+    <include file="/db/changelog/20240804_user_table.sql"/>
+    <include file="/db/changelog/20240804_course_lecturer_table.sql"/>
+    <include file="/db/changelog/20240804_installment_table.sql"/>
+    <include file="/db/changelog/20240804_refund_reason_table.sql"/>
+    <include file="/db/changelog/20240804_refund_table.sql"/>
+
+
 </databaseChangeLog>

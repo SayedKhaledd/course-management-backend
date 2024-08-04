@@ -7,7 +7,7 @@ CREATE SEQUENCE public.referral_source_id_sequence
     MAXVALUE 9223372036854775807 CACHE 1;
 
 ALTER SEQUENCE public.referral_source_id_sequence
-    OWNER TO ${user.owner};
+    OWNER TO ${user_owner};
 
 CREATE TABLE public.referral_source
 (
@@ -20,8 +20,8 @@ CREATE TABLE public.referral_source
     modified_by       CHARACTER VARYING(100) NOT NULL,
     marked_as_deleted BOOLEAN                NOT NULL DEFAULT FALSE,
     CONSTRAINT referral_source_pk PRIMARY KEY (id),
-    CONSTRAINT referral_source_source_unique UNIQUE (source)
+    CONSTRAINT referral_source_source_uq UNIQUE (source)
 );
 
 ALTER TABLE public.referral_source
-    OWNER TO ${user.owner};
+    OWNER TO ${user_owner};
