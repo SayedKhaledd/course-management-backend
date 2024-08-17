@@ -20,4 +20,8 @@ public class PaymentMethod extends AbstractEntity {
     @SequenceGenerator(name = "payment_method_id_sequence", sequenceName = "payment_method_id_sequence", allocationSize = 1)
     private Long id;
 
+    @Column(name = "method")
+    @Enumerated(EnumType.STRING)
+    private com.example.coursemanagementapp.enums.PaymentMethod method;
+
 }

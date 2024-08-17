@@ -12,8 +12,7 @@ ALTER SEQUENCE public.user_id_sequence
 CREATE TABLE IF NOT EXISTS public.user
 (
     id                BIGINT                 NOT NULL DEFAULT nextval('user_id_sequence'),
-    first_name        VARCHAR(255)           NOT NULL,
-    last_name         VARCHAR(255)           NOT NULL,
+    name              VARCHAR(255)           NOT NULL,
     email             VARCHAR(255)           NOT NULL,
     phone_number      VARCHAR(255)           NOT NULL,
 
@@ -27,7 +26,7 @@ CREATE TABLE IF NOT EXISTS public.user
     CONSTRAINT user_email_uq UNIQUE (email),
     CONSTRAINT user_phone_number_uq UNIQUE (phone_number)
 
-);
+) TABLESPACE pg_default;
 
 ALTER TABLE public.user
     OWNER TO ${user_owner};

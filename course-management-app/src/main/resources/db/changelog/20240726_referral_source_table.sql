@@ -21,7 +21,7 @@ CREATE TABLE public.referral_source
     marked_as_deleted BOOLEAN                NOT NULL DEFAULT FALSE,
     CONSTRAINT referral_source_pk PRIMARY KEY (id),
     CONSTRAINT referral_source_source_uq UNIQUE (source)
-);
+) TABLESPACE pg_default;
 
 ALTER TABLE public.referral_source
     OWNER TO ${user_owner};

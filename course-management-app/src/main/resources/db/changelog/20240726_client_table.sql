@@ -12,14 +12,17 @@ ALTER SEQUENCE public.client_id_sequence
 CREATE TABLE public.client
 (
     id                       BIGINT                 NOT NULL DEFAULT nextval('client_id_sequence'),
-    first_name               VARCHAR(255)           NOT NULL,
-    last_name                VARCHAR(255)           NOT NULL,
+    name                     VARCHAR(255)           NOT NULL,
     email                    VARCHAR(255)           NOT NULL,
     phone_number             VARCHAR(255)           NOT NULL,
     alternative_phone_number VARCHAR(255),
     address                  VARCHAR(255),
     country                  VARCHAR(255),
     nationality              VARCHAR(255),
+    specialty                VARCHAR(255),
+    status_id                bigint,
+    description              TEXT,
+    referral_source_id       BIGINT,
 
 
     created_date             TIMESTAMP              NOT NULL,
@@ -30,9 +33,11 @@ CREATE TABLE public.client
     CONSTRAINT client_pk PRIMARY KEY (id),
     CONSTRAINT client_email_uq UNIQUE (email),
     CONSTRAINT client_phone_number_uq UNIQUE (phone_number),
-    CONSTRAINT client_alternative_phone_number_uq UNIQUE (alternative_phone_number)
+    CONSTRAINT client_alternative_phone_number_uq UNIQUE (alternative_phone_number),
+    CONSTRAINT client_status_id_fk FOREIGN KEY (status_id) REFERENCES public.client_status (id),
+    CONSTRAINT client_referral_source_id_fk FOREIGN KEY (referral_source_id) REFERENCES public.referral_source (id)
 
-);
+) TABLESPACE pg_default;
 
 ALTER TABLE public.client
     OWNER TO ${user_owner};

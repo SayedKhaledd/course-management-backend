@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
@@ -19,5 +21,32 @@ public class Course extends AbstractEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "course_id_sequence")
     @SequenceGenerator(name = "course_id_sequence", sequenceName = "course_id_sequence", allocationSize = 1)
     private Long id;
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "description")
+    private String description;
+
+
+    @Column(name = "code")
+    private String code;
+
+    @Column(name = "part")
+    private String part;
+
+    @Column(name = "start_date")
+    private LocalDateTime startDate;
+
+    @Column(name = "end_date")
+    private LocalDateTime endDate;
+
+    @JoinColumn(name = "status_id")
+    @ManyToOne
+    private CourseStatus status;
+
+    @Column(name = "status_id", insertable = false, updatable = false)
+    private Long courseStatusId;
+
 
 }

@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS public.refund_reason
     CONSTRAINT refund_reason_reason_uq UNIQUE (reason)
 
 
-);
+) TABLESPACE pg_default;
 
 ALTER TABLE public.refund_reason
     OWNER TO ${user_owner};

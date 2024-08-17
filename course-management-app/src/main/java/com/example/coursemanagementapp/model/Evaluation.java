@@ -1,5 +1,4 @@
 package com.example.coursemanagementapp.model;
-
 import com.example.backendcoreservice.model.AbstractEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -20,4 +19,20 @@ public class Evaluation extends AbstractEntity {
     @SequenceGenerator(name = "evaluation_id_sequence", sequenceName = "evaluation_id_sequence", allocationSize = 1)
     private Long id;
 
+    @JoinColumn(name = "enrollment_id", nullable = false, updatable = false)
+    @ManyToOne
+    private Enrollment enrollment;
+
+    @Column(name = "enrollment_id", insertable = false, updatable = false)
+    private Long enrollmentId;
+
+    @Column(name = "exam_name")
+    private String examName;
+
+    @JoinColumn(name = "status_id")
+    @ManyToOne
+    private EvaluationStatus status;
+
+    @Column(name = "status_id", insertable = false, updatable = false)
+    private Long statusId;
 }

@@ -10,7 +10,7 @@ import com.example.backendcoreservice.api.ApiResponseBuilder;
 
 
 @RestController
-@RequestMapping("/api/clienthistory")
+@RequestMapping("/api/client-history")
 @AllArgsConstructor
 public class ClientHistoryController implements AbstractController<ClientHistoryService, ClientHistoryDto> {
 

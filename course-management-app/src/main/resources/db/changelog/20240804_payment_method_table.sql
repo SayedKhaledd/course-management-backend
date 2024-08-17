@@ -21,7 +21,7 @@ CREATE TABLE public.payment_method
     marked_as_deleted BOOLEAN                NOT NULL DEFAULT FALSE,
     CONSTRAINT payment_method_pk PRIMARY KEY (id),
     CONSTRAINT payment_method_method_uq UNIQUE (method)
-);
+)TABLESPACE pg_default;
 
 ALTER TABLE public.payment_method
     OWNER TO ${user_owner};

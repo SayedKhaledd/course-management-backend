@@ -1,10 +1,10 @@
 package com.example.coursemanagementapp.service;
 
-import com.example.coursemanagementapp.dao.UserDao;
-import com.example.coursemanagementapp.transformer.UserTransformer;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import com.example.coursemanagementapp.dao.UserDao;
+import com.example.coursemanagementapp.transformer.UserTransformer;
 
 @Slf4j
 @Service
@@ -23,6 +23,8 @@ public class UserServiceImpl implements UserService {
     public UserTransformer getTransformer() {
         return userTransformer;
     }
+    
+
 
 
 }

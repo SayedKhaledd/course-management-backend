@@ -1,16 +1,16 @@
 package com.example.coursemanagementapp.controller;
 
-import com.example.backendcoreservice.api.ApiResponseBuilder;
-import com.example.backendcoreservice.controller.AbstractController;
-import com.example.coursemanagementapp.dto.PaymentMethodDto;
-import com.example.coursemanagementapp.service.PaymentMethodService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.example.coursemanagementapp.dto.PaymentMethodDto;
+import com.example.coursemanagementapp.service.PaymentMethodService;
+import com.example.backendcoreservice.controller.AbstractController;
+import com.example.backendcoreservice.api.ApiResponseBuilder;
 
 
 @RestController
-@RequestMapping("/api/paymentmethod")
+@RequestMapping("/api/payment-method")
 @AllArgsConstructor
 public class PaymentMethodController implements AbstractController<PaymentMethodService, PaymentMethodDto> {
 
@@ -22,11 +22,14 @@ public class PaymentMethodController implements AbstractController<PaymentMethod
     public PaymentMethodService getService() {
         return paymentmethodService;
     }
-
+    
     @Override
     public ApiResponseBuilder<PaymentMethodDto> getApiResponseBuilder() {
-        return apiResponseBuilder;
+    return apiResponseBuilder;
     }
+
+
+
 
 
 }

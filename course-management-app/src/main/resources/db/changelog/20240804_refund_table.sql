@@ -14,11 +14,12 @@ CREATE TABLE public.refund
     id                BIGINT                 NOT NULL DEFAULT nextval('refund_id_sequence'),
     enrollment_id     BIGINT                 NOT NULL,
     amount            DECIMAL                NOT NULL,
-    payment_due_date  TIMESTAMP              NOT NULL,
-    payment_date      TIMESTAMP,
     payment_method_id BIGINT,
     refund_date       TIMESTAMP              NOT NULL,
     refund_reason_id  BIGINT                 NOT NULL,
+    payment_status    CHARACTER VARYING(255),
+    explanation       CHARACTER VARYING(255),
+    is_confirmed      BOOLEAN                NOT NULL DEFAULT FALSE,
 
 
     created_date      TIMESTAMP              NOT NULL,
@@ -29,9 +30,10 @@ CREATE TABLE public.refund
     CONSTRAINT refund_pk PRIMARY KEY (id),
     CONSTRAINT refund_enrollment_id_fk FOREIGN KEY (enrollment_id) REFERENCES public.enrollment (id),
     CONSTRAINT refund_payment_method_id_fk FOREIGN KEY (payment_method_id) REFERENCES public.payment_method (id),
-    CONSTRAINT refund_refund_reason_id_fk FOREIGN KEY (refund_reason_id) REFERENCES public.refund_reason (id)
+    CONSTRAINT refund_refund_reason_id_fk FOREIGN KEY (refund_reason_id) REFERENCES public.refund_reason (id),
+    CONSTRAINT refund_status_fk FOREIGN KEY (payment_status) REFERENCES public.payment_status (status)
 
-);
+) TABLESPACE pg_default;
 
 ALTER TABLE public.refund
     OWNER TO ${user_owner};

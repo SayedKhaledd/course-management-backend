@@ -17,6 +17,7 @@ CREATE TABLE public.installment
     payment_due_date  TIMESTAMP              NOT NULL,
     payment_date      TIMESTAMP,
     payment_method_id BIGINT,
+    payment_status_id BIGINT,
 
 
     created_date      TIMESTAMP              NOT NULL,
@@ -26,9 +27,10 @@ CREATE TABLE public.installment
     marked_as_deleted BOOLEAN                NOT NULL DEFAULT FALSE,
     CONSTRAINT installment_pk PRIMARY KEY (id),
     CONSTRAINT installment_enrollment_id_fk FOREIGN KEY (enrollment_id) REFERENCES public.enrollment (id),
-    CONSTRAINT installment_payment_method_id_fk FOREIGN KEY (payment_method_id) REFERENCES public.payment_method (id)
+    CONSTRAINT installment_payment_method_id_fk FOREIGN KEY (payment_method_id) REFERENCES public.payment_method (id),
+    CONSTRAINT installment_payment_status_id_fk FOREIGN KEY (payment_status_id) REFERENCES public.payment_status (id)
 
-);
+) TABLESPACE pg_default;
 
 ALTER TABLE public.installment
     OWNER TO ${user_owner};

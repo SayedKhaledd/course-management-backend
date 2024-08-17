@@ -21,7 +21,7 @@ CREATE TABLE public.action_taken
     marked_as_deleted BOOLEAN                NOT NULL DEFAULT FALSE,
     CONSTRAINT action_taken_pk PRIMARY KEY (id),
     CONSTRAINT action_taken_action_uq UNIQUE (action)
-);
+)TABLESPACE pg_default;
 
 ALTER TABLE public.action_taken
     OWNER TO ${user_owner};

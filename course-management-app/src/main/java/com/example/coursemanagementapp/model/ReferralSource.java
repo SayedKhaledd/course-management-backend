@@ -1,5 +1,4 @@
 package com.example.coursemanagementapp.model;
-
 import com.example.backendcoreservice.model.AbstractEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -19,5 +18,9 @@ public class ReferralSource extends AbstractEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "referral_source_id_sequence")
     @SequenceGenerator(name = "referral_source_id_sequence", sequenceName = "referral_source_id_sequence", allocationSize = 1)
     private Long id;
+
+    @Column(name = "source")
+    @Enumerated(EnumType.STRING)
+    private com.example.coursemanagementapp.enums.ReferralSource source;
 
 }

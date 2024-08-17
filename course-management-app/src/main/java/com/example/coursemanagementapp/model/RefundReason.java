@@ -1,5 +1,4 @@
 package com.example.coursemanagementapp.model;
-
 import com.example.backendcoreservice.model.AbstractEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -20,4 +19,7 @@ public class RefundReason extends AbstractEntity {
     @SequenceGenerator(name = "refund_reason_id_sequence", sequenceName = "refund_reason_id_sequence", allocationSize = 1)
     private Long id;
 
+    @Column(name = "reason")
+    @Enumerated(EnumType.STRING)
+    private com.example.coursemanagementapp.enums.RefundReason reason;
 }

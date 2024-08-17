@@ -14,9 +14,9 @@ CREATE TABLE public.course_lecturer
     id                 BIGINT                 NOT NULL DEFAULT nextval('course_lecturer_id_sequence'),
     name               VARCHAR(255)           NOT NULL,
     course_id          BIGINT                 NOT NULL,
-    paid_in_percentage BOOLEAN                NOT NULL,
-    percentage_value   DECIMAL                NOT NULL,
-    fixed_value        DECIMAL                NOT NULL,
+    paid_in_percentage BOOLEAN                NOT NULL DEFAULT FALSE,
+    percentage_value   DECIMAL,
+    fixed_value        DECIMAL,
 
     created_date       TIMESTAMP              NOT NULL,
     modified_date      TIMESTAMP              NOT NULL,
@@ -26,7 +26,7 @@ CREATE TABLE public.course_lecturer
     CONSTRAINT course_lecturer_pk PRIMARY KEY (id),
     CONSTRAINT course_lecturer_course_id_fk FOREIGN KEY (course_id) REFERENCES public.course (id),
     CONSTRAINT course_lecturer_name_course_id_uq UNIQUE (name, course_id)
-);
+) TABLESPACE pg_default;
 
 ALTER TABLE public.course_lecturer
     OWNER TO ${user_owner};

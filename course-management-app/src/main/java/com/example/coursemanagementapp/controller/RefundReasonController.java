@@ -10,7 +10,7 @@ import com.example.backendcoreservice.api.ApiResponseBuilder;
 
 
 @RestController
-@RequestMapping("/api/refundreason")
+@RequestMapping("/api/refund-reason")
 @AllArgsConstructor
 public class RefundReasonController implements AbstractController<RefundReasonService, RefundReasonDto> {
 
@@ -22,11 +22,14 @@ public class RefundReasonController implements AbstractController<RefundReasonSe
     public RefundReasonService getService() {
         return refundreasonService;
     }
-
+    
     @Override
     public ApiResponseBuilder<RefundReasonDto> getApiResponseBuilder() {
-        return apiResponseBuilder;
+    return apiResponseBuilder;
     }
+
+
+
 
 
 }
