@@ -1,6 +1,5 @@
 package com.example.coursemanagementapp.dao;
 
-import com.example.backendcoreservice.model.AbstractEntity;
 import com.example.coursemanagementapp.model.PaymentStatus;
 import org.springframework.stereotype.Component;
 import lombok.AllArgsConstructor;

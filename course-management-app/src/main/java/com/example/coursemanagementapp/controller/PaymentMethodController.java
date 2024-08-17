@@ -1,12 +1,16 @@
 package com.example.coursemanagementapp.controller;
 
-import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.backendcoreservice.api.ApiResponse;
+import com.example.backendcoreservice.api.ApiResponseBuilder;
+import com.example.backendcoreservice.controller.AbstractController;
 import com.example.coursemanagementapp.dto.PaymentMethodDto;
 import com.example.coursemanagementapp.service.PaymentMethodService;
-import com.example.backendcoreservice.controller.AbstractController;
-import com.example.backendcoreservice.api.ApiResponseBuilder;
+import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 
 @RestController
@@ -22,14 +26,16 @@ public class PaymentMethodController implements AbstractController<PaymentMethod
     public PaymentMethodService getService() {
         return paymentmethodService;
     }
-    
+
     @Override
     public ApiResponseBuilder<PaymentMethodDto> getApiResponseBuilder() {
-    return apiResponseBuilder;
+        return apiResponseBuilder;
     }
 
-
-
+    @GetMapping("/all")
+    public ApiResponse<List<PaymentMethodDto>> findAll() {
+        return getApiResponseBuilder().buildSuccessResponse(getService().findAll());
+    }
 
 
 }
