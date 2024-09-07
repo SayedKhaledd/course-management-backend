@@ -1,12 +1,12 @@
 package com.example.coursemanagementapp.controller;
 
+import com.example.backendcoreservice.api.ApiResponseBuilder;
+import com.example.backendcoreservice.controller.AbstractController;
+import com.example.coursemanagementapp.dto.InstallmentDto;
+import com.example.coursemanagementapp.service.InstallmentService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.example.coursemanagementapp.dto.InstallmentDto;
-import com.example.coursemanagementapp.service.InstallmentService;
-import com.example.backendcoreservice.controller.AbstractController;
-import com.example.backendcoreservice.api.ApiResponseBuilder;
 
 
 @RestController
@@ -22,14 +22,11 @@ public class InstallmentController implements AbstractController<InstallmentServ
     public InstallmentService getService() {
         return installmentService;
     }
-    
+
     @Override
     public ApiResponseBuilder<InstallmentDto> getApiResponseBuilder() {
-    return apiResponseBuilder;
+        return apiResponseBuilder;
     }
-
-
-
 
 
 }

@@ -1,15 +1,14 @@
 package com.example.coursemanagementapp.controller;
 
 import com.example.backendcoreservice.api.ApiResponse;
-import com.example.coursemanagementapp.dto.ClientStatusDto;
+import com.example.backendcoreservice.api.ApiResponseBuilder;
+import com.example.backendcoreservice.controller.AbstractController;
+import com.example.coursemanagementapp.dto.CourseStatusDto;
+import com.example.coursemanagementapp.service.CourseStatusService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.example.coursemanagementapp.dto.CourseStatusDto;
-import com.example.coursemanagementapp.service.CourseStatusService;
-import com.example.backendcoreservice.controller.AbstractController;
-import com.example.backendcoreservice.api.ApiResponseBuilder;
 
 import java.util.List;
 
@@ -27,18 +26,16 @@ public class CourseStatusController implements AbstractController<CourseStatusSe
     public CourseStatusService getService() {
         return coursestatusService;
     }
-    
+
     @Override
     public ApiResponseBuilder<CourseStatusDto> getApiResponseBuilder() {
-    return apiResponseBuilder;
+        return apiResponseBuilder;
     }
 
     @GetMapping("/all")
     public ApiResponse<List<CourseStatusDto>> findAll() {
         return getApiResponseBuilder().buildSuccessResponse(getService().findAll());
     }
-
-
 
 
 }

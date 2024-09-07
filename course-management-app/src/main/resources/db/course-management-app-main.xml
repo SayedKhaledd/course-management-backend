@@ -23,7 +23,14 @@
     <include file="/db/changelog/20240804_refund_table.sql"/>
     <include file="/db/changelog/20240804_user_table.sql"/>
 
-
+    <include file="/db/changelog/20240823_insert_payment_methods.sql"/>
+    <include file="/db/changelog/20240823_insert_course_statuses.sql"/>
+    <include file="/db/changelog/20240823_insert_payment_statuses.sql"/>
+    <include file="/db/changelog/20240823_insert_referral_sources.sql"/>
+    <include file="/db/changelog/20240823_insert_action_taken.sql"/>
+    <include file="/db/changelog/20240823_insert_refund_reasons.sql"/>
+    <include file="/db/changelog/20240823_insert_client_statuses.sql"/>
+    <include file="/db/changelog/20240823_insert_evaluation_statuses.sql"/>
 
 
 </databaseChangeLog>

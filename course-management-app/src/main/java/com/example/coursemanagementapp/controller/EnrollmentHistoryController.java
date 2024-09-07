@@ -1,12 +1,12 @@
 package com.example.coursemanagementapp.controller;
 
+import com.example.backendcoreservice.api.ApiResponseBuilder;
+import com.example.backendcoreservice.controller.AbstractController;
+import com.example.coursemanagementapp.dto.EnrollmentHistoryDto;
+import com.example.coursemanagementapp.service.EnrollmentHistoryService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.example.coursemanagementapp.dto.EnrollmentHistoryDto;
-import com.example.coursemanagementapp.service.EnrollmentHistoryService;
-import com.example.backendcoreservice.controller.AbstractController;
-import com.example.backendcoreservice.api.ApiResponseBuilder;
 
 
 @RestController
@@ -22,14 +22,11 @@ public class EnrollmentHistoryController implements AbstractController<Enrollmen
     public EnrollmentHistoryService getService() {
         return enrollmenthistoryService;
     }
-    
+
     @Override
     public ApiResponseBuilder<EnrollmentHistoryDto> getApiResponseBuilder() {
-    return apiResponseBuilder;
+        return apiResponseBuilder;
     }
-
-
-
 
 
 }

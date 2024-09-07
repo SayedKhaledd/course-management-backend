@@ -1,6 +1,7 @@
 package com.example.coursemanagementapp.dto;
 
 import com.example.backendcoreservice.dto.AbstractDto;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @EqualsAndHashCode(callSuper = true)
@@ -10,8 +11,10 @@ import lombok.*;
 @Data
 public class ClientDto extends AbstractDto {
     private Long id;
+    @NotBlank(message = "Name is mandatory")
     private String name;
     private String email;
+    @NotBlank(message = "Phone is mandatory")
     private String phone;
     private String alternatePhone;
     private String country;

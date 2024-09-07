@@ -2,15 +2,13 @@ package com.example.coursemanagementapp.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
+@Getter
 @AllArgsConstructor
 public enum PaymentStatus {
     PAID("PAID"),
-    UNPAID("UNPAID"),
-    ;
-    @Setter
-    @Getter
-    private String status;
+    NOT_PAID("NOT_PAID"),
+    PENDING("PENDING");
+    private final String status;
 
 }
