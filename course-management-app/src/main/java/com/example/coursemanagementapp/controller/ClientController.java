@@ -2,14 +2,14 @@ package com.example.coursemanagementapp.controller;
 
 import com.example.backendcoreservice.api.ApiResponse;
 import com.example.backendcoreservice.api.ApiResponseBuilder;
+import com.example.backendcoreservice.api.pagination.PaginationRequest;
+import com.example.backendcoreservice.api.pagination.PaginationResponse;
 import com.example.backendcoreservice.controller.AbstractController;
 import com.example.coursemanagementapp.dto.ClientDto;
+import com.example.coursemanagementapp.dto.ClientSearchDto;
 import com.example.coursemanagementapp.service.ClientService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -39,6 +39,10 @@ public class ClientController implements AbstractController<ClientService, Clien
 
 
     //post request find all paginated and filtered
+    @PostMapping("/find-paginated-and-filtered")
+    public ApiResponse<PaginationResponse<ClientDto>> findAllPaginatedAndFiltered(@RequestBody PaginationRequest<ClientSearchDto> paginationRequest) {
+        return getApiResponseBuilder().buildSuccessResponse(getService().findAllPaginatedAndFiltered(paginationRequest));
+    }
 
 
     // post request to create client
