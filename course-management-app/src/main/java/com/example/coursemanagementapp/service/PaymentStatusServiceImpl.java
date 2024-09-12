@@ -1,13 +1,10 @@
 package com.example.coursemanagementapp.service;
 
-import com.example.coursemanagementapp.model.PaymentStatus;
+import com.example.coursemanagementapp.dao.PaymentStatusDao;
+import com.example.coursemanagementapp.transformer.PaymentStatusTransformer;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import com.example.coursemanagementapp.dao.PaymentStatusDao;
-import com.example.coursemanagementapp.transformer.PaymentStatusTransformer;
-
-import java.util.List;
 
 @Slf4j
 @Service
@@ -26,8 +23,6 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
     public PaymentStatusTransformer getTransformer() {
         return paymentstatusTransformer;
     }
-    
-
 
 
 }

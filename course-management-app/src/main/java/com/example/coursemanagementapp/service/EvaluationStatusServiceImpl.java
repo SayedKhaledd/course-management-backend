@@ -1,10 +1,10 @@
 package com.example.coursemanagementapp.service;
 
+import com.example.coursemanagementapp.dao.EvaluationStatusDao;
+import com.example.coursemanagementapp.transformer.EvaluationStatusTransformer;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import com.example.coursemanagementapp.dao.EvaluationStatusDao;
-import com.example.coursemanagementapp.transformer.EvaluationStatusTransformer;
 
 @Slf4j
 @Service
@@ -23,8 +23,6 @@ public class EvaluationStatusServiceImpl implements EvaluationStatusService {
     public EvaluationStatusTransformer getTransformer() {
         return evaluationstatusTransformer;
     }
-    
-
 
 
 }

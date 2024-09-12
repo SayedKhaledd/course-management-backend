@@ -1,10 +1,10 @@
 package com.example.coursemanagementapp.service;
 
+import com.example.coursemanagementapp.dao.CourseLecturerDao;
+import com.example.coursemanagementapp.transformer.CourseLecturerTransformer;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import com.example.coursemanagementapp.dao.CourseLecturerDao;
-import com.example.coursemanagementapp.transformer.CourseLecturerTransformer;
 
 @Slf4j
 @Service
@@ -23,8 +23,6 @@ public class CourseLecturerServiceImpl implements CourseLecturerService {
     public CourseLecturerTransformer getTransformer() {
         return courselecturerTransformer;
     }
-    
-
 
 
 }

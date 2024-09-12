@@ -23,9 +23,11 @@ public class ClientDaoImpl implements ClientDao {
     public Page<Client> findAllPaginatedAndFiltered(PaginationRequest<ClientSearchDto> paginationRequest) {
         log.info("ClientDao: findAllPaginatedAndFiltered() - was called");
         ClientSearchDto criteria = paginationRequest.getCriteria();
+        Boolean markedAsDeleted = paginationRequest.getDeletedRecords();
         if (criteria == null)
-            return getRepo().findAllByMarkedAsDeleted(getPageRequest(paginationRequest), paginationRequest.getDeletedRecords());
+            return getRepo().findAllByMarkedAsDeleted(getPageRequest(paginationRequest), markedAsDeleted);
 
-        return getRepo().findAllFilteredAndPaginated(getPageRequest(paginationRequest), criteria, paginationRequest.getDeletedRecords());
+        return getRepo().findAllFilteredAndPaginated(getPageRequest(paginationRequest), criteria, markedAsDeleted);
     }
+
 }

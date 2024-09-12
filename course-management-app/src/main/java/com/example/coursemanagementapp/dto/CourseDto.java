@@ -1,7 +1,6 @@
 package com.example.coursemanagementapp.dto;
 
 import com.example.backendcoreservice.dto.AbstractDto;
-import com.example.coursemanagementapp.model.CourseStatus;
 import lombok.*;
 
 import java.time.LocalDateTime;

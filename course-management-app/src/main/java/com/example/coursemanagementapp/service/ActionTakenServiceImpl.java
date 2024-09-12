@@ -1,10 +1,10 @@
 package com.example.coursemanagementapp.service;
 
+import com.example.coursemanagementapp.dao.ActionTakenDao;
+import com.example.coursemanagementapp.transformer.ActionTakenTransformer;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import com.example.coursemanagementapp.dao.ActionTakenDao;
-import com.example.coursemanagementapp.transformer.ActionTakenTransformer;
 
 @Slf4j
 @Service
@@ -23,8 +23,6 @@ public class ActionTakenServiceImpl implements ActionTakenService {
     public ActionTakenTransformer getTransformer() {
         return actiontakenTransformer;
     }
-    
-
 
 
 }

@@ -1,11 +1,8 @@
 package com.example.coursemanagementapp.dao;
 
-import com.example.coursemanagementapp.model.CourseStatus;
-import org.springframework.stereotype.Component;
-import lombok.AllArgsConstructor;
 import com.example.coursemanagementapp.dao.repo.CourseStatusRepo;
-
-import java.util.List;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @Component
 @AllArgsConstructor
@@ -19,8 +16,4 @@ public class CourseStatusDaoImpl implements CourseStatusDao {
     }
 
 
-    @Override
-    public List<CourseStatus> findAll() {
-        return getRepo().findAllByMarkedAsDeletedFalse();
-    }
 }

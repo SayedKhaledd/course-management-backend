@@ -1,8 +1,8 @@
 package com.example.coursemanagementapp.dao;
 
-import org.springframework.stereotype.Component;
-import lombok.AllArgsConstructor;
 import com.example.coursemanagementapp.dao.repo.EvaluationRepo;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @Component
 @AllArgsConstructor

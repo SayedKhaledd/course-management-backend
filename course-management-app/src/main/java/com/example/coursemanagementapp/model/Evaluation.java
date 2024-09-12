@@ -1,4 +1,5 @@
 package com.example.coursemanagementapp.model;
+
 import com.example.backendcoreservice.model.AbstractEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

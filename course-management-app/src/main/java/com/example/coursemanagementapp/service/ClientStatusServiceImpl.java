@@ -1,10 +1,10 @@
 package com.example.coursemanagementapp.service;
 
+import com.example.coursemanagementapp.dao.ClientStatusDao;
+import com.example.coursemanagementapp.transformer.ClientStatusTransformer;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import com.example.coursemanagementapp.dao.ClientStatusDao;
-import com.example.coursemanagementapp.transformer.ClientStatusTransformer;
 
 @Slf4j
 @Service
@@ -23,8 +23,6 @@ public class ClientStatusServiceImpl implements ClientStatusService {
     public ClientStatusTransformer getTransformer() {
         return clientstatusTransformer;
     }
-    
-
 
 
 }

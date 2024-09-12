@@ -1,10 +1,10 @@
 package com.example.coursemanagementapp.service;
 
+import com.example.coursemanagementapp.dao.EnrollmentHistoryDao;
+import com.example.coursemanagementapp.transformer.EnrollmentHistoryTransformer;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import com.example.coursemanagementapp.dao.EnrollmentHistoryDao;
-import com.example.coursemanagementapp.transformer.EnrollmentHistoryTransformer;
 
 @Slf4j
 @Service
@@ -23,8 +23,6 @@ public class EnrollmentHistoryServiceImpl implements EnrollmentHistoryService {
     public EnrollmentHistoryTransformer getTransformer() {
         return enrollmenthistoryTransformer;
     }
-    
-
 
 
 }

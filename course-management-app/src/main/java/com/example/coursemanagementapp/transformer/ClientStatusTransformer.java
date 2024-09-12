@@ -1,11 +1,11 @@
 package com.example.coursemanagementapp.transformer;
 
-import org.springframework.stereotype.Component;
-import lombok.AllArgsConstructor;
-import com.example.coursemanagementapp.transformer.mapper.ClientStatusMapper;
+import com.example.backendcoreservice.transformer.AbstractTransformer;
 import com.example.coursemanagementapp.dto.ClientStatusDto;
 import com.example.coursemanagementapp.model.ClientStatus;
-import com.example.backendcoreservice.transformer.AbstractTransformer;
+import com.example.coursemanagementapp.transformer.mapper.ClientStatusMapper;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @Component
 @AllArgsConstructor

@@ -1,11 +1,8 @@
 package com.example.coursemanagementapp.dao;
 
-import com.example.coursemanagementapp.model.ReferralSource;
-import org.springframework.stereotype.Component;
-import lombok.AllArgsConstructor;
 import com.example.coursemanagementapp.dao.repo.ReferralSourceRepo;
-
-import java.util.List;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @Component
 @AllArgsConstructor
@@ -18,8 +15,4 @@ public class ReferralSourceDaoImpl implements ReferralSourceDao {
         return referralsourceRepo;
     }
 
-    @Override
-    public List<ReferralSource> findAll() {
-        return getRepo().findAllByMarkedAsDeletedFalse();
-    }
 }
