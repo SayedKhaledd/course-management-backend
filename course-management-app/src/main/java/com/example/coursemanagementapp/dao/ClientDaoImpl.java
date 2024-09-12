@@ -6,7 +6,6 @@ import com.example.coursemanagementapp.dto.ClientSearchDto;
 import com.example.coursemanagementapp.model.Client;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -24,7 +23,9 @@ public class ClientDaoImpl implements ClientDao {
     public Page<Client> findAllPaginatedAndFiltered(PaginationRequest<ClientSearchDto> paginationRequest) {
         log.info("ClientDao: findAllPaginatedAndFiltered() - was called");
         ClientSearchDto criteria = paginationRequest.getCriteria();
-        return getRepo().findAllFilteredAndPaginated(PageRequest.of(paginationRequest.getPageNumber(), paginationRequest.getPageSize()),
-                criteria.getName(), criteria.getEmail(), criteria.getPhone());
+        if (criteria == null)
+            return getRepo().findAllByMarkedAsDeleted(getPageRequest(paginationRequest), paginationRequest.getDeletedRecords());
+
+        return getRepo().findAllFilteredAndPaginated(getPageRequest(paginationRequest), criteria, paginationRequest.getDeletedRecords());
     }
 }

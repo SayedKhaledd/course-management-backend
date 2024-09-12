@@ -8,6 +8,7 @@ import com.example.backendcoreservice.controller.AbstractController;
 import com.example.coursemanagementapp.dto.ClientDto;
 import com.example.coursemanagementapp.dto.ClientSearchDto;
 import com.example.coursemanagementapp.service.ClientService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,7 +41,7 @@ public class ClientController implements AbstractController<ClientService, Clien
 
     //post request find all paginated and filtered
     @PostMapping("/find-paginated-and-filtered")
-    public ApiResponse<PaginationResponse<ClientDto>> findAllPaginatedAndFiltered(@RequestBody PaginationRequest<ClientSearchDto> paginationRequest) {
+    public ApiResponse<PaginationResponse<ClientDto>> findAllPaginatedAndFiltered(@Valid @RequestBody PaginationRequest<ClientSearchDto> paginationRequest) {
         return getApiResponseBuilder().buildSuccessResponse(getService().findAllPaginatedAndFiltered(paginationRequest));
     }
 
