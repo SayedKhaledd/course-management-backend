@@ -16,4 +16,20 @@ public interface ClientService extends AbstractService<Client, ClientDto, Client
     void updateStatus(Long id, Long statusId);
 
     void updateDescription(Long id, ClientDto clientDto);
+
+    void updateEmail(Long id, ClientDto clientDto);
+
+    void updatePhone(Long id, ClientDto clientDto);
+
+    void updateAlternativePhone(Long id, ClientDto clientDto);
+
+    void updateCountry(Long id, ClientDto clientDto);
+
+    void updateNationality(Long id, ClientDto clientDto);
+
+    void updateAddress(Long id, ClientDto clientDto);
+
+    void updateSpecialty(Long id, ClientDto clientDto);
+
+    void updateReferralSource(Long id, Long referralSourceId);
 }

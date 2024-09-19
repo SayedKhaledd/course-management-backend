@@ -13,7 +13,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-
+@Validated
 @RestController
 @RequestMapping("/api/client")
 @AllArgsConstructor
@@ -32,68 +32,94 @@ public class ClientController implements AbstractController<ClientService, Clien
     public ApiResponseBuilder<ClientDto> getApiResponseBuilder() {
         return apiResponseBuilder;
     }
-    //get request find by id
 
     @GetMapping("{id}")
     public ApiResponse<ClientDto> findById(@PathVariable Long id) {
         return getApiResponseBuilder().buildSuccessResponse(getService().findById(id));
     }
 
-
-    //post request find all paginated and filtered
     @PostMapping("/find-paginated-and-filtered")
     public ApiResponse<PaginationResponse<ClientDto>> findAllPaginatedAndFiltered(@Valid @RequestBody PaginationRequest<ClientSearchDto> paginationRequest) {
         return getApiResponseBuilder().buildSuccessResponse(getService().findAllPaginatedAndFiltered(paginationRequest));
     }
-
-
-    // post request to create client
 
     @PostMapping()
     public ApiResponse<ClientDto> create(@Validated(ClientDto.Create.class) @RequestBody ClientDto clientDto) {
         return getApiResponseBuilder().buildSuccessResponse(getService().create(clientDto));
     }
 
-    //put update client, may not be used
 
     @PutMapping("/{id}")
     public ApiResponse<ClientDto> update(@PathVariable Long id, @Validated(ClientDto.Update.class) @RequestBody ClientDto clientDto) {
         return getApiResponseBuilder().buildSuccessResponse(getService().update(clientDto, id));
     }
 
-    // patch requests to update:
-    // client status
     @PatchMapping("/{id}/status/{statusId}")
     public ApiResponse<?> updateStatus(@PathVariable Long id, @PathVariable Long statusId) {
         getService().updateStatus(id, statusId);
         return getApiResponseBuilder().buildSuccessResponse();
     }
 
-    // description
     @PatchMapping("/{id}/description")
-    public ApiResponse<?> updateStatus(@PathVariable Long id, @RequestBody @Validated(ClientDto.UpdateDescription.class) ClientDto clientDto) {
+    public ApiResponse<?> updateDescription(@PathVariable Long id, @RequestBody @Validated(ClientDto.UpdateDescription.class) ClientDto clientDto) {
         getService().updateDescription(id, clientDto);
         return getApiResponseBuilder().buildSuccessResponse();
     }
 
-    // email
-//    @PatchMapping("/{id}/email")
-//    public ApiResponse<?> updateEmail(@PathVariable Long id, @RequestBody String email) {
-//        getService().updateEmail(id, email);
-//        return getApiResponseBuilder().buildSuccessResponse();
-//    }
-//    // phone
-//    @PatchMapping("/{id}/phone")
-//    public ApiResponse<?> updatePhone(@PathVariable Long id, @RequestBody String phone) {
-//        getService().updatePhone(id, phone);
-//        return getApiResponseBuilder().buildSuccessResponse();
-//    }
-    // alternate phone
-    // country
-    // nationality
-    // address
-    // specialty
-    // referral source
+    @PatchMapping("/{id}/email")
+    public ApiResponse<?> updateEmail(@PathVariable Long id, @RequestBody @Validated(ClientDto.UpdateEmail.class) ClientDto clientDto) {
+        getService().updateEmail(id, clientDto);
+        return getApiResponseBuilder().buildSuccessResponse();
+    }
+
+    @PatchMapping("/{id}/phone")
+    public ApiResponse<?> updatePhone(@PathVariable Long id, @RequestBody @Validated(ClientDto.UpdatePhone.class) ClientDto clientDto) {
+        getService().updatePhone(id, clientDto);
+        return getApiResponseBuilder().buildSuccessResponse();
+    }
+
+    @PatchMapping("/{id}/alternative-phone")
+    public ApiResponse<?> updateAlternativePhone(@PathVariable Long id, @RequestBody @Validated(ClientDto.UpdateAlternativePhone.class) ClientDto clientDto) {
+        getService().updateAlternativePhone(id, clientDto);
+        return getApiResponseBuilder().buildSuccessResponse();
+    }
+
+    @PatchMapping("/{id}/country")
+    public ApiResponse<?> updateCountry(@PathVariable Long id, @RequestBody @Validated(ClientDto.UpdateCountry.class) ClientDto clientDto) {
+        getService().updateCountry(id, clientDto);
+        return getApiResponseBuilder().buildSuccessResponse();
+    }
+
+    @PatchMapping("/{id}/nationality")
+    public ApiResponse<?> updateNationality(@PathVariable Long id, @RequestBody @Validated(ClientDto.UpdateNationality.class) ClientDto clientDto) {
+        getService().updateNationality(id, clientDto);
+        return getApiResponseBuilder().buildSuccessResponse();
+    }
+
+    @PatchMapping("/{id}/address")
+    public ApiResponse<?> updateAddress(@PathVariable Long id, @RequestBody @Validated(ClientDto.UpdateAddress.class) ClientDto clientDto) {
+        getService().updateAddress(id, clientDto);
+        return getApiResponseBuilder().buildSuccessResponse();
+    }
+
+    @PatchMapping("/{id}/specialty")
+    public ApiResponse<?> updateSpecialty(@PathVariable Long id, @RequestBody @Validated(ClientDto.UpdateSpecialty.class) ClientDto clientDto) {
+        getService().updateSpecialty(id, clientDto);
+        return getApiResponseBuilder().buildSuccessResponse();
+    }
+
+    @PatchMapping("/{id}/referral-source/{referralSourceId}")
+    public ApiResponse<?> updateReferralSource(@PathVariable Long id, @PathVariable Long referralSourceId) {
+        getService().updateReferralSource(id, referralSourceId);
+        return getApiResponseBuilder().buildSuccessResponse();
+    }
+
+
+    @DeleteMapping("/{id}")
+    public ApiResponse<?> delete(@PathVariable Long id) {
+        getService().delete(id);
+        return getApiResponseBuilder().buildSuccessResponse();
+    }
 
 
 }

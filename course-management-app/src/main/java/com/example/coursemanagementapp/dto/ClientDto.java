@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,14 +19,19 @@ public class ClientDto extends AbstractDto {
     @NotBlank(message = "Name is mandatory", groups = {Create.class})
     private String name;
     private String email;
-    @NotBlank(message = "Phone is mandatory", groups = {Create.class})
+    @NotBlank(message = "Phone is mandatory", groups = {Create.class, UpdatePhone.class})
     private String phone;
+    @NotBlank(message = "Alternative phone is mandatory", groups = {UpdateAlternativePhone.class})
     private String alternativePhone;
+    @NotBlank(message = "Country is mandatory", groups = {UpdateCountry.class})
     private String country;
+    @NotBlank(message = "Nationality is mandatory", groups = {UpdateNationality.class})
     private String nationality;
+    @NotBlank(message = "Address is mandatory", groups = {UpdateAddress.class})
     private String address;
     private ClientStatusDto clientStatus;
     private Long clientStatusId;
+    @NotBlank(message = "Specialty is mandatory", groups = {UpdateSpecialty.class})
     private String specialty;
     private ReferralSourceDto referralSource;
     private Long referralSourceId;
@@ -38,6 +44,9 @@ public class ClientDto extends AbstractDto {
     public interface UpdateDescription {
     }
 
+    public interface UpdateEmail {
+    }
+
     public interface UpdatePhone {
 
     }
@@ -46,8 +55,22 @@ public class ClientDto extends AbstractDto {
 
     }
 
-    public interface UpdateStatus {
+    public interface UpdateCountry {
+
     }
+
+    public interface UpdateNationality {
+
+    }
+
+    public interface UpdateAddress {
+
+    }
+
+    public interface UpdateSpecialty {
+
+    }
+
 
     public interface Update {
 
