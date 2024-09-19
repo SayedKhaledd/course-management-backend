@@ -10,6 +10,7 @@ import com.example.coursemanagementapp.dto.ClientSearchDto;
 import com.example.coursemanagementapp.service.ClientService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -48,13 +49,45 @@ public class ClientController implements AbstractController<ClientService, Clien
 
     // post request to create client
 
+    @PostMapping()
+    public ApiResponse<ClientDto> create(@Validated(ClientDto.Create.class) @RequestBody ClientDto clientDto) {
+        return getApiResponseBuilder().buildSuccessResponse(getService().create(clientDto));
+    }
+
     //put update client, may not be used
+
+    @PutMapping("/{id}")
+    public ApiResponse<ClientDto> update(@PathVariable Long id, @Validated(ClientDto.Update.class) @RequestBody ClientDto clientDto) {
+        return getApiResponseBuilder().buildSuccessResponse(getService().update(clientDto, id));
+    }
 
     // patch requests to update:
     // client status
+    @PatchMapping("/{id}/status/{statusId}")
+    public ApiResponse<?> updateStatus(@PathVariable Long id, @PathVariable Long statusId) {
+        getService().updateStatus(id, statusId);
+        return getApiResponseBuilder().buildSuccessResponse();
+    }
+
     // description
+    @PatchMapping("/{id}/description")
+    public ApiResponse<?> updateStatus(@PathVariable Long id, @RequestBody @Validated(ClientDto.UpdateDescription.class) ClientDto clientDto) {
+        getService().updateDescription(id, clientDto);
+        return getApiResponseBuilder().buildSuccessResponse();
+    }
+
     // email
-    // phone
+//    @PatchMapping("/{id}/email")
+//    public ApiResponse<?> updateEmail(@PathVariable Long id, @RequestBody String email) {
+//        getService().updateEmail(id, email);
+//        return getApiResponseBuilder().buildSuccessResponse();
+//    }
+//    // phone
+//    @PatchMapping("/{id}/phone")
+//    public ApiResponse<?> updatePhone(@PathVariable Long id, @RequestBody String phone) {
+//        getService().updatePhone(id, phone);
+//        return getApiResponseBuilder().buildSuccessResponse();
+//    }
     // alternate phone
     // country
     // nationality

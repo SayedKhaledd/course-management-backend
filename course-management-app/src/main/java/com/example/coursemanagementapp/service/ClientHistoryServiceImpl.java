@@ -1,10 +1,13 @@
 package com.example.coursemanagementapp.service;
 
 import com.example.coursemanagementapp.dao.ClientHistoryDao;
+import com.example.coursemanagementapp.dto.ClientHistoryDto;
 import com.example.coursemanagementapp.transformer.ClientHistoryTransformer;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -24,5 +27,9 @@ public class ClientHistoryServiceImpl implements ClientHistoryService {
         return clienthistoryTransformer;
     }
 
-
+    @Override
+    public List<ClientHistoryDto> findAllByClientId(Long clientId) {
+        log.info("ClientHistoryService: findAllByClientId() - was called");
+        return getTransformer().transformEntitiesToDtos(getDao().findAllByClientId(clientId));
+    }
 }

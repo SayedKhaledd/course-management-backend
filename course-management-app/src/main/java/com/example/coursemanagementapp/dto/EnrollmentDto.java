@@ -2,11 +2,12 @@ package com.example.coursemanagementapp.dto;
 
 import com.example.backendcoreservice.dto.AbstractDto;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder(toBuilder = true, builderMethodName = "EnrollmentDtoBuilder")
 @Data
 public class EnrollmentDto extends AbstractDto {
     private Long id;

@@ -12,4 +12,8 @@ import com.example.coursemanagementapp.transformer.ClientTransformer;
 public interface ClientService extends AbstractService<Client, ClientDto, ClientTransformer, ClientDao> {
 
     PaginationResponse<ClientDto> findAllPaginatedAndFiltered(PaginationRequest<ClientSearchDto> paginationRequest);
+
+    void updateStatus(Long id, Long statusId);
+
+    void updateDescription(Long id, ClientDto clientDto);
 }

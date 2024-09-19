@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -30,5 +31,14 @@ public interface ClientRepo extends JpaRepository<Client, Long>, JpaSpecificatio
              AND c.marked_as_deleted = :markedAsDeleted
             """, nativeQuery = true)
     Page<Client> findAllFilteredAndPaginated(Pageable pageable, ClientSearchDto clientSearchDto, Boolean markedAsDeleted);
+
+
+    @Modifying
+    @Query(value = "UPDATE client SET status_id = :statusId WHERE id = :id RETURNING *", nativeQuery = true)
+    void updateStatus(Long id, Long statusId);
+
+    @Modifying
+    @Query(value = "UPDATE client SET description = :description WHERE id = :id", nativeQuery = true)
+    void updateDescription(Long id, String description);
 
 }

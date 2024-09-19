@@ -23,14 +23,14 @@ public class Client extends AbstractEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email")
     private String email;
 
     @Column(name = "phone_number", nullable = false)
     private String phone;
 
     @Column(name = "alternative_phone_number")
-    private String alternatePhone;
+    private String alternativePhone;
 
     @Column(name = "country")
     private String country;

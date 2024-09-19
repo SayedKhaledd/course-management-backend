@@ -30,4 +30,18 @@ public class ClientDaoImpl implements ClientDao {
         return getRepo().findAllFilteredAndPaginated(getPageRequest(paginationRequest), criteria, markedAsDeleted);
     }
 
+
+
+
+    @Override
+    public void updateStatus(Long id, Long statusId) {
+        log.info("ClientDao: updateStatus() - was called");
+        getRepo().updateStatus(id, statusId);
+    }
+
+    @Override
+    public void updateDescription(Long id, String description) {
+        log.info("ClientDao: updateDescription() - was called");
+        getRepo().updateDescription(id, description);
+    }
 }

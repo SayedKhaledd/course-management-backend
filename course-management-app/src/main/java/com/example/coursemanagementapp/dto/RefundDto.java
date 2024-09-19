@@ -3,13 +3,14 @@ package com.example.coursemanagementapp.dto;
 import com.example.backendcoreservice.dto.AbstractDto;
 import com.example.coursemanagementapp.model.PaymentMethod;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder(toBuilder = true, builderMethodName = "RefundDtoBuilder")
 @Data
 public class RefundDto extends AbstractDto {
     private Long id;

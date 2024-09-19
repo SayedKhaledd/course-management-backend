@@ -2,13 +2,14 @@ package com.example.coursemanagementapp.dto;
 
 import com.example.backendcoreservice.dto.AbstractDto;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder(toBuilder = true, builderMethodName = "CourseDtoBuilder")
 @Data
 public class CourseDto extends AbstractDto {
     private Long id;

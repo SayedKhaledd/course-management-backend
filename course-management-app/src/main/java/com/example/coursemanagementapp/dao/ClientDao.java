@@ -11,4 +11,10 @@ public interface ClientDao extends AbstractDao<Client, ClientRepo> {
 
     Page<Client> findAllPaginatedAndFiltered(PaginationRequest<ClientSearchDto> paginationRequest);
 
+    void updateStatus(Long id, Long statusId);
+
+    void updateDescription(Long id, String description);
+
+
+
 }

@@ -13,7 +13,7 @@ CREATE TABLE public.client
 (
     id                       BIGINT                 NOT NULL DEFAULT nextval('client_id_sequence'),
     name                     VARCHAR(255)           NOT NULL,
-    email                    VARCHAR(255)           NOT NULL,
+    email                    VARCHAR(255),
     phone_number             VARCHAR(255)           NOT NULL,
     alternative_phone_number VARCHAR(255),
     address                  VARCHAR(255),
