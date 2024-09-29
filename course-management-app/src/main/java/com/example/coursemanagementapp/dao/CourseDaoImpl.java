@@ -15,5 +15,9 @@ public class CourseDaoImpl implements CourseDao {
         return courseRepo;
     }
 
-
+    @Override
+    public void updateCourseStatus(Long id, Long statusId) {
+        log.info("CourseDao: updateCourseStatus() - was called with id: {} and statusId: {}", id, statusId);
+        getRepo().updateCourseStatus(id, statusId);
+    }
 }

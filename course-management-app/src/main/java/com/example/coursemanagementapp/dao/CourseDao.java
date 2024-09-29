@@ -6,4 +6,5 @@ import com.example.coursemanagementapp.model.Course;
 
 public interface CourseDao extends AbstractDao<Course, CourseRepo> {
 
+    void updateCourseStatus(Long id, Long statusId);
 }

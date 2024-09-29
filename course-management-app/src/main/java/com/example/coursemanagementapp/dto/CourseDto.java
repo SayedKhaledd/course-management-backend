@@ -1,7 +1,12 @@
 package com.example.coursemanagementapp.dto;
 
 import com.example.backendcoreservice.dto.AbstractDto;
-import lombok.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
@@ -13,13 +18,17 @@ import java.time.LocalDateTime;
 @Data
 public class CourseDto extends AbstractDto {
     private Long id;
+    @NotBlank(message = "Name is mandatory")
     private String name;
     private String description;
+    @NotBlank(message = "Code is mandatory")
     private String code;
+    @NotBlank(message = "Part is mandatory")
     private String part;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private CourseStatusDto courseStatus;
+    @NotNull(message = "Course status is mandatory")
     private Long courseStatusId;
 
 }
