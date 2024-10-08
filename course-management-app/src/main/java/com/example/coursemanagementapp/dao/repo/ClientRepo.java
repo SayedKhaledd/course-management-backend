@@ -10,6 +10,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
+
 @Repository
 public interface ClientRepo extends JpaRepository<Client, Long>, JpaSpecificationExecutor<Client> {
 
@@ -72,4 +74,8 @@ public interface ClientRepo extends JpaRepository<Client, Long>, JpaSpecificatio
     @Modifying
     @Query(value = "UPDATE client SET referral_source_id = :referralSourceId WHERE id = :id AND marked_as_deleted = false", nativeQuery = true)
     void updateReferralSource(Long id, Long referralSourceId);
+
+    @Modifying
+    @Query(value = "UPDATE client SET modified_date = :currentDate, modified_by = :modifiedBy WHERE id = :id AND marked_as_deleted = false", nativeQuery = true)
+    void updateModifiedDateAndModifiedBy(Long id, String modifiedBy, LocalDateTime currentDate);
 }

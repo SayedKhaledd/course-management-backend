@@ -1,6 +1,7 @@
 package com.example.coursemanagementapp.dao;
 
 import com.example.coursemanagementapp.dao.repo.ClientHistoryRepo;
+import com.example.coursemanagementapp.dto.ClientHistoryDto;
 import com.example.coursemanagementapp.model.ClientHistory;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,5 +25,11 @@ public class ClientHistoryDaoImpl implements ClientHistoryDao {
     public List<ClientHistory> findAllByClientId(Long clientId) {
         log.info("ClientHistoryDao: findAllByClientId() - was called");
         return getRepo().findAllByClientId(clientId);
+    }
+
+    @Override
+    public List<ClientHistory> findAllByFieldName(String fieldName) {
+        log.info("ClientHistoryDao: findAllByFieldName() - was called");
+        return getRepo().findAllByFieldName(fieldName);
     }
 }

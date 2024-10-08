@@ -11,4 +11,6 @@ import java.util.List;
 public interface ClientHistoryService extends AbstractService<ClientHistory, ClientHistoryDto, ClientHistoryTransformer, ClientHistoryDao> {
 
     List<ClientHistoryDto> findAllByClientId(Long clientId);
+
+    List<ClientHistoryDto> findAllByFieldName(String fieldName);
 }

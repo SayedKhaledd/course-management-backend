@@ -11,4 +11,5 @@ public interface ClientHistoryRepo extends JpaRepository<ClientHistory, Long> {
 
     List<ClientHistory> findAllByClientId(Long clientId);
 
+    List<ClientHistory> findAllByFieldName(String fieldName);
 }
