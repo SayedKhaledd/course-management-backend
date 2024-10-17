@@ -6,7 +6,8 @@ import com.example.coursemanagementapp.model.CourseLecturer;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
+@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR,
+        uses = {CourseMapper.class})
 public interface CourseLecturerMapper extends AbstractMapper<CourseLecturer, CourseLecturerDto> {
 
 

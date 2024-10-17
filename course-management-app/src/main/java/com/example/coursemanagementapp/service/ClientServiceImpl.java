@@ -44,6 +44,21 @@ public class ClientServiceImpl implements ClientService {
 
     @Transactional
     @Override
+    public void updateName(Long id, ClientDto clientDto) {
+        log.info("ClientService: updateName() - was called with id: {} and clientDto: {}", id, clientDto);
+        ClientDto clientDtoDb = findById(id);
+        clientHistoryService.create(ClientHistoryDto.ClientHistoryDtoBuilder()
+                .clientId(id)
+                .client(clientDtoDb)
+                .fieldName("name")
+                .oldValue(clientDtoDb.getDescription())
+                .newValue(clientDto.getName())
+                .build());
+        getDao().updateName(id, clientDto.getName());
+    }
+
+    @Transactional
+    @Override
     public void updateStatus(Long id, Long statusId) {
         log.info("ClientService: updateStatus() - was called with id: {} and statusId: {}", id, statusId);
         ClientDto clientDto = findById(id);
@@ -89,6 +104,7 @@ public class ClientServiceImpl implements ClientService {
         getDao().updateEmail(id, clientDto.getEmail());
     }
 
+    @Transactional
     @Override
     public void updatePhone(Long id, ClientDto clientDto) {
         log.info("ClientService: updatePhone() - was called with id: {} and clientDto: {}", id, clientDto);
@@ -103,6 +119,7 @@ public class ClientServiceImpl implements ClientService {
         getDao().updatePhone(id, clientDto.getPhone());
     }
 
+    @Transactional
     @Override
     public void updateAlternativePhone(Long id, ClientDto clientDto) {
         log.info("ClientService: updateAlternativePhone() - was called with id: {} and clientDto: {}", id, clientDto);

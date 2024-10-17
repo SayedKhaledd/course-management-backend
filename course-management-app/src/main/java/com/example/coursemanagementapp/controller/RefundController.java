@@ -1,10 +1,12 @@
 package com.example.coursemanagementapp.controller;
 
+import com.example.backendcoreservice.api.ApiResponse;
 import com.example.backendcoreservice.api.ApiResponseBuilder;
 import com.example.backendcoreservice.controller.AbstractController;
 import com.example.coursemanagementapp.dto.RefundDto;
 import com.example.coursemanagementapp.service.RefundService;
 import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,4 +31,8 @@ public class RefundController implements AbstractController<RefundService, Refun
     }
 
 
+    @GetMapping("/all")
+    public ApiResponse<?> findAll() {
+        return getApiResponseBuilder().buildSuccessResponse(getService().findAll());
+    }
 }

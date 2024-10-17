@@ -33,10 +33,16 @@ public class ClientController implements AbstractController<ClientService, Clien
         return apiResponseBuilder;
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ApiResponse<ClientDto> findById(@PathVariable Long id) {
         return getApiResponseBuilder().buildSuccessResponse(getService().findById(id));
     }
+
+    @GetMapping("/all")
+    public ApiResponse<?> findAll() {
+        return getApiResponseBuilder().buildSuccessResponse(getService().findAll());
+    }
+
 
     @PostMapping("/find-paginated-and-filtered")
     public ApiResponse<PaginationResponse<ClientDto>> findAllPaginatedAndFiltered(@Valid @RequestBody PaginationRequest<ClientSearchDto> paginationRequest) {
@@ -53,6 +59,12 @@ public class ClientController implements AbstractController<ClientService, Clien
     public ApiResponse<ClientDto> update(@PathVariable Long id, @Validated(ClientDto.Update.class) @RequestBody ClientDto clientDto) {
         return getApiResponseBuilder().buildSuccessResponse(getService().update(clientDto, id));
     }
+    @PatchMapping("/{id}/name")
+    public ApiResponse<?> updateName(@PathVariable Long id, @RequestBody @Validated(ClientDto.UpdateName.class) ClientDto clientDto) {
+        getService().updateName(id, clientDto);
+        return getApiResponseBuilder().buildSuccessResponse();
+    }
+
 
     @PatchMapping("/{id}/status/{statusId}")
     public ApiResponse<?> updateStatus(@PathVariable Long id, @PathVariable Long statusId) {

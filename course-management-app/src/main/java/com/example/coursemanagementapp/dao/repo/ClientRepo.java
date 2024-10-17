@@ -34,6 +34,9 @@ public interface ClientRepo extends JpaRepository<Client, Long>, JpaSpecificatio
             """, nativeQuery = true)
     Page<Client> findAllFilteredAndPaginated(Pageable pageable, ClientSearchDto clientSearchDto, Boolean markedAsDeleted);
 
+    @Modifying
+    @Query(value = "UPDATE client SET name = :name WHERE id = :id AND marked_as_deleted = false", nativeQuery = true)
+    void updateName(Long id, String name);
 
     @Modifying
     @Query(value = "UPDATE client SET status_id = :statusId WHERE id = :id AND marked_as_deleted = false", nativeQuery = true)
@@ -78,4 +81,6 @@ public interface ClientRepo extends JpaRepository<Client, Long>, JpaSpecificatio
     @Modifying
     @Query(value = "UPDATE client SET modified_date = :currentDate, modified_by = :modifiedBy WHERE id = :id AND marked_as_deleted = false", nativeQuery = true)
     void updateModifiedDateAndModifiedBy(Long id, String modifiedBy, LocalDateTime currentDate);
+
+
 }

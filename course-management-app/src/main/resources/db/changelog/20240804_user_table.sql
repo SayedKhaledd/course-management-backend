@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS public.user
     name              VARCHAR(255)           NOT NULL,
     email             VARCHAR(255)           NOT NULL,
     phone_number      VARCHAR(255)           NOT NULL,
+    keycloak_id       VARCHAR(255)           NOT NULL,
 
 
     created_date      TIMESTAMP              NOT NULL,

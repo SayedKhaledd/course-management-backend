@@ -6,7 +6,8 @@ import com.example.coursemanagementapp.model.Refund;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
+@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR,
+        uses = {EnrollmentMapper.class, PaymentMethodMapper.class, RefundReasonMapper.class})
 public interface RefundMapper extends AbstractMapper<Refund, RefundDto> {
 
 

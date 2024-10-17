@@ -34,8 +34,8 @@ public class ClientHistoryServiceImpl implements ClientHistoryService {
     }
 
     @Override
-    public List<ClientHistoryDto> findAllByFieldName(String fieldName) {
-        log.info("ClientHistoryService: findAllByFieldName() - was called");
-        return getTransformer().transformEntitiesToDtos(getDao().findAllByFieldName(fieldName));
+    public List<ClientHistoryDto> findAllByClientIdAndFieldName(Long clientId, String fieldName) {
+        log.info("ClientHistoryService: findAllByClientIdAndFieldName() - was called");
+        return getTransformer().transformEntitiesToDtos(getDao().findAllByClientIdAndFieldName(clientId,fieldName));
     }
 }

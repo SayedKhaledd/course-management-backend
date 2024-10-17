@@ -16,8 +16,9 @@ import lombok.experimental.SuperBuilder;
 @Data
 public class ClientDto extends AbstractDto {
     private Long id;
-    @NotBlank(message = "Name is mandatory", groups = {Create.class})
+    @NotBlank(message = "Name is mandatory", groups = {Create.class, UpdateName.class})
     private String name;
+    @NotBlank(message = "Email is mandatory", groups = {UpdateEmail.class})
     private String email;
     @NotBlank(message = "Phone is mandatory", groups = {Create.class, UpdatePhone.class})
     private String phone;
@@ -73,6 +74,10 @@ public class ClientDto extends AbstractDto {
 
 
     public interface Update {
+
+    }
+
+    public interface UpdateName {
 
     }
 

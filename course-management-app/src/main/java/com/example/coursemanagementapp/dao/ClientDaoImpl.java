@@ -37,6 +37,13 @@ public class ClientDaoImpl implements ClientDao {
     }
 
     @Override
+    public void updateName(Long id, String name) {
+        log.info("ClientDao: updateName() - was called");
+        getRepo().updateName(id, name);
+        getRepo().updateModifiedDateAndModifiedBy(id, auditAware.getCurrentAuditor().get(), LocalDateTime.now());
+    }
+
+    @Override
     public void updateStatus(Long id, Long statusId) {
         log.info("ClientDao: updateStatus() - was called");
         getRepo().updateStatus(id, statusId);

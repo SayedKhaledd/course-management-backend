@@ -18,8 +18,6 @@ public class RefundDto extends AbstractDto {
     private Long enrollmentId;
     private PaymentMethod paymentMethod;
     private Long paymentMethodId;
-    private PaymentStatusDto paymentStatus;
-    private Long paymentStatusId;
     private Double amount;
     private LocalDateTime refundDate;
     private String explanation;

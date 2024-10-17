@@ -38,9 +38,9 @@ public class ClientHistoryController implements AbstractController<ClientHistory
         return getApiResponseBuilder().buildSuccessResponse(getService().findAllByClientId(clientId));
     }
 
-    @GetMapping("/field/{fieldName}")
-    public ApiResponse<List<ClientHistoryDto>> findByFieldName(@PathVariable String fieldName) {
-        return getApiResponseBuilder().buildSuccessResponse(getService().findAllByFieldName(fieldName));
+    @GetMapping("/client/{clientId}/field/{fieldName}")
+    public ApiResponse<List<ClientHistoryDto>> findByClientIdAndClientId(@PathVariable Long clientId,@PathVariable String fieldName) {
+        return getApiResponseBuilder().buildSuccessResponse(getService().findAllByClientIdAndFieldName(clientId,fieldName));
     }
 
 }

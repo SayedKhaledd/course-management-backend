@@ -15,10 +15,11 @@ CREATE TABLE public.course
     code              VARCHAR(255)           NOT NULL,
     part              VARCHAR(255)           NOT NULL,
     name              VARCHAR(255)           NOT NULL,
-    description       TEXT                   NOT NULL,
+    description       TEXT,
     status_id         BIGINT                 NOT NULL,
-    start_date        DATE                   NOT NULL,
-    end_date          DATE                   NOT NULL,
+    start_date        DATE,
+    end_date          DATE,
+    price             DECIMAL(10, 2)         NOT NULL,
 
 
     created_date      TIMESTAMP              NOT NULL,

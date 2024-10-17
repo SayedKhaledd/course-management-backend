@@ -6,7 +6,8 @@ import com.example.coursemanagementapp.model.Course;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
+@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR,
+        uses = {CourseStatusMapper.class})
 public interface CourseMapper extends AbstractMapper<Course, CourseDto> {
 
 

@@ -15,7 +15,7 @@ CREATE TABLE public.client_history
     field_name        VARCHAR(255)           NOT NULL,
     old_value         VARCHAR(255),
     new_value         VARCHAR(255),
-    client_id         BIGINT,
+    client_id         BIGINT                 NOT NULL,
 
 
     created_date      TIMESTAMP              NOT NULL,
@@ -23,7 +23,8 @@ CREATE TABLE public.client_history
     created_by        CHARACTER VARYING(100) NOT NULL,
     modified_by       CHARACTER VARYING(100) NOT NULL,
     marked_as_deleted BOOLEAN                NOT NULL DEFAULT FALSE,
-    CONSTRAINT client_history_pk PRIMARY KEY (id)
+    CONSTRAINT client_history_pk PRIMARY KEY (id),
+    CONSTRAINT client_history_client_id_fk FOREIGN KEY (client_id) REFERENCES public.client (id)
 
 ) TABLESPACE pg_default;
 

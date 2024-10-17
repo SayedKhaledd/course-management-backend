@@ -12,5 +12,5 @@ public interface ClientHistoryService extends AbstractService<ClientHistory, Cli
 
     List<ClientHistoryDto> findAllByClientId(Long clientId);
 
-    List<ClientHistoryDto> findAllByFieldName(String fieldName);
+    List<ClientHistoryDto> findAllByClientIdAndFieldName(Long clientId, String fieldName);
 }

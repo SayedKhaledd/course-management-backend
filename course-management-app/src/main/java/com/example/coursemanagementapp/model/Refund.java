@@ -36,12 +36,6 @@ public class Refund extends AbstractEntity {
     @Column(name = "payment_method_id", insertable = false, updatable = false)
     private Long paymentMethodId;
 
-    @JoinColumn(name = "payment_status_id")
-    @ManyToOne
-    private PaymentStatus paymentStatus;
-
-    @Column(name = "payment_status_id", insertable = false, updatable = false)
-    private Long paymentStatusId;
 
     @Column(name = "amount", nullable = false)
     private Double amount;

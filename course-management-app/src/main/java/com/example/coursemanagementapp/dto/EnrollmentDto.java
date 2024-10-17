@@ -1,7 +1,11 @@
 package com.example.coursemanagementapp.dto;
 
 import com.example.backendcoreservice.dto.AbstractDto;
-import lombok.*;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @EqualsAndHashCode(callSuper = true)
@@ -12,8 +16,10 @@ import lombok.experimental.SuperBuilder;
 public class EnrollmentDto extends AbstractDto {
     private Long id;
     private CourseDto course;
+    @NotNull(message = "Course is mandatory")
     private Long courseId;
     private ClientDto client;
+    @NotNull(message = "Client is mandatory")
     private Long clientId;
     private Double amountPaid;
     private Double remainingAmount;

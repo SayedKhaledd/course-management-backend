@@ -7,7 +7,8 @@ import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
+@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR,
+        uses = {ClientMapper.class})
 public interface ClientHistoryMapper extends AbstractMapper<ClientHistory, ClientHistoryDto> {
 
     @Override

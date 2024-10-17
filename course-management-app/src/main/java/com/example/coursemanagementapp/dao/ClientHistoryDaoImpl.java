@@ -28,8 +28,8 @@ public class ClientHistoryDaoImpl implements ClientHistoryDao {
     }
 
     @Override
-    public List<ClientHistory> findAllByFieldName(String fieldName) {
-        log.info("ClientHistoryDao: findAllByFieldName() - was called");
-        return getRepo().findAllByFieldName(fieldName);
+    public List<ClientHistory> findAllByClientIdAndFieldName(Long clientId,String fieldName) {
+        log.info("ClientHistoryDao: findAllByClientIdAndFieldName() - was called");
+        return getRepo().findAllByClientIdAndFieldName(clientId, fieldName);
     }
 }

@@ -11,37 +11,18 @@ ALTER SEQUENCE public.enrollment_history_id_sequence
 
 CREATE TABLE public.enrollment_history
 (
-    id                 BIGINT                 NOT NULL DEFAULT nextval('enrollment_history_id_sequence'),
-    course_id          BIGINT                 NOT NULL,
-    client_id          BIGINT                 NOT NULL,
-    amount_paid        decimal,
-    remaining_amount   decimal,
-    currency           VARCHAR(255),
-    discount           decimal,
-    payment_status_id  bigint,
-    payment_method_id  BIGINT,
-    pay_in_installment BOOLEAN,
-    review             TEXT,
-    rate               decimal,
-    referral_source_id BIGINT                 NOT NULL,
-    action_taken_id    BIGINT,
-    description        TEXT,
-    enrollment_id      BIGINT,
+    id                BIGINT                 NOT NULL DEFAULT nextval('enrollment_history_id_sequence'),
+    field_name        VARCHAR(255)           NOT NULL,
+    old_value         VARCHAR(255),
+    new_value         VARCHAR(255),
+    enrollment_id     BIGINT                 NOT NULL,
 
-
-    created_date       TIMESTAMP              NOT NULL,
-    modified_date      TIMESTAMP              NOT NULL,
-    created_by         CHARACTER VARYING(100) NOT NULL,
-    modified_by        CHARACTER VARYING(100) NOT NULL,
-    marked_as_deleted  BOOLEAN                NOT NULL DEFAULT FALSE,
+    created_date      TIMESTAMP              NOT NULL,
+    modified_date     TIMESTAMP              NOT NULL,
+    created_by        CHARACTER VARYING(100) NOT NULL,
+    modified_by       CHARACTER VARYING(100) NOT NULL,
+    marked_as_deleted BOOLEAN                NOT NULL DEFAULT FALSE,
     CONSTRAINT enrollment_history_pk PRIMARY KEY (id),
-    CONSTRAINT enrollment_history_course_id_fk FOREIGN KEY (course_id) REFERENCES public.course (id),
-    CONSTRAINT enrollment_history_client_id_fk FOREIGN KEY (client_id) REFERENCES public.client (id),
-    CONSTRAINT enrollment_history_referral_source_id_fk FOREIGN KEY (referral_source_id) REFERENCES public.referral_source (id),
-    CONSTRAINT enrollment_history_action_taken_id_fk FOREIGN KEY (action_taken_id) REFERENCES public.action_taken (id),
-    CONSTRAINT enrollment_history_payment_method_id_fk FOREIGN KEY (payment_method_id) REFERENCES public.payment_method (id),
-    CONSTRAINT enrollment_history_client_id_course_id_uq UNIQUE (client_id, course_id),
-    CONSTRAINT enrollment_history_payment_status_id_fk FOREIGN KEY (payment_status_id) REFERENCES public.payment_status (id),
     CONSTRAINT enrollment_history_enrollment_id_fk FOREIGN KEY (enrollment_id) REFERENCES public.enrollment (id)
 ) TABLESPACE pg_default;
 

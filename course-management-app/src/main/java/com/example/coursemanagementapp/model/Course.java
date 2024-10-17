@@ -43,10 +43,13 @@ public class Course extends AbstractEntity {
 
     @JoinColumn(name = "status_id")
     @ManyToOne
-    private CourseStatus status;
+    private CourseStatus courseStatus;
 
     @Column(name = "status_id", insertable = false, updatable = false)
     private Long courseStatusId;
+
+    @Column(name = "price")
+    private Double price;
 
 
 }

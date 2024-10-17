@@ -29,4 +29,7 @@ public class User extends AbstractEntity {
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    @Column(name = "keycloak_id")
+    private String keycloakId;
+
 }

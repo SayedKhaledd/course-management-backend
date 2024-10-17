@@ -31,4 +31,7 @@ public class CourseDto extends AbstractDto {
     @NotNull(message = "Course status is mandatory")
     private Long courseStatusId;
 
+    @NotNull(message = "Price is mandatory")
+    private Double price;
+
 }

@@ -18,6 +18,7 @@ CREATE TABLE public.installment
     payment_date      TIMESTAMP,
     payment_method_id BIGINT,
     payment_status_id BIGINT,
+    currency          CHARACTER VARYING(3)    ,
 
 
     created_date      TIMESTAMP              NOT NULL,

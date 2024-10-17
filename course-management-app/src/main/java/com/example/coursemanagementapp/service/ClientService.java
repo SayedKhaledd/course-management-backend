@@ -13,6 +13,8 @@ public interface ClientService extends AbstractService<Client, ClientDto, Client
 
     PaginationResponse<ClientDto> findAllPaginatedAndFiltered(PaginationRequest<ClientSearchDto> paginationRequest);
 
+    void updateName(Long id, ClientDto clientDto);
+
     void updateStatus(Long id, Long statusId);
 
     void updateDescription(Long id, ClientDto clientDto);
