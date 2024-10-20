@@ -1,9 +1,11 @@
 package com.example.coursemanagementapp.dao;
 
 import com.example.coursemanagementapp.dto.SalesDto;
+import com.example.coursemanagementapp.transformer.SalesTransformer;
 import jakarta.persistence.EntityManager;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.query.NativeQuery;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -20,7 +22,7 @@ public class SalesDaoImpl implements SalesDao {
                            SELECT c.name         as clientName,
                        co.name        as courseName,
                        e.amount_paid  AS amount,
-                       'Enrollment'   AS type,
+                       'COURSE_PURCHASE'   AS type,
                        pm.method      AS paymentMethod,
                        e.created_date AS saleDate,
                        e.currency     AS currency
@@ -41,7 +43,7 @@ public class SalesDaoImpl implements SalesDao {
                 SELECT c.name         AS clientName,
                        co.name        AS courseName,
                        i.amount       AS amount,
-                       'Installment'  AS type,
+                       'INSTALLMENT'  AS type,
                        pm.method      AS paymentMethod,
                        i.created_date AS saleDate,
                        i.currency     AS currency
@@ -63,7 +65,7 @@ public class SalesDaoImpl implements SalesDao {
                 SELECT c.name         AS clientName,
                        co.name        AS courseName,
                        r.amount * -1  AS amount,
-                       'Refund'       AS type,
+                       'REFUND'       AS type,
                        pm.method      AS paymentMethod,
                        r.created_date AS saleDate,
                        r.currency     AS currency
@@ -72,19 +74,20 @@ public class SalesDaoImpl implements SalesDao {
                          JOIN client c ON e.client_id = c.id
                          JOIN course co ON e.course_id = co.id
                          JOIN payment_method pm ON r.payment_method_id = pm.id
-                         JOIN payment_status ps ON r.refund_status_id = ps.id
-                WHERE ps.status = 'PAID'
-                  AND r.is_confirmed = TRUE
+                WHERE  r.is_confirmed = TRUE
                   and c.marked_as_deleted = FALSE
                   and co.marked_as_deleted = FALSE
                   and pm.marked_as_deleted = FALSE
-                  and ps.marked_as_deleted = FALSE
                   and r.marked_as_deleted = FALSE
                 ORDER BY saleDate DESC
                 
                 
                 
                 """;
-        return (List<SalesDto>) entityManager.createNativeQuery(query).getResultList();
+
+        return (List<SalesDto>) entityManager.createNativeQuery(query)
+                .unwrap(NativeQuery.class)
+                .setResultTransformer(new SalesTransformer())
+                .getResultList();
     }
 }

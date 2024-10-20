@@ -6,4 +6,5 @@ import com.example.coursemanagementapp.model.ActionTaken;
 
 public interface ActionTakenDao extends AbstractDao<ActionTaken, ActionTakenRepo> {
 
+    ActionTaken findByName(com.example.coursemanagementapp.enums.ActionTaken action);
 }

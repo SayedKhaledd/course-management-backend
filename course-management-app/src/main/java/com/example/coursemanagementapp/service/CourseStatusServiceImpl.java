@@ -1,6 +1,7 @@
 package com.example.coursemanagementapp.service;
 
 import com.example.coursemanagementapp.dao.CourseStatusDao;
+import com.example.coursemanagementapp.model.CourseStatus;
 import com.example.coursemanagementapp.transformer.CourseStatusTransformer;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,5 +25,9 @@ public class CourseStatusServiceImpl implements CourseStatusService {
         return coursestatusTransformer;
     }
 
-
+    @Override
+    public CourseStatus findEntityByStatus(com.example.coursemanagementapp.enums.CourseStatus status) {
+        log.info("CourseStatusService: findEntityByStatus() - was called");
+        return getDao().findByStatus(status);
+    }
 }

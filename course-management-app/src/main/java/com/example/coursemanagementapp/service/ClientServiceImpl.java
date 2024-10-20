@@ -2,15 +2,13 @@ package com.example.coursemanagementapp.service;
 
 import com.example.backendcoreservice.api.pagination.PaginationRequest;
 import com.example.backendcoreservice.api.pagination.PaginationResponse;
-import com.example.backendcoreservice.exception.CustomException;
 import com.example.coursemanagementapp.dao.ClientDao;
 import com.example.coursemanagementapp.dto.ClientDto;
 import com.example.coursemanagementapp.dto.ClientHistoryDto;
 import com.example.coursemanagementapp.dto.ClientSearchDto;
-import com.example.coursemanagementapp.model.Client;
 import com.example.coursemanagementapp.transformer.ClientTransformer;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,7 +49,7 @@ public class ClientServiceImpl implements ClientService {
                 .clientId(id)
                 .client(clientDtoDb)
                 .fieldName("name")
-                .oldValue(clientDtoDb.getDescription())
+                .oldValue(clientDtoDb.getName())
                 .newValue(clientDto.getName())
                 .build());
         getDao().updateName(id, clientDto.getName());
@@ -63,13 +61,13 @@ public class ClientServiceImpl implements ClientService {
         log.info("ClientService: updateStatus() - was called with id: {} and statusId: {}", id, statusId);
         ClientDto clientDto = findById(id);
         if (!clientStatusService.existsById(statusId))
-            throw new CustomException("Status with id " + statusId + " does not exist");
+            throw new EntityNotFoundException("Status with id " + statusId + " does not exist");
         clientHistoryService.create(ClientHistoryDto.ClientHistoryDtoBuilder()
                 .clientId(id)
                 .client(clientDto)
-                .fieldName("status")
-                .oldValue(clientDto.getClientStatusId() + "")
-                .newValue(statusId + "")
+                .fieldName("clientStatus")
+                .oldValue(clientDto.getClientStatus() == null ? "" : clientDto.getClientStatus().getStatus().getStatus())
+                .newValue(clientStatusService.findById(statusId).getStatus().getStatus())
                 .build());
         getDao().updateStatus(id, statusId);
     }
@@ -200,13 +198,13 @@ public class ClientServiceImpl implements ClientService {
         log.info("ClientService: updateReferralSource() - was called with id: {} and referralSourceId: {}", id, referralSourceId);
         ClientDto clientDto = findById(id);
         if (!referralSourceService.existsById(referralSourceId))
-            throw new CustomException("Referral Source with id " + referralSourceId + " does not exist");
+            throw new EntityNotFoundException("Referral Source with id " + referralSourceId + " does not exist");
         clientHistoryService.create(ClientHistoryDto.ClientHistoryDtoBuilder()
                 .clientId(id)
                 .client(clientDto)
                 .fieldName("referralSource")
-                .oldValue(clientDto.getClientStatusId() + "")
-                .newValue(referralSourceId + "")
+                .oldValue(clientDto.getReferralSource() == null ? "" : clientDto.getReferralSource().getSource().getSource())
+                .newValue(referralSourceService.findById(referralSourceId).getSource().getSource())
                 .build());
         getDao().updateReferralSource(id, referralSourceId);
     }

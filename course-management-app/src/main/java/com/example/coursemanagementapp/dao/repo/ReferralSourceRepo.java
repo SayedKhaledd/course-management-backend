@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ReferralSourceRepo extends JpaRepository<ReferralSource, Long> {
 
+    ReferralSource findEntityBySource(com.example.coursemanagementapp.enums.ReferralSource source);
 }

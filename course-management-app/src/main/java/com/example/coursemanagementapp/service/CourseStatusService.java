@@ -8,4 +8,5 @@ import com.example.coursemanagementapp.transformer.CourseStatusTransformer;
 
 public interface CourseStatusService extends AbstractService<CourseStatus, CourseStatusDto, CourseStatusTransformer, CourseStatusDao> {
 
+    CourseStatus findEntityByStatus(com.example.coursemanagementapp.enums.CourseStatus status);
 }

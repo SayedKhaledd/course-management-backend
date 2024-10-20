@@ -31,6 +31,11 @@
     <include file="/db/changelog/20240823_insert_refund_reasons.sql"/>
     <include file="/db/changelog/20240823_insert_client_statuses.sql"/>
     <include file="/db/changelog/20240823_insert_evaluation_statuses.sql"/>
+    <include file="/db/changelog/20241020_course_history_table.sql"/>
+    <include file="/db/changelog/20241020_refund_history_table.sql"/>
+    <include file="/db/changelog/20241020_installment_history_table.sql"/>
+    <include file="/db/changelog/20241020_course_lecturer_history_table.sql"/>
+    <include file="/db/changelog/20241020_evaluation_history_table.sql"/>
 
 
 </databaseChangeLog>

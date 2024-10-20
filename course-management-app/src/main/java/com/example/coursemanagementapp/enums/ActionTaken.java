@@ -7,7 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ActionTaken {
     ENROLLED("ENROLLED"),
-    DID_NOT_ENROL("DID_NOT_ENROL"),
+    DID_NOT_ENROLL("DID_NOT_ENROLL"),
     CANCELLED("CANCELLED");
     private final String action;
 

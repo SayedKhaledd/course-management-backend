@@ -6,4 +6,5 @@ import com.example.coursemanagementapp.model.ReferralSource;
 
 public interface ReferralSourceDao extends AbstractDao<ReferralSource, ReferralSourceRepo> {
 
+    ReferralSource findEntityByName(com.example.coursemanagementapp.enums.ReferralSource referralSource);
 }

@@ -15,9 +15,8 @@ CREATE TABLE public.refund
     enrollment_id     BIGINT                 NOT NULL,
     amount            DECIMAL                NOT NULL,
     payment_method_id BIGINT,
-    refund_date       TIMESTAMP              NOT NULL,
-    refund_reason_id  BIGINT                 NOT NULL,
-    refund_status_id  BIGINT                 NOT NULL,
+    refund_date       TIMESTAMP,
+    refund_reason_id  BIGINT,
     explanation       CHARACTER VARYING(255),
     is_confirmed      BOOLEAN                NOT NULL DEFAULT FALSE,
     currency          CHARACTER VARYING(3),
@@ -31,8 +30,7 @@ CREATE TABLE public.refund
     CONSTRAINT refund_pk PRIMARY KEY (id),
     CONSTRAINT refund_enrollment_id_fk FOREIGN KEY (enrollment_id) REFERENCES public.enrollment (id),
     CONSTRAINT refund_payment_method_id_fk FOREIGN KEY (payment_method_id) REFERENCES public.payment_method (id),
-    CONSTRAINT refund_refund_reason_id_fk FOREIGN KEY (refund_reason_id) REFERENCES public.refund_reason (id),
-    CONSTRAINT refund_status_id_fk FOREIGN KEY (refund_status_id) REFERENCES public.payment_status (id)
+    CONSTRAINT refund_refund_reason_id_fk FOREIGN KEY (refund_reason_id) REFERENCES public.refund_reason (id)
 
 ) TABLESPACE pg_default;
 

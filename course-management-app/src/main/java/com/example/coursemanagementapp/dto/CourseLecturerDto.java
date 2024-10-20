@@ -16,21 +16,27 @@ import lombok.experimental.SuperBuilder;
 @Data
 public class CourseLecturerDto extends AbstractDto {
     private Long id;
-    @NotBlank(message = "Name is mandatory", groups = {CreateWithPercentage.class, CreateWithFixedValue.class})
+    @NotBlank(message = "Name is mandatory", groups = {Create.class})
     private String name;
     private CourseDto course;
-    @NotBlank(message = "Course is mandatory", groups = {CreateWithPercentage.class, CreateWithFixedValue.class})
+    @NotNull(message = "Course is mandatory", groups = {Create.class})
     private Long courseId;
-    @NotBlank(message = "Paid in percentage is mandatory", groups = {CreateWithPercentage.class, CreateWithFixedValue.class})
     private Boolean paidInPercentage = false;
-    @NotNull(message = "Percentage value is mandatory", groups = {CreateWithPercentage.class})
+    @NotNull(message = "Percentage value is mandatory", groups = {UpdatePercentage.class})
     private Double percentage;
-    @NotNull(message = "Fixed value is mandatory", groups = {CreateWithFixedValue.class})
+    @NotNull(message = "Fixed value is mandatory", groups = {UpdateFixedValue.class})
     private Double fixedValue;
 
-    public interface CreateWithPercentage {
+    public interface Create {
     }
 
-    public interface CreateWithFixedValue {
+    public interface UpdatePercentage {
+
     }
+
+    public interface UpdateFixedValue {
+
+    }
+
 }
+

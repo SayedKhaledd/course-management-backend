@@ -8,4 +8,6 @@ import com.example.coursemanagementapp.transformer.ReferralSourceTransformer;
 
 public interface ReferralSourceService extends AbstractService<ReferralSource, ReferralSourceDto, ReferralSourceTransformer, ReferralSourceDao> {
 
+    ReferralSource findEntityByName(com.example.coursemanagementapp.enums.ReferralSource referralSource);
+
 }

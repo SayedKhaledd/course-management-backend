@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CourseStatusRepo extends JpaRepository<CourseStatus, Long> {
 
+    CourseStatus findByStatus(com.example.coursemanagementapp.enums.CourseStatus status);
 }

@@ -39,9 +39,11 @@ CREATE TABLE public.enrollment
     CONSTRAINT enrollment_referral_source_id_fk FOREIGN KEY (referral_source_id) REFERENCES public.referral_source (id),
     CONSTRAINT enrollment_action_taken_id_fk FOREIGN KEY (action_taken_id) REFERENCES public.action_taken (id),
     CONSTRAINT enrollment_payment_method_id_fk FOREIGN KEY (payment_method_id) REFERENCES public.payment_method (id),
-    CONSTRAINT enrollment_client_id_course_id_uq UNIQUE (client_id, course_id),
     CONSTRAINT enrollment_payment_status_id_fk FOREIGN KEY (payment_status_id) REFERENCES public.payment_status (id)
 ) TABLESPACE pg_default;
 
 ALTER TABLE public.enrollment
     OWNER TO ${user_owner};
+CREATE UNIQUE INDEX enrollment_client_id_course_id_uq
+    ON public.enrollment (course_id, client_id)
+    WHERE marked_as_deleted = false;

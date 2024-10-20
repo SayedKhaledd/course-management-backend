@@ -1,6 +1,7 @@
 package com.example.coursemanagementapp.service;
 
 import com.example.coursemanagementapp.dao.ReferralSourceDao;
+import com.example.coursemanagementapp.model.ReferralSource;
 import com.example.coursemanagementapp.transformer.ReferralSourceTransformer;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,4 +26,9 @@ public class ReferralSourceServiceImpl implements ReferralSourceService {
     }
 
 
+    @Override
+    public ReferralSource findEntityByName(com.example.coursemanagementapp.enums.ReferralSource referralSource) {
+        log.info("ReferralSourceService: findEntityByName() - was called");
+        return getDao().findEntityByName(referralSource);
+    }
 }

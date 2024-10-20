@@ -14,6 +14,21 @@ public interface CourseService extends AbstractService<Course, CourseDto, Course
 
     PaginationResponse<CourseDto> findAllPaginatedAndFiltered(@Valid PaginationRequest<CourseSearchDto> paginationRequest);
 
-    void updateStatus(Long id, Long statusId);
+    void updateName(Long id, CourseDto dto);
+
+    void updateCode(Long id, CourseDto dto);
+
+    void updateDescription(Long id, CourseDto dto);
+
+    void updatePrice(Long id, CourseDto dto);
+
+    void updatePart(Long id, CourseDto dto);
+
+    void updateStartDate(Long id, CourseDto dto);
+
+    void updateEndDate(Long id, CourseDto dto);
+
+    void updateCourseStatus(Long id, Long courseStatusId);
+
 
 }

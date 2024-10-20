@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ActionTakenRepo extends JpaRepository<ActionTaken, Long> {
 
+    ActionTaken findByAction(com.example.coursemanagementapp.enums.ActionTaken action);
 }

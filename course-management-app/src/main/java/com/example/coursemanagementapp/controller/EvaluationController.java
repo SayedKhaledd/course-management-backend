@@ -8,12 +8,11 @@ import com.example.coursemanagementapp.dto.EvaluationDto;
 import com.example.coursemanagementapp.service.EvaluationService;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
+@Validated
 @RestController
 @RequestMapping("/api/evaluation")
 @AllArgsConstructor
@@ -31,6 +30,35 @@ public class EvaluationController implements AbstractController<EvaluationServic
     @Override
     public ApiResponseBuilder<EvaluationDto> getApiResponseBuilder() {
         return apiResponseBuilder;
+    }
+
+
+    @GetMapping("/client/{clientId}")
+    public ApiResponse<List<EvaluationDto>> findAllByClientId(@PathVariable Long clientId) {
+        return getApiResponseBuilder().buildSuccessResponse(getService().findAllByClientId(clientId));
+    }
+
+    @GetMapping("/course/{courseId}")
+    public ApiResponse<List<EvaluationDto>> findAllByCourseId(@PathVariable Long courseId) {
+        return getApiResponseBuilder().buildSuccessResponse(getService().findAllByCourseId(courseId));
+    }
+
+    @PostMapping
+    public ApiResponse<EvaluationDto> create(@RequestBody @Validated({EnrollmentDto.Create.class, EvaluationDto.Create.class}) EvaluationDto evaluationDto) {
+        return getApiResponseBuilder().buildSuccessResponse(getService().create(evaluationDto));
+    }
+
+    @PutMapping("/{id}/exam-name")
+    public ApiResponse<?> updateExamName(@RequestBody @Validated({EvaluationDto.UpdateExamName.class}) EvaluationDto evaluationDto, @PathVariable Long id) {
+        getService().updateExamName(evaluationDto, id);
+        return getApiResponseBuilder().buildSuccessResponse();
+    }
+
+
+    @PutMapping("/{id}/evaluation-status/{evaluationStatusId}")
+    public ApiResponse<?> updateEvaluationStatus(@PathVariable Long id, @PathVariable Long evaluationStatusId) {
+        getService().updateEvaluationStatus(id, evaluationStatusId);
+        return getApiResponseBuilder().buildSuccessResponse();
     }
 
 

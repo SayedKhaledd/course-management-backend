@@ -6,7 +6,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum PaymentType {
-
     INSTALLMENT("INSTALLMENT"),
     COURSE_PURCHASE("COURSE_PURCHASE"),
     REFUND("REFUND");

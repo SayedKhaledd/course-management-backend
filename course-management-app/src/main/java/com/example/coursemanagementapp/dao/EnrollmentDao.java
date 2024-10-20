@@ -9,4 +9,37 @@ import java.util.List;
 public interface EnrollmentDao extends AbstractDao<Enrollment, EnrollmentRepo> {
 
     List<Enrollment> findAllByClientId(Long clientId);
+
+    List<Enrollment> findAllByCourseId(Long courseId);
+
+    Enrollment findByClientIdAndCourseId(Long clientId, Long courseId);
+
+    void updateAmountPaid(Long id, Double amountPaid);
+
+    void updateRemainingAmount(Long id, Double remainingAmount);
+
+    void updateDiscount(Long id, Double discount);
+
+    void updateCurrency(Long id, String currency);
+
+    void updatePayInInstallments(Long id, Boolean payInInstallments);
+
+    void updateReview(Long id, String review);
+
+    void updateRating(Long id, Integer rating);
+
+    void updateDescription(Long id, String description);
+
+    void updatePaymentStatus(Long id, Long paymentStatusId);
+
+    void updatePaymentMethod(Long id, Long paymentMethodId);
+
+    void updateActionTaken(Long id, Long actionTakenId);
+
+    void updateReferralSource(Long id, Long referralSourceId);
+
+    void updateClient(Long id, Long clientId);
+
+    void updateCourse(Long id, Long courseId);
+
 }

@@ -34,34 +34,75 @@ public class CourseController implements AbstractController<CourseService, Cours
         return apiResponseBuilder;
     }
 
+    @GetMapping("/{id}")
+    public ApiResponse<CourseDto> findById(@PathVariable Long id) {
+        return getApiResponseBuilder().buildSuccessResponse(getService().findById(id));
+    }
+
+
     @GetMapping("/all")
     public ApiResponse<?> findAll() {
-        return apiResponseBuilder.buildSuccessResponse(getService().findAll());
+        return getApiResponseBuilder().buildSuccessResponse(getService().findAll());
     }
 
     @PostMapping("/find-paginated-and-filtered")
     public ApiResponse<PaginationResponse<CourseDto>> findAllPaginatedAndFiltered(@RequestBody @Valid PaginationRequest<CourseSearchDto> paginationRequest) {
-        return apiResponseBuilder.buildSuccessResponse(getService().findAllPaginatedAndFiltered(paginationRequest));
+        return getApiResponseBuilder().buildSuccessResponse(getService().findAllPaginatedAndFiltered(paginationRequest));
     }
 
 
-    //TODO: TEST THIS
     @PostMapping
-    public ApiResponse<CourseDto> create(@RequestBody @Validated CourseDto dto) {
-        return apiResponseBuilder.buildSuccessResponse(getService().create(dto));
+    public ApiResponse<CourseDto> create(@RequestBody @Validated(CourseDto.Create.class) CourseDto dto) {
+        return getApiResponseBuilder().buildSuccessResponse(getService().create(dto));
     }
 
-    //TODO: TEST THIS
-    @PatchMapping("/{id}/update/status/{statusId}")
-    public ApiResponse<?> updateStatus(@PathVariable Long id, @PathVariable Long statusId) {
-        getService().updateStatus(id, statusId);
+    @PatchMapping("/{id}/name")
+    public ApiResponse<?> updateName(@PathVariable Long id, @RequestBody @Validated(CourseDto.UpdateName.class) CourseDto dto) {
+        getService().updateName(id, dto);
+        return getApiResponseBuilder().buildSuccessResponse();
+    }
+
+    @PatchMapping("/{id}/code")
+    public ApiResponse<?> updateCode(@PathVariable Long id, @RequestBody @Validated(CourseDto.UpdateCode.class) CourseDto dto) {
+        getService().updateCode(id, dto);
+        return getApiResponseBuilder().buildSuccessResponse();
+    }
+
+    @PatchMapping("/{id}/part")
+    public ApiResponse<?> updatePart(@PathVariable Long id, @RequestBody @Validated(CourseDto.UpdatePart.class) CourseDto dto) {
+        getService().updatePart(id, dto);
+        return getApiResponseBuilder().buildSuccessResponse();
+    }
+
+    @PatchMapping("/{id}/price")
+    public ApiResponse<?> updatePrice(@PathVariable Long id, @RequestBody @Validated(CourseDto.UpdatePrice.class) CourseDto dto) {
+        getService().updatePrice(id, dto);
+        return getApiResponseBuilder().buildSuccessResponse();
+    }
+
+    @PatchMapping("/{id}/description")
+    public ApiResponse<?> updateDescription(@PathVariable Long id, @RequestBody @Validated(CourseDto.UpdateDescription.class) CourseDto dto) {
+        getService().updateDescription(id, dto);
+        return getApiResponseBuilder().buildSuccessResponse();
+    }
+
+    @PatchMapping("/{id}/start-date")
+    public ApiResponse<?> updateStartDate(@PathVariable Long id, @RequestBody @Validated(CourseDto.UpdateStartDate.class) CourseDto dto) {
+        getService().updateStartDate(id, dto);
+        return getApiResponseBuilder().buildSuccessResponse();
+    }
+
+    @PatchMapping("/{id}/end-date")
+    public ApiResponse<?> updateEndDate(@PathVariable Long id, @RequestBody @Validated(CourseDto.UpdateEndDate.class) CourseDto dto) {
+        getService().updateEndDate(id, dto);
         return apiResponseBuilder.buildSuccessResponse();
     }
 
-    //TODO: TEST THIS
-    @PutMapping("/{id}")
-    public ApiResponse<CourseDto> update(@PathVariable Long id, @RequestBody @Validated CourseDto dto) {
-        return apiResponseBuilder.buildSuccessResponse(getService().update(dto, id));
+    @PatchMapping("/{id}/status/{courseStatusId}")
+    public ApiResponse<?> updateCourseStatus(@PathVariable Long id, @PathVariable Long courseStatusId) {
+        getService().updateCourseStatus(id, courseStatusId);
+        return apiResponseBuilder.buildSuccessResponse();
     }
+
 
 }

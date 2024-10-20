@@ -7,9 +7,9 @@ import com.example.coursemanagementapp.dto.CourseLecturerDto;
 import com.example.coursemanagementapp.service.CourseLecturerService;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Validated
 @RestController
@@ -31,16 +31,33 @@ public class CourseLecturerController implements AbstractController<CourseLectur
         return apiResponseBuilder;
     }
 
-    //TODO: TEST THIS
-    @PostMapping("/create-with-percentage")
-    public ApiResponse<CourseLecturerDto> createWithPercentage(@Validated({CourseLecturerDto.CreateWithPercentage.class}) CourseLecturerDto dto) {
-        return apiResponseBuilder.buildSuccessResponse(courselecturerService.create(dto));
+    @GetMapping("/course/{courseId}")
+    public ApiResponse<List<CourseLecturerDto>> findAllByCourseId(@PathVariable Long courseId) {
+        return getApiResponseBuilder().buildSuccessResponse(getService().findAllByCourseId(courseId));
     }
 
-    //TODO: TEST THIS
-    @PostMapping("/create-with-fixed-value")
-    public ApiResponse<CourseLecturerDto> createWithFixedValue(@Validated({CourseLecturerDto.CreateWithFixedValue.class}) CourseLecturerDto dto) {
-        return apiResponseBuilder.buildSuccessResponse(courselecturerService.create(dto));
+    @PostMapping()
+    public ApiResponse<CourseLecturerDto> create(@Validated({CourseLecturerDto.Create.class}) @RequestBody CourseLecturerDto dto) {
+        return getApiResponseBuilder().buildSuccessResponse(getService().create(dto));
     }
+
+    @PatchMapping("/{id}/paid-in-percentage/{paidInPercentage}")
+    public ApiResponse<?> updatePaidInPercentage(@PathVariable Long id, @PathVariable Boolean paidInPercentage) {
+        getService().updatePaidInPercentage(id, paidInPercentage);
+        return getApiResponseBuilder().buildSuccessResponse();
+    }
+
+    @PatchMapping("/{id}/percentage")
+    public ApiResponse<?> updatePercentage(@PathVariable Long id, @RequestBody @Validated(CourseLecturerDto.UpdatePercentage.class) CourseLecturerDto dto) {
+        getService().updatePercentage(id, dto);
+        return getApiResponseBuilder().buildSuccessResponse();
+    }
+
+    @PatchMapping("/{id}/fixed-value")
+    public ApiResponse<?> updateFixedValue(@PathVariable Long id, @RequestBody @Validated(CourseLecturerDto.UpdateFixedValue.class) CourseLecturerDto dto) {
+        getService().updateFixedValue(id, dto);
+        return getApiResponseBuilder().buildSuccessResponse();
+    }
+
 
 }

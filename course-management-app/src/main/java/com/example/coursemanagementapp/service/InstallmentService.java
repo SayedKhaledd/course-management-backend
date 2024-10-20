@@ -8,4 +8,13 @@ import com.example.coursemanagementapp.transformer.InstallmentTransformer;
 
 public interface InstallmentService extends AbstractService<Installment, InstallmentDto, InstallmentTransformer, InstallmentDao> {
 
+    void updateAmount(Long id, InstallmentDto dto);
+
+    void updateDueDate(Long id, InstallmentDto dto);
+
+    void updatePaymentDate(Long id, InstallmentDto dto);
+
+    void updatePaymentStatus(Long id, Long paymentStatusId);
+
+    void updatePaymentMethod(Long id, Long paymentMethodId);
 }
