@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
@@ -60,6 +62,12 @@ public class Client extends AbstractEntity {
 
     @Column(name = "description")
     private String description;
+
+    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<ClientHistory> clientHistories;
+
+    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<Enrollment> enrollments;
 
 
 }

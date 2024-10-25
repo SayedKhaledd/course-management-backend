@@ -1,6 +1,7 @@
 package com.example.coursemanagementapp.dao;
 
 import com.example.coursemanagementapp.dao.repo.PaymentStatusRepo;
+import com.example.coursemanagementapp.model.PaymentStatus;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -15,5 +16,8 @@ public class PaymentStatusDaoImpl implements PaymentStatusDao {
         return paymentstatusRepo;
     }
 
-
+    @Override
+    public PaymentStatus findEntityByName(com.example.coursemanagementapp.enums.PaymentStatus paymentStatus) {
+        return getRepo().findByStatus(paymentStatus);
+    }
 }

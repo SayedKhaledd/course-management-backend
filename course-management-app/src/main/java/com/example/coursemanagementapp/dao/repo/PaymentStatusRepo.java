@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PaymentStatusRepo extends JpaRepository<PaymentStatus, Long> {
 
+    PaymentStatus findByStatus(com.example.coursemanagementapp.enums.PaymentStatus paymentStatus);
+
 }

@@ -3,6 +3,7 @@ package com.example.coursemanagementapp.service;
 import com.example.coursemanagementapp.dao.EnrollmentDao;
 import com.example.coursemanagementapp.dto.EnrollmentDto;
 import com.example.coursemanagementapp.dto.EnrollmentHistoryDto;
+import com.example.coursemanagementapp.enums.PaymentStatus;
 import com.example.coursemanagementapp.enums.ReferralSource;
 import com.example.coursemanagementapp.model.Enrollment;
 import com.example.coursemanagementapp.transformer.EnrollmentTransformer;
@@ -54,6 +55,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
                 referralSourceService.findEntityById(dto.getReferralSourceId()));
         entity.setActionTaken(dto.getActionTakenId() == null ? actionTakenService.findEntityByName(DID_NOT_ENROLL) : actionTakenService.findEntityById(dto.getActionTakenId()));
         entity.setDiscount(dto.getDiscount() == null ? 0.0 : dto.getDiscount());
+        entity.setPaymentStatus(dto.getPaymentStatusId() != null ? paymentStatusService.findEntityById(dto.getPaymentStatusId()) : paymentStatusService.findEntityByName(PaymentStatus.NOT_PAID));
         return entity;
     }
 

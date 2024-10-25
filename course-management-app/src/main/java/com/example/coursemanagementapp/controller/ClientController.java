@@ -59,6 +59,7 @@ public class ClientController implements AbstractController<ClientService, Clien
     public ApiResponse<ClientDto> update(@PathVariable Long id, @Validated(ClientDto.Update.class) @RequestBody ClientDto clientDto) {
         return getApiResponseBuilder().buildSuccessResponse(getService().update(clientDto, id));
     }
+
     @PatchMapping("/{id}/name")
     public ApiResponse<?> updateName(@PathVariable Long id, @RequestBody @Validated(ClientDto.UpdateName.class) ClientDto clientDto) {
         getService().updateName(id, clientDto);

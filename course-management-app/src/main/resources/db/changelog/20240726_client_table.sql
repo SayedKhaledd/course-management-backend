@@ -31,9 +31,6 @@ CREATE TABLE public.client
     modified_by              CHARACTER VARYING(100) NOT NULL,
     marked_as_deleted        BOOLEAN                NOT NULL DEFAULT FALSE,
     CONSTRAINT client_pk PRIMARY KEY (id),
-    CONSTRAINT client_email_uq UNIQUE (email),
-    CONSTRAINT client_phone_number_uq UNIQUE (phone_number),
-    CONSTRAINT client_alternative_phone_number_uq UNIQUE (alternative_phone_number),
     CONSTRAINT client_status_id_fk FOREIGN KEY (status_id) REFERENCES public.client_status (id),
     CONSTRAINT client_referral_source_id_fk FOREIGN KEY (referral_source_id) REFERENCES public.referral_source (id)
 
@@ -41,3 +38,15 @@ CREATE TABLE public.client
 
 ALTER TABLE public.client
     OWNER TO ${user_owner};
+
+CREATE UNIQUE INDEX client_email_uq
+    ON public.client (email)
+    WHERE marked_as_deleted = false;
+
+CREATE UNIQUE INDEX client_phone_number_uq
+    ON public.client (phone_number)
+    WHERE marked_as_deleted = false;
+
+CREATE UNIQUE INDEX client_alternative_phone_number_uq
+    ON public.client (alternative_phone_number)
+    WHERE marked_as_deleted = false;

@@ -8,4 +8,5 @@ import com.example.coursemanagementapp.transformer.PaymentStatusTransformer;
 
 public interface PaymentStatusService extends AbstractService<PaymentStatus, PaymentStatusDto, PaymentStatusTransformer, PaymentStatusDao> {
 
+    PaymentStatus findEntityByName(com.example.coursemanagementapp.enums.PaymentStatus paymentStatus);
 }

@@ -1,6 +1,7 @@
 package com.example.coursemanagementapp.service;
 
 import com.example.coursemanagementapp.dao.PaymentStatusDao;
+import com.example.coursemanagementapp.model.PaymentStatus;
 import com.example.coursemanagementapp.transformer.PaymentStatusTransformer;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,4 +26,9 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
     }
 
 
+    @Override
+    public PaymentStatus findEntityByName(com.example.coursemanagementapp.enums.PaymentStatus paymentStatus) {
+        log.info("PaymentStatusService: findEntityByName - was called with paymentStatus: {}", paymentStatus);
+        return getDao().findEntityByName(paymentStatus);
+    }
 }

@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
@@ -86,4 +88,13 @@ public class Enrollment extends AbstractEntity {
 
     @Column(name = "referral_source_id", insertable = false, updatable = false)
     private Long referralSourceId;
+
+    @OneToMany(mappedBy = "enrollment", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<EnrollmentHistory> enrollmentHistories;
+
+    @OneToMany(mappedBy = "enrollment", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<Installment> installments;
+
+    @OneToMany(mappedBy = "enrollment", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<Refund> refunds;
 }

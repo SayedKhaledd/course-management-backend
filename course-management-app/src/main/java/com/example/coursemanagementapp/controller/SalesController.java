@@ -5,6 +5,7 @@ import com.example.backendcoreservice.api.ApiResponseBuilder;
 import com.example.coursemanagementapp.dto.SalesDto;
 import com.example.coursemanagementapp.service.SalesService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,6 +27,7 @@ public class SalesController {
         return apiResponseBuilder;
     }
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'ADMIN')")
     @GetMapping("/all")
     public ApiResponse<List<SalesDto>> findAll() {
         return getApiResponseBuilder().buildSuccessResponse(getService().findAll());

@@ -72,5 +72,11 @@ public class InstallmentController implements AbstractController<InstallmentServ
         return getApiResponseBuilder().buildSuccessResponse();
     }
 
+    @DeleteMapping("/{id}")
+    public ApiResponse<?> delete(@PathVariable Long id) {
+        getService().delete(id);
+        return getApiResponseBuilder().buildSuccessResponse();
+    }
+
 
 }
