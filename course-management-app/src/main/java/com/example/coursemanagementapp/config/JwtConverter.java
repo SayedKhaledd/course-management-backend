@@ -34,24 +34,37 @@ public class JwtConverter implements Converter<Jwt, AbstractAuthenticationToken>
     @Override
     public AbstractAuthenticationToken convert(Jwt jwt) {
         Collection<GrantedAuthority> authorities = Stream.concat(
-                jwtGrantedAuthoritiesConverter.convert(jwt).stream(),
-                extractResourceRoles(jwt).stream()).collect(Collectors.toSet());
+                        Stream.concat(extractRealmRoles(jwt).stream(), extractResourceRoles(jwt).stream())
+                        , jwtGrantedAuthoritiesConverter.convert(jwt).stream())
+                .collect(Collectors.toSet());
+        log.info("Extracted Authorities: {}", authorities);
+        log.info("JWT Claims: {}", jwt.getClaims());
         return new JwtAuthenticationToken(jwt, authorities);
-
-
     }
+
+
     private Collection<? extends GrantedAuthority> extractResourceRoles(Jwt jwt) {
         Map<String, Object> resourceAccess = jwt.getClaim("resource_access");
-        Map<String, Object> resource;
-        Collection<String> resourceRoles;
-
-        if (resourceAccess == null
-                || (resource = (Map<String, Object>) resourceAccess.get(resourceId)) == null
-                || (resourceRoles = (Collection<String>) resource.get("roles")) == null) {
+        if (resourceAccess == null) {
             return Set.of();
         }
-        return resourceRoles.stream()
-                .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+        return resourceAccess.values().stream()
+                .filter(Map.class::isInstance)
+                .map(Map.class::cast)
+                .map(resource -> (Collection<String>) resource.get("roles"))
+                .filter(roles -> roles != null)
+                .flatMap(Collection::stream)
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toSet());
+    }
+
+    private Collection<? extends GrantedAuthority> extractRealmRoles(Jwt jwt) {
+        Map<String, Object> realmAccess = jwt.getClaim("realm_access");
+        if (realmAccess == null) {
+            return Set.of();
+        }
+        return ((Collection<String>) realmAccess.get("roles")).stream()
+                .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toSet());
     }
 }

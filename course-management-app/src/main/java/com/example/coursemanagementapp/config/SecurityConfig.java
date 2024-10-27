@@ -20,7 +20,6 @@ public class SecurityConfig {
 
     private final JwtConverter jwtConverter;
 
-    //TODO: Implement security filter chain
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.cors(Customizer.withDefaults()) // Enable CORS in security filter
