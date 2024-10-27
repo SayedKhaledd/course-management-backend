@@ -26,4 +26,5 @@ public class UserDto extends AbstractDto {
     private String phoneNumber;
     private Role role;
     private String password;
+    private String keycloakId;
 }
