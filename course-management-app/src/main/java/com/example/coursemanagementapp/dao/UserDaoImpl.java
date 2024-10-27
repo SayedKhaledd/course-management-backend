@@ -15,5 +15,10 @@ public class UserDaoImpl implements UserDao {
         return userRepo;
     }
 
+    @Override
+    public void updateUserByRole(Long id, String role) {
+        log.info("UserDao: updateUserByRole - was called with id: {} and role: {}", id, role);
+        getRepo().updateUserByRole(id, role);
+    }
 
 }

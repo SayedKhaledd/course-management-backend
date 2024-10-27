@@ -35,4 +35,7 @@ public class User extends AbstractEntity {
     @Column(name = "keycloak_id")
     private String keycloakId;
 
+    @Column(name = "role")
+    private String role;
+
 }

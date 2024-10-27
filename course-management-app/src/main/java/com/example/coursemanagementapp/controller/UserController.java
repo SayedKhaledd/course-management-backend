@@ -8,10 +8,9 @@ import com.example.coursemanagementapp.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Validated
 @RestController
@@ -33,10 +32,24 @@ public class UserController implements AbstractController<UserService, UserDto> 
         return apiResponseBuilder;
     }
 
-//    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'ADMIN')")
+    @PreAuthorize("hasAuthority('SUPER_ADMIN') OR hasAuthority( 'ADMIN')")
+    @GetMapping("/all")
+    public ApiResponse<List<UserDto>> findAll() {
+        return getApiResponseBuilder().buildSuccessResponse(getService().findAll());
+    }
+
+
+    @PreAuthorize("hasAuthority('SUPER_ADMIN') OR hasAuthority( 'ADMIN')")
     @PostMapping
     public ApiResponse<UserDto> createUser(@Validated @RequestBody UserDto userDto) {
         return getApiResponseBuilder().buildSuccessResponse(getService().create(userDto));
+    }
+
+    @PreAuthorize("hasAuthority('SUPER_ADMIN') OR hasAuthority( 'ADMIN')")
+    @PutMapping("/{id}/role/{role}")
+    public ApiResponse<?> updateUserRole(@PathVariable Long id, @PathVariable String role) {
+        getService().updateUserRole(id, role);
+        return getApiResponseBuilder().buildSuccessResponse();
     }
 
 

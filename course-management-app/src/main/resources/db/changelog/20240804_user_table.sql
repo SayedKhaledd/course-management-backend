@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS public."user"
     email             VARCHAR(255)           NOT NULL,
     phone_number      VARCHAR(255)           NOT NULL,
     keycloak_id       VARCHAR(255),
+    role              VARCHAR(255),
 
 
     created_date      TIMESTAMP              NOT NULL,

@@ -36,6 +36,17 @@ public class UserServiceImpl implements UserService {
         UserDto userDto = UserService.super.create(dto);
         KeycloakUserDto keycloakUserDto = getTransformer().toKeycloakUserDto(dto);
         keycloakUserDto.setId(userDto.getId() + "");
-        return getTransformer().toUserDto(keycloakUserService.registerUser(keycloakUserDto));
+        keycloakUserDto = keycloakUserService.registerUser(keycloakUserDto);
+        userDto.setKeycloakId(keycloakUserDto.getKeycloakId());
+        return UserService.super.update(userDto, userDto.getId());
+    }
+
+    @Transactional
+    @Override
+    public void updateUserRole(Long id, String role) {
+        log.info("UserService: updateUserRole - was called with id: {} and role: {}", id, role);
+        UserDto userDto = findById(id);
+        keycloakUserService.updateUserRole(userDto.getKeycloakId(), role);
+        getDao().updateUserByRole(id, role);
     }
 }
