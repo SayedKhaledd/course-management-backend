@@ -4,8 +4,8 @@ import com.example.backendcoreservice.api.pagination.PaginationRequest;
 import com.example.backendcoreservice.api.pagination.PaginationResponse;
 import com.example.coursemanagementapp.dao.CourseDao;
 import com.example.coursemanagementapp.dto.CourseDto;
-import com.example.coursemanagementapp.dto.CourseHistoryDto;
 import com.example.coursemanagementapp.dto.CourseSearchDto;
+import com.example.coursemanagementapp.dto.HistoryDto;
 import com.example.coursemanagementapp.enums.CourseStatus;
 import com.example.coursemanagementapp.model.Course;
 import com.example.coursemanagementapp.transformer.CourseTransformer;
@@ -23,7 +23,7 @@ public class CourseServiceImpl implements CourseService {
     private final CourseDao courseDao;
     private final CourseTransformer courseTransformer;
     private final CourseStatusService courseStatusService;
-    private final CourseHistoryService courseHistoryService;
+    private final HistoryService historyService;
 
     @Override
     public CourseDao getDao() {
@@ -33,6 +33,11 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public CourseTransformer getTransformer() {
         return courseTransformer;
+    }
+
+    @Override
+    public String getEntityName() {
+        return Course.class.getSimpleName();
     }
 
     @Override
@@ -52,9 +57,9 @@ public class CourseServiceImpl implements CourseService {
     public void updateName(Long id, CourseDto dto) {
         log.info("CourseService: updateName() - was called");
         CourseDto courseDtoDb = findById(id);
-        courseHistoryService.create(CourseHistoryDto.CourseHistoryDtoBuilder()
-                .course(courseDtoDb)
-                .courseId(courseDtoDb.getId())
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityType(getEntityName())
+                .entityId(courseDtoDb.getId())
                 .fieldName("name")
                 .oldValue(courseDtoDb.getName())
                 .newValue(dto.getName())
@@ -68,9 +73,9 @@ public class CourseServiceImpl implements CourseService {
     public void updateCode(Long id, CourseDto dto) {
         log.info("CourseService: updateCode() - was called");
         CourseDto courseDtoDb = findById(id);
-        courseHistoryService.create(CourseHistoryDto.CourseHistoryDtoBuilder()
-                .course(courseDtoDb)
-                .courseId(courseDtoDb.getId())
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityType(getEntityName())
+                .entityId(courseDtoDb.getId())
                 .fieldName("code")
                 .oldValue(courseDtoDb.getCode())
                 .newValue(dto.getCode())
@@ -85,9 +90,9 @@ public class CourseServiceImpl implements CourseService {
     public void updateDescription(Long id, CourseDto dto) {
         log.info("CourseService: updateDescription() - was called");
         CourseDto courseDtoDb = findById(id);
-        courseHistoryService.create(CourseHistoryDto.CourseHistoryDtoBuilder()
-                .course(courseDtoDb)
-                .courseId(courseDtoDb.getId())
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityType(getEntityName())
+                .entityId(courseDtoDb.getId())
                 .fieldName("description")
                 .oldValue(courseDtoDb.getDescription())
                 .newValue(dto.getDescription())
@@ -102,9 +107,9 @@ public class CourseServiceImpl implements CourseService {
     public void updatePrice(Long id, CourseDto dto) {
         log.info("CourseService: updatePrice() - was called");
         CourseDto courseDtoDb = findById(id);
-        courseHistoryService.create(CourseHistoryDto.CourseHistoryDtoBuilder()
-                .course(courseDtoDb)
-                .courseId(courseDtoDb.getId())
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityType(getEntityName())
+                .entityId(courseDtoDb.getId())
                 .fieldName("price")
                 .oldValue(courseDtoDb.getPrice() + "")
                 .newValue(dto.getPrice() + "")
@@ -119,9 +124,9 @@ public class CourseServiceImpl implements CourseService {
     public void updatePart(Long id, CourseDto dto) {
         log.info("CourseService: updatePart() - was called");
         CourseDto courseDtoDb = findById(id);
-        courseHistoryService.create(CourseHistoryDto.CourseHistoryDtoBuilder()
-                .course(courseDtoDb)
-                .courseId(courseDtoDb.getId())
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityType(getEntityName())
+                .entityId(courseDtoDb.getId())
                 .fieldName("part")
                 .oldValue(courseDtoDb.getPart())
                 .newValue(dto.getPart())
@@ -136,9 +141,9 @@ public class CourseServiceImpl implements CourseService {
     public void updateStartDate(Long id, CourseDto dto) {
         log.info("CourseService: updateStartDate() - was called");
         CourseDto courseDtoDb = findById(id);
-        courseHistoryService.create(CourseHistoryDto.CourseHistoryDtoBuilder()
-                .course(courseDtoDb)
-                .courseId(courseDtoDb.getId())
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityType(getEntityName())
+                .entityId(courseDtoDb.getId())
                 .fieldName("start date")
                 .oldValue(courseDtoDb.getStartDate() + "")
                 .newValue(dto.getStartDate().toString())
@@ -152,9 +157,9 @@ public class CourseServiceImpl implements CourseService {
     public void updateEndDate(Long id, CourseDto dto) {
         log.info("CourseService: updateEndDate() - was called");
         CourseDto courseDtoDb = findById(id);
-        courseHistoryService.create(CourseHistoryDto.CourseHistoryDtoBuilder()
-                .course(courseDtoDb)
-                .courseId(courseDtoDb.getId())
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityType(getEntityName())
+                .entityId(courseDtoDb.getId())
                 .fieldName("end date")
                 .oldValue(courseDtoDb.getEndDate() + "")
                 .newValue(dto.getEndDate().toString())
@@ -172,9 +177,9 @@ public class CourseServiceImpl implements CourseService {
             throw new EntityNotFoundException("Course status with id " + courseStatusId + " does not exist");
         }
         CourseDto courseDtoDb = findById(id);
-        courseHistoryService.create(CourseHistoryDto.CourseHistoryDtoBuilder()
-                .course(courseDtoDb)
-                .courseId(courseDtoDb.getId())
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityType(getEntityName())
+                .entityId(courseDtoDb.getId())
                 .fieldName("course status")
                 .oldValue(courseDtoDb.getCourseStatus() == null ? "" : courseDtoDb.getCourseStatus().getStatus().getStatus())
                 .newValue(courseStatusService.findById(courseStatusId).getStatus().toString())

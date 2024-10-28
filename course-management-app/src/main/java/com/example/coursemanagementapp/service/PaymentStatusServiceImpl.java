@@ -27,6 +27,11 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
 
 
     @Override
+    public String getEntityName() {
+        return PaymentStatus.class.getSimpleName();
+    }
+
+    @Override
     public PaymentStatus findEntityByName(com.example.coursemanagementapp.enums.PaymentStatus paymentStatus) {
         log.info("PaymentStatusService: findEntityByName - was called with paymentStatus: {}", paymentStatus);
         return getDao().findEntityByName(paymentStatus);

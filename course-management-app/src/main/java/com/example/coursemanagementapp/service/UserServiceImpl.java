@@ -29,6 +29,11 @@ public class UserServiceImpl implements UserService {
         return userTransformer;
     }
 
+    @Override
+    public String getEntityName() {
+        return UserDto.class.getSimpleName();
+    }
+
     @Transactional
     @Override
     public UserDto create(UserDto dto) {

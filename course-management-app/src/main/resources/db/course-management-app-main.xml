@@ -13,10 +13,8 @@
     <include file="/db/changelog/20240804_action_taken_table.sql"/>
 
     <include file="/db/changelog/20240726_client_table.sql"/>
-    <include file="/db/changelog/20240726_client_history_table.sql"/>
     <include file="/db/changelog/20240804_course_table.sql"/>
     <include file="/db/changelog/20240804_enrollment_table.sql"/>
-    <include file="/db/changelog/20240804_enrollment_history_table.sql"/>
     <include file="/db/changelog/20240804_evaluation_table.sql"/>
     <include file="/db/changelog/20240804_course_lecturer_table.sql"/>
     <include file="/db/changelog/20240804_installment_table.sql"/>
@@ -31,11 +29,7 @@
     <include file="/db/changelog/20240823_insert_refund_reasons.sql"/>
     <include file="/db/changelog/20240823_insert_client_statuses.sql"/>
     <include file="/db/changelog/20240823_insert_evaluation_statuses.sql"/>
-    <include file="/db/changelog/20241020_course_history_table.sql"/>
-    <include file="/db/changelog/20241020_refund_history_table.sql"/>
-    <include file="/db/changelog/20241020_installment_history_table.sql"/>
-    <include file="/db/changelog/20241020_course_lecturer_history_table.sql"/>
-    <include file="/db/changelog/20241020_evaluation_history_table.sql"/>
+    <include file="/db/changelog/20241027_history_table.sql"/>
 
 
 </databaseChangeLog>

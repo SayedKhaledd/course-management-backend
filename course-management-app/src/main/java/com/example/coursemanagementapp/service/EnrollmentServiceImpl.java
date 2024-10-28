@@ -2,7 +2,7 @@ package com.example.coursemanagementapp.service;
 
 import com.example.coursemanagementapp.dao.EnrollmentDao;
 import com.example.coursemanagementapp.dto.EnrollmentDto;
-import com.example.coursemanagementapp.dto.EnrollmentHistoryDto;
+import com.example.coursemanagementapp.dto.HistoryDto;
 import com.example.coursemanagementapp.enums.PaymentStatus;
 import com.example.coursemanagementapp.enums.ReferralSource;
 import com.example.coursemanagementapp.model.Enrollment;
@@ -26,7 +26,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 
     private final EnrollmentDao enrollmentDao;
     private final EnrollmentTransformer enrollmentTransformer;
-    private final EnrollmentHistoryService enrollmentHistoryService;
+    private final HistoryService historyService;
     private final CourseService courseService;
     private final ClientService clientService;
     private final ReferralSourceService referralSourceService;
@@ -42,6 +42,11 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     @Override
     public EnrollmentTransformer getTransformer() {
         return enrollmentTransformer;
+    }
+
+    @Override
+    public String getEntityName() {
+        return Enrollment.class.getSimpleName();
     }
 
     @SneakyThrows
@@ -89,9 +94,9 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     public void updateAmountPaid(Long id, EnrollmentDto dto) {
         log.info("EnrollmentService: updateAmountPaid() called with id: {} and dto: {}", id, dto);
         EnrollmentDto enrollmentDtoDb = findById(id);
-        enrollmentHistoryService.create(EnrollmentHistoryDto.EnrollmentHistoryDtoBuilder()
-                .enrollmentId(id)
-                .enrollment(enrollmentDtoDb)
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityId(id)
+                .entityType(getEntityName())
                 .fieldName("amountPaid")
                 .oldValue(enrollmentDtoDb.getAmountPaid() + "")
                 .newValue(dto.getAmountPaid() + "")
@@ -105,9 +110,9 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     public void updateRemainingAmount(Long id, EnrollmentDto dto) {
         log.info("EnrollmentService: updateRemainingAmount() called with id: {} and dto: {}", id, dto);
         EnrollmentDto enrollmentDtoDb = findById(id);
-        enrollmentHistoryService.create(EnrollmentHistoryDto.EnrollmentHistoryDtoBuilder()
-                .enrollmentId(id)
-                .enrollment(enrollmentDtoDb)
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityId(id)
+                .entityType(getEntityName())
                 .fieldName("remainingAmount")
                 .oldValue(enrollmentDtoDb.getRemainingAmount() + "")
                 .newValue(dto.getRemainingAmount() + "")
@@ -120,9 +125,9 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     public void updateDiscount(Long id, EnrollmentDto dto) {
         log.info("EnrollmentService: updateDiscount() called with id: {} and dto: {}", id, dto);
         EnrollmentDto enrollmentDtoDb = findById(id);
-        enrollmentHistoryService.create(EnrollmentHistoryDto.EnrollmentHistoryDtoBuilder()
-                .enrollmentId(id)
-                .enrollment(enrollmentDtoDb)
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityId(id)
+                .entityType(getEntityName())
                 .fieldName("discount")
                 .oldValue(enrollmentDtoDb.getDiscount() + "")
                 .newValue(dto.getDiscount() + "")
@@ -139,9 +144,9 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     public void updateCurrency(Long id, EnrollmentDto dto) {
         log.info("EnrollmentService: updateCurrency() called with id: {} and dto: {}", id, dto);
         EnrollmentDto enrollmentDtoDb = findById(id);
-        enrollmentHistoryService.create(EnrollmentHistoryDto.EnrollmentHistoryDtoBuilder()
-                .enrollmentId(id)
-                .enrollment(enrollmentDtoDb)
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityId(id)
+                .entityType(getEntityName())
                 .fieldName("currency")
                 .oldValue(enrollmentDtoDb.getCurrency())
                 .newValue(dto.getCurrency())
@@ -155,9 +160,9 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     public void updatePayInInstallments(Long id, Boolean payInInstallments) {
         log.info("EnrollmentService: updatePayInInstallments() called with id: {} and payInInstallments: {}", id, payInInstallments);
         EnrollmentDto enrollmentDtoDb = findById(id);
-        enrollmentHistoryService.create(EnrollmentHistoryDto.EnrollmentHistoryDtoBuilder()
-                .enrollmentId(id)
-                .enrollment(enrollmentDtoDb)
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityId(id)
+                .entityType(getEntityName())
                 .fieldName("payInInstallments")
                 .oldValue(enrollmentDtoDb.getPayInInstallments() + "")
                 .newValue(payInInstallments + "")
@@ -171,9 +176,9 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     public void updateReview(Long id, EnrollmentDto dto) {
         log.info("EnrollmentService: updateReview() called with id: {} and dto: {}", id, dto);
         EnrollmentDto enrollmentDtoDb = findById(id);
-        enrollmentHistoryService.create(EnrollmentHistoryDto.EnrollmentHistoryDtoBuilder()
-                .enrollmentId(id)
-                .enrollment(enrollmentDtoDb)
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityId(id)
+                .entityType(getEntityName())
                 .fieldName("review")
                 .oldValue(enrollmentDtoDb.getReview())
                 .newValue(dto.getReview())
@@ -187,9 +192,9 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     public void updateRating(Long id, EnrollmentDto dto) {
         log.info("EnrollmentService: updateRating() called with id: {} and dto: {}", id, dto);
         EnrollmentDto enrollmentDtoDb = findById(id);
-        enrollmentHistoryService.create(EnrollmentHistoryDto.EnrollmentHistoryDtoBuilder()
-                .enrollmentId(id)
-                .enrollment(enrollmentDtoDb)
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityId(id)
+                .entityType(getEntityName())
                 .fieldName("rating")
                 .oldValue(enrollmentDtoDb.getRating() + "")
                 .newValue(dto.getRating() + "")
@@ -203,9 +208,9 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     public void updateDescription(Long id, EnrollmentDto dto) {
         log.info("EnrollmentService: updateDescription() called with id: {} and dto: {}", id, dto);
         EnrollmentDto enrollmentDtoDb = findById(id);
-        enrollmentHistoryService.create(EnrollmentHistoryDto.EnrollmentHistoryDtoBuilder()
-                .enrollmentId(id)
-                .enrollment(enrollmentDtoDb)
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityId(id)
+                .entityType(getEntityName())
                 .fieldName("description")
                 .oldValue(enrollmentDtoDb.getDescription())
                 .newValue(dto.getDescription())
@@ -221,9 +226,9 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         EnrollmentDto enrollmentDtoDb = findById(id);
         if (!paymentStatusService.existsById(paymentStatusId))
             throw new EntityNotFoundException("PaymentStatus with id: " + paymentStatusId + " does not exist");
-        enrollmentHistoryService.create(EnrollmentHistoryDto.EnrollmentHistoryDtoBuilder()
-                .enrollmentId(id)
-                .enrollment(enrollmentDtoDb)
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityId(id)
+                .entityType(getEntityName())
                 .fieldName("paymentStatus")
                 .oldValue(enrollmentDtoDb.getPaymentStatus() == null ? "" : enrollmentDtoDb.getPaymentStatus().getStatus().getStatus())
                 .newValue(paymentStatusService.findById(paymentStatusId).getStatus().getStatus())
@@ -238,9 +243,9 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         EnrollmentDto enrollmentDtoDb = findById(id);
         if (!paymentMethodService.existsById(paymentMethodId))
             throw new EntityNotFoundException("PaymentMethod with id: " + paymentMethodId + " does not exist");
-        enrollmentHistoryService.create(EnrollmentHistoryDto.EnrollmentHistoryDtoBuilder()
-                .enrollmentId(id)
-                .enrollment(enrollmentDtoDb)
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityId(id)
+                .entityType(getEntityName())
                 .fieldName("paymentMethod")
                 .oldValue(enrollmentDtoDb.getPaymentMethod() == null ? "" : enrollmentDtoDb.getPaymentMethod().getMethod().getMethod())
                 .newValue(paymentMethodService.findById(paymentMethodId).getMethod().getMethod())
@@ -256,9 +261,9 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         EnrollmentDto enrollmentDtoDb = findById(id);
         if (!actionTakenService.existsById(actionTakenId))
             throw new EntityNotFoundException("ActionTaken with id: " + actionTakenId + " does not exist");
-        enrollmentHistoryService.create(EnrollmentHistoryDto.EnrollmentHistoryDtoBuilder()
-                .enrollmentId(id)
-                .enrollment(enrollmentDtoDb)
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityId(id)
+                .entityType(getEntityName())
                 .fieldName("actionTaken")
                 .oldValue(enrollmentDtoDb.getActionTaken() == null ? "" : enrollmentDtoDb.getActionTaken().getAction().getAction())
                 .newValue(actionTakenService.findById(actionTakenId).getAction().getAction())
@@ -274,9 +279,9 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         EnrollmentDto enrollmentDtoDb = findById(id);
         if (!referralSourceService.existsById(referralSourceId))
             throw new EntityNotFoundException("ReferralSource with id: " + referralSourceId + " does not exist");
-        enrollmentHistoryService.create(EnrollmentHistoryDto.EnrollmentHistoryDtoBuilder()
-                .enrollmentId(id)
-                .enrollment(enrollmentDtoDb)
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityId(id)
+                .entityType(getEntityName())
                 .fieldName("referralSource")
                 .oldValue(enrollmentDtoDb.getReferralSource() == null ? "" : enrollmentDtoDb.getReferralSource().getSource().getSource())
                 .newValue(referralSourceService.findById(referralSourceId).getSource().getSource())
@@ -291,9 +296,9 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         EnrollmentDto enrollmentDtoDb = findById(id);
         if (!clientService.existsById(clientId))
             throw new EntityNotFoundException("Client with id: " + clientId + " does not exist");
-        enrollmentHistoryService.create(EnrollmentHistoryDto.EnrollmentHistoryDtoBuilder()
-                .enrollmentId(id)
-                .enrollment(enrollmentDtoDb)
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityId(id)
+                .entityType(getEntityName())
                 .fieldName("client")
                 .oldValue(enrollmentDtoDb.getClientId() + "")
                 .newValue(clientId + "")
@@ -308,9 +313,9 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         EnrollmentDto enrollmentDtoDb = findById(id);
         if (!courseService.existsById(courseId))
             throw new EntityNotFoundException("Course with id: " + courseId + " does not exist");
-        enrollmentHistoryService.create(EnrollmentHistoryDto.EnrollmentHistoryDtoBuilder()
-                .enrollmentId(id)
-                .enrollment(enrollmentDtoDb)
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityId(id)
+                .entityType(getEntityName())
                 .fieldName("course")
                 .oldValue(enrollmentDtoDb.getCourseId() + "")
                 .newValue(courseId + "")

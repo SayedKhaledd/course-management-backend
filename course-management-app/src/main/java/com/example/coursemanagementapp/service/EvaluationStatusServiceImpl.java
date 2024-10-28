@@ -1,6 +1,7 @@
 package com.example.coursemanagementapp.service;
 
 import com.example.coursemanagementapp.dao.EvaluationStatusDao;
+import com.example.coursemanagementapp.model.EvaluationStatus;
 import com.example.coursemanagementapp.transformer.EvaluationStatusTransformer;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,4 +26,8 @@ public class EvaluationStatusServiceImpl implements EvaluationStatusService {
     }
 
 
+    @Override
+    public String getEntityName() {
+        return EvaluationStatus.class.getSimpleName();
+    }
 }

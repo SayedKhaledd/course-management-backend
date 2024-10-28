@@ -2,8 +2,8 @@ package com.example.coursemanagementapp.service;
 
 import com.example.backendcoreservice.exception.CustomException;
 import com.example.coursemanagementapp.dao.InstallmentDao;
+import com.example.coursemanagementapp.dto.HistoryDto;
 import com.example.coursemanagementapp.dto.InstallmentDto;
-import com.example.coursemanagementapp.dto.InstallmentHistoryDto;
 import com.example.coursemanagementapp.model.Enrollment;
 import com.example.coursemanagementapp.model.Installment;
 import com.example.coursemanagementapp.transformer.InstallmentTransformer;
@@ -23,7 +23,7 @@ public class InstallmentServiceImpl implements InstallmentService {
     private final EnrollmentService enrollmentService;
     private final PaymentStatusService paymentStatusService;
     private final PaymentMethodService paymentMethodService;
-    private final InstallmentHistoryService installmentHistoryService;
+    private final HistoryService historyService;
 
     @Override
     public InstallmentDao getDao() {
@@ -33,6 +33,11 @@ public class InstallmentServiceImpl implements InstallmentService {
     @Override
     public InstallmentTransformer getTransformer() {
         return installmentTransformer;
+    }
+
+    @Override
+    public String getEntityName() {
+        return Installment.class.getSimpleName();
     }
 
     @Override
@@ -52,9 +57,9 @@ public class InstallmentServiceImpl implements InstallmentService {
     public void updateAmount(Long id, InstallmentDto dto) {
         log.info("InstallmentServiceImpl: updateAmount() - was called");
         InstallmentDto installmentDtoDb = findById(id);
-        installmentHistoryService.create(InstallmentHistoryDto.InstallmentHistoryDtoBuilder()
-                .installment(installmentDtoDb)
-                .installmentId(installmentDtoDb.getId())
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityType(getEntityName())
+                .entityId(installmentDtoDb.getId())
                 .fieldName("amount")
                 .oldValue(installmentDtoDb.getAmount() + "")
                 .newValue(dto.getAmount() + "")
@@ -68,9 +73,9 @@ public class InstallmentServiceImpl implements InstallmentService {
     public void updateDueDate(Long id, InstallmentDto dto) {
         log.info("InstallmentServiceImpl: updateDueDate() - was called");
         InstallmentDto installmentDtoDb = findById(id);
-        installmentHistoryService.create(InstallmentHistoryDto.InstallmentHistoryDtoBuilder()
-                .installment(installmentDtoDb)
-                .installmentId(installmentDtoDb.getId())
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityId(id)
+                .entityType(getEntityName())
                 .fieldName("dueDate")
                 .oldValue(installmentDtoDb.getDueDate() + "")
                 .newValue(dto.getDueDate() + "")
@@ -85,9 +90,9 @@ public class InstallmentServiceImpl implements InstallmentService {
     public void updatePaymentDate(Long id, InstallmentDto dto) {
         log.info("InstallmentServiceImpl: updatePaymentDate() - was called");
         InstallmentDto installmentDtoDb = findById(id);
-        installmentHistoryService.create(InstallmentHistoryDto.InstallmentHistoryDtoBuilder()
-                .installment(installmentDtoDb)
-                .installmentId(installmentDtoDb.getId())
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityId(id)
+                .entityType(getEntityName())
                 .fieldName("paymentDate")
                 .oldValue(installmentDtoDb.getPaymentDate() + "")
                 .newValue(dto.getPaymentDate() + "")
@@ -105,9 +110,9 @@ public class InstallmentServiceImpl implements InstallmentService {
             throw new EntityNotFoundException("Payment status is not found");
         }
         InstallmentDto installmentDtoDb = findById(id);
-        installmentHistoryService.create(InstallmentHistoryDto.InstallmentHistoryDtoBuilder()
-                .installment(installmentDtoDb)
-                .installmentId(installmentDtoDb.getId())
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityId(id)
+                .entityType(getEntityName())
                 .fieldName("paymentStatus")
                 .oldValue(installmentDtoDb.getPaymentStatus() == null ? "" : installmentDtoDb.getPaymentStatus().getStatus().getStatus())
                 .newValue(paymentStatusService.findById(paymentStatusId).getStatus().getStatus())
@@ -125,9 +130,9 @@ public class InstallmentServiceImpl implements InstallmentService {
             throw new EntityNotFoundException("Payment method is not found");
         }
         InstallmentDto installmentDtoDb = findById(id);
-        installmentHistoryService.create(InstallmentHistoryDto.InstallmentHistoryDtoBuilder()
-                .installment(installmentDtoDb)
-                .installmentId(installmentDtoDb.getId())
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityId(id)
+                .entityType(getEntityName())
                 .fieldName("paymentMethod")
                 .oldValue(installmentDtoDb.getPaymentMethod() == null ? "" : installmentDtoDb.getPaymentMethod().getMethod().getMethod())
                 .newValue(paymentMethodService.findById(paymentMethodId).getMethod().getMethod())

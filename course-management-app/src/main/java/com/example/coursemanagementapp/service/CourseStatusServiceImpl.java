@@ -26,6 +26,11 @@ public class CourseStatusServiceImpl implements CourseStatusService {
     }
 
     @Override
+    public String getEntityName() {
+        return CourseStatus.class.getSimpleName();
+    }
+
+    @Override
     public CourseStatus findEntityByStatus(com.example.coursemanagementapp.enums.CourseStatus status) {
         log.info("CourseStatusService: findEntityByStatus() - was called");
         return getDao().findByStatus(status);

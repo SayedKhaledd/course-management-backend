@@ -27,6 +27,11 @@ public class ReferralSourceServiceImpl implements ReferralSourceService {
 
 
     @Override
+    public String getEntityName() {
+        return ReferralSource.class.getSimpleName();
+    }
+
+    @Override
     public ReferralSource findEntityByName(com.example.coursemanagementapp.enums.ReferralSource referralSource) {
         log.info("ReferralSourceService: findEntityByName() - was called");
         return getDao().findEntityByName(referralSource);

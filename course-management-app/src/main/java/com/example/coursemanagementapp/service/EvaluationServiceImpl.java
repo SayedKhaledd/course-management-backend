@@ -2,7 +2,7 @@ package com.example.coursemanagementapp.service;
 
 import com.example.coursemanagementapp.dao.EvaluationDao;
 import com.example.coursemanagementapp.dto.EvaluationDto;
-import com.example.coursemanagementapp.dto.EvaluationHistoryDto;
+import com.example.coursemanagementapp.dto.HistoryDto;
 import com.example.coursemanagementapp.model.Enrollment;
 import com.example.coursemanagementapp.model.Evaluation;
 import com.example.coursemanagementapp.transformer.EvaluationTransformer;
@@ -21,7 +21,7 @@ public class EvaluationServiceImpl implements EvaluationService {
 
     private final EvaluationDao evaluationDao;
     private final EvaluationTransformer evaluationTransformer;
-    private final EvaluationHistoryService evaluationHistoryService;
+    private final HistoryService historyService;
     private final EvaluationStatusService evaluationStatusService;
     private final EnrollmentService enrollmentService;
 
@@ -33,6 +33,11 @@ public class EvaluationServiceImpl implements EvaluationService {
     @Override
     public EvaluationTransformer getTransformer() {
         return evaluationTransformer;
+    }
+
+    @Override
+    public String getEntityName() {
+        return Evaluation.class.getSimpleName();
     }
 
     @Override
@@ -62,9 +67,9 @@ public class EvaluationServiceImpl implements EvaluationService {
     public void updateExamName(EvaluationDto evaluationDto, Long id) {
         log.info("EvaluationService: updateExamName() - was called");
         EvaluationDto evaluationDtoDb = findById(id);
-        evaluationHistoryService.create(EvaluationHistoryDto.EvaluationHistoryDtoBuilder()
-                .evaluation(evaluationDtoDb)
-                .evaluationId(evaluationDtoDb.getId())
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityType(getEntityName())
+                .entityId(evaluationDtoDb.getId())
                 .fieldName("examName")
                 .oldValue(evaluationDtoDb.getExamName())
                 .newValue(evaluationDto.getExamName())
@@ -81,9 +86,9 @@ public class EvaluationServiceImpl implements EvaluationService {
             throw new EntityNotFoundException("EvaluationStatus with id: " + evaluationStatusId + " not found");
         }
         EvaluationDto evaluationDtoDb = findById(id);
-        evaluationHistoryService.create(EvaluationHistoryDto.EvaluationHistoryDtoBuilder()
-                .evaluation(evaluationDtoDb)
-                .evaluationId(evaluationDtoDb.getId())
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityType(getEntityName())
+                .entityId(evaluationDtoDb.getId())
                 .fieldName("evaluationStatus")
                 .oldValue(evaluationDtoDb.getEvaluationStatus() == null ? "" : evaluationDtoDb.getEvaluationStatus().getStatus().getStatus())
                 .newValue(evaluationStatusService.findById(evaluationStatusId).getStatus().getStatus())

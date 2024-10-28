@@ -1,6 +1,7 @@
 package com.example.coursemanagementapp.model;
 
 import com.example.backendcoreservice.model.AbstractEntity;
+import com.example.coursemanagementapp.dao.listeners.GenericEntityListener;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,6 +17,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "client")
+@EntityListeners(GenericEntityListener.class)
 public class Client extends AbstractEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "client_id_sequence")
@@ -62,9 +64,6 @@ public class Client extends AbstractEntity {
 
     @Column(name = "description")
     private String description;
-
-    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<ClientHistory> clientHistories;
 
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Enrollment> enrollments;

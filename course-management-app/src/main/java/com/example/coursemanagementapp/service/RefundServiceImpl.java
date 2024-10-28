@@ -1,8 +1,8 @@
 package com.example.coursemanagementapp.service;
 
 import com.example.coursemanagementapp.dao.RefundDao;
+import com.example.coursemanagementapp.dto.HistoryDto;
 import com.example.coursemanagementapp.dto.RefundDto;
-import com.example.coursemanagementapp.dto.RefundHistoryDto;
 import com.example.coursemanagementapp.model.Enrollment;
 import com.example.coursemanagementapp.model.Refund;
 import com.example.coursemanagementapp.transformer.RefundTransformer;
@@ -22,7 +22,7 @@ public class RefundServiceImpl implements RefundService {
     private final EnrollmentService enrollmentService;
     private final PaymentMethodService paymentMethodService;
     private final RefundReasonService refundReasonService;
-    private final RefundHistoryService refundHistoryService;
+    private final HistoryService historyService;
 
     @Override
     public RefundDao getDao() {
@@ -32,6 +32,11 @@ public class RefundServiceImpl implements RefundService {
     @Override
     public RefundTransformer getTransformer() {
         return refundTransformer;
+    }
+
+    @Override
+    public String getEntityName() {
+        return Refund.class.getSimpleName();
     }
 
     @Override
@@ -49,9 +54,9 @@ public class RefundServiceImpl implements RefundService {
     public void updateAmount(Long id, RefundDto dto) {
         log.info("RefundServiceImpl: updateAmount() - was called");
         RefundDto refundDtoDb = findById(id);
-        refundHistoryService.create(RefundHistoryDto.RefundHistoryDtoBuilder()
-                .refund(refundDtoDb)
-                .refundId(refundDtoDb.getId())
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityType(getEntityName())
+                .entityId(refundDtoDb.getId())
                 .fieldName("amount")
                 .oldValue(refundDtoDb.getAmount() + "")
                 .newValue(dto.getAmount() + "")
@@ -64,9 +69,9 @@ public class RefundServiceImpl implements RefundService {
     public void updateRefundDate(Long id, RefundDto dto) {
         log.info("RefundServiceImpl: updateRefundDate() - was called");
         RefundDto refundDtoDb = findById(id);
-        refundHistoryService.create(RefundHistoryDto.RefundHistoryDtoBuilder()
-                .refund(refundDtoDb)
-                .refundId(refundDtoDb.getId())
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityType(getEntityName())
+                .entityId(refundDtoDb.getId())
                 .fieldName("refundDate")
                 .oldValue(refundDtoDb.getRefundDate() + "")
                 .newValue(dto.getRefundDate() + "")
@@ -80,9 +85,9 @@ public class RefundServiceImpl implements RefundService {
     public void updateIsConfirmed(Long id, Boolean isConfirmed) {
         log.info("RefundServiceImpl: updateIsConfirmed() - was called");
         RefundDto refundDtoDb = findById(id);
-        refundHistoryService.create(RefundHistoryDto.RefundHistoryDtoBuilder()
-                .refund(refundDtoDb)
-                .refundId(refundDtoDb.getId())
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityType(getEntityName())
+                .entityId(refundDtoDb.getId())
                 .fieldName("isConfirmed")
                 .oldValue(refundDtoDb.getIsConfirmed() + "")
                 .newValue(isConfirmed + "")
@@ -96,9 +101,9 @@ public class RefundServiceImpl implements RefundService {
     public void updateExplanation(Long id, RefundDto dto) {
         log.info("RefundServiceImpl: updateExplanation() - was called");
         RefundDto refundDtoDb = findById(id);
-        refundHistoryService.create(RefundHistoryDto.RefundHistoryDtoBuilder()
-                .refund(refundDtoDb)
-                .refundId(refundDtoDb.getId())
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityType(getEntityName())
+                .entityId(refundDtoDb.getId())
                 .fieldName("explanation")
                 .oldValue(refundDtoDb.getExplanation())
                 .newValue(dto.getExplanation())
@@ -115,9 +120,9 @@ public class RefundServiceImpl implements RefundService {
             throw new EntityNotFoundException("Refund reason is not found");
         }
         RefundDto refundDtoDb = findById(id);
-        refundHistoryService.create(RefundHistoryDto.RefundHistoryDtoBuilder()
-                .refund(refundDtoDb)
-                .refundId(refundDtoDb.getId())
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityType(getEntityName())
+                .entityId(refundDtoDb.getId())
                 .fieldName("refundReason")
                 .oldValue(refundDtoDb.getRefundReason() == null ? "" : refundDtoDb.getRefundReason().getReason().getReason())
                 .newValue(refundReasonService.findById(refundReasonId).getReason().getReason())
@@ -134,9 +139,9 @@ public class RefundServiceImpl implements RefundService {
             throw new EntityNotFoundException("Payment method is not found");
         }
         RefundDto refundDtoDb = findById(id);
-        refundHistoryService.create(RefundHistoryDto.RefundHistoryDtoBuilder()
-                .refund(refundDtoDb)
-                .refundId(refundDtoDb.getId())
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityType(getEntityName())
+                .entityId(refundDtoDb.getId())
                 .fieldName("paymentMethod")
                 .oldValue(refundDtoDb.getPaymentMethod() == null ? "" : refundDtoDb.getPaymentMethod().getMethod().getMethod())
                 .newValue(paymentMethodService.findById(paymentMethodId).getMethod().getMethod())

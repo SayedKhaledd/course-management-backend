@@ -27,6 +27,11 @@ public class ActionTakenServiceImpl implements ActionTakenService {
     }
 
     @Override
+    public String getEntityName() {
+        return ActionTaken.class.getSimpleName();
+    }
+
+    @Override
     public ActionTakenDto findByName(ActionTaken action) {
         log.info("ActionTakenService: findByName() called with action: {}", action);
         return getTransformer().transformEntityToDto(findEntityByName(action));

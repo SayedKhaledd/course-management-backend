@@ -4,8 +4,9 @@ import com.example.backendcoreservice.api.pagination.PaginationRequest;
 import com.example.backendcoreservice.api.pagination.PaginationResponse;
 import com.example.coursemanagementapp.dao.ClientDao;
 import com.example.coursemanagementapp.dto.ClientDto;
-import com.example.coursemanagementapp.dto.ClientHistoryDto;
 import com.example.coursemanagementapp.dto.ClientSearchDto;
+import com.example.coursemanagementapp.dto.HistoryDto;
+import com.example.coursemanagementapp.model.Client;
 import com.example.coursemanagementapp.transformer.ClientTransformer;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
@@ -22,7 +23,7 @@ public class ClientServiceImpl implements ClientService {
     private final ClientTransformer clientTransformer;
     private final ClientStatusService clientStatusService;
     private final ReferralSourceService referralSourceService;
-    private final ClientHistoryService clientHistoryService;
+    private final HistoryService historyService;
 
     @Override
     public ClientDao getDao() {
@@ -32,6 +33,11 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public ClientTransformer getTransformer() {
         return clientTransformer;
+    }
+
+    @Override
+    public String getEntityName() {
+        return Client.class.getSimpleName();
     }
 
     @Override
@@ -45,9 +51,9 @@ public class ClientServiceImpl implements ClientService {
     public void updateName(Long id, ClientDto clientDto) {
         log.info("ClientService: updateName() - was called with id: {} and clientDto: {}", id, clientDto);
         ClientDto clientDtoDb = findById(id);
-        clientHistoryService.create(ClientHistoryDto.ClientHistoryDtoBuilder()
-                .clientId(id)
-                .client(clientDtoDb)
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityId(id)
+                .entityType(getEntityName())
                 .fieldName("name")
                 .oldValue(clientDtoDb.getName())
                 .newValue(clientDto.getName())
@@ -62,9 +68,9 @@ public class ClientServiceImpl implements ClientService {
         ClientDto clientDto = findById(id);
         if (!clientStatusService.existsById(statusId))
             throw new EntityNotFoundException("Status with id " + statusId + " does not exist");
-        clientHistoryService.create(ClientHistoryDto.ClientHistoryDtoBuilder()
-                .clientId(id)
-                .client(clientDto)
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityId(id)
+                .entityType(getEntityName())
                 .fieldName("clientStatus")
                 .oldValue(clientDto.getClientStatus() == null ? "" : clientDto.getClientStatus().getStatus().getStatus())
                 .newValue(clientStatusService.findById(statusId).getStatus().getStatus())
@@ -77,9 +83,9 @@ public class ClientServiceImpl implements ClientService {
     public void updateDescription(Long id, ClientDto clientDto) {
         log.info("ClientService: updateDescription() - was called with id: {} and clientDto: {}", id, clientDto);
         ClientDto clientDtoDb = findById(id);
-        clientHistoryService.create(ClientHistoryDto.ClientHistoryDtoBuilder()
-                .clientId(id)
-                .client(clientDtoDb)
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityId(id)
+                .entityType(getEntityName())
                 .fieldName("description")
                 .oldValue(clientDtoDb.getDescription())
                 .newValue(clientDto.getDescription())
@@ -92,9 +98,9 @@ public class ClientServiceImpl implements ClientService {
     public void updateEmail(Long id, ClientDto clientDto) {
         log.info("ClientService: updateEmail() - was called with id: {} and clientDto: {}", id, clientDto);
         ClientDto clientDtoDb = findById(id);
-        clientHistoryService.create(ClientHistoryDto.ClientHistoryDtoBuilder()
-                .clientId(id)
-                .client(clientDtoDb)
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityId(id)
+                .entityType(getEntityName())
                 .fieldName("email")
                 .oldValue(clientDtoDb.getEmail())
                 .newValue(clientDto.getEmail())
@@ -107,9 +113,9 @@ public class ClientServiceImpl implements ClientService {
     public void updatePhone(Long id, ClientDto clientDto) {
         log.info("ClientService: updatePhone() - was called with id: {} and clientDto: {}", id, clientDto);
         ClientDto clientDtoDb = findById(id);
-        clientHistoryService.create(ClientHistoryDto.ClientHistoryDtoBuilder()
-                .clientId(id)
-                .client(clientDtoDb)
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityId(id)
+                .entityType(getEntityName())
                 .fieldName("phone")
                 .oldValue(clientDtoDb.getPhone())
                 .newValue(clientDto.getPhone())
@@ -122,9 +128,9 @@ public class ClientServiceImpl implements ClientService {
     public void updateAlternativePhone(Long id, ClientDto clientDto) {
         log.info("ClientService: updateAlternativePhone() - was called with id: {} and clientDto: {}", id, clientDto);
         ClientDto clientDtoDb = findById(id);
-        clientHistoryService.create(ClientHistoryDto.ClientHistoryDtoBuilder()
-                .clientId(id)
-                .client(clientDtoDb)
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityId(id)
+                .entityType(getEntityName())
                 .fieldName("alternativePhone")
                 .oldValue(clientDtoDb.getAlternativePhone())
                 .newValue(clientDto.getAlternativePhone())
@@ -137,9 +143,9 @@ public class ClientServiceImpl implements ClientService {
     public void updateCountry(Long id, ClientDto clientDto) {
         log.info("ClientService: updateCountry() - was called with id: {} and clientDto: {}", id, clientDto);
         ClientDto clientDtoDb = findById(id);
-        clientHistoryService.create(ClientHistoryDto.ClientHistoryDtoBuilder()
-                .clientId(id)
-                .client(clientDtoDb)
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityId(id)
+                .entityType(getEntityName())
                 .fieldName("country")
                 .oldValue(clientDtoDb.getCountry())
                 .newValue(clientDto.getCountry())
@@ -152,9 +158,9 @@ public class ClientServiceImpl implements ClientService {
     public void updateNationality(Long id, ClientDto clientDto) {
         log.info("ClientService: updateNationality() - was called with id: {} and clientDto: {}", id, clientDto);
         ClientDto clientDtoDb = findById(id);
-        clientHistoryService.create(ClientHistoryDto.ClientHistoryDtoBuilder()
-                .clientId(id)
-                .client(clientDtoDb)
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityId(id)
+                .entityType(getEntityName())
                 .fieldName("nationality")
                 .oldValue(clientDtoDb.getNationality())
                 .newValue(clientDto.getNationality())
@@ -167,9 +173,9 @@ public class ClientServiceImpl implements ClientService {
     public void updateAddress(Long id, ClientDto clientDto) {
         log.info("ClientService: updateAddress() - was called with id: {} and clientDto: {}", id, clientDto);
         ClientDto clientDtoDb = findById(id);
-        clientHistoryService.create(ClientHistoryDto.ClientHistoryDtoBuilder()
-                .clientId(id)
-                .client(clientDtoDb)
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityId(id)
+                .entityType(getEntityName())
                 .fieldName("address")
                 .oldValue(clientDtoDb.getAddress())
                 .newValue(clientDto.getAddress())
@@ -182,9 +188,9 @@ public class ClientServiceImpl implements ClientService {
     public void updateSpecialty(Long id, ClientDto clientDto) {
         log.info("ClientService: updateSpecialty() - was called with id: {} and clientDto: {}", id, clientDto);
         ClientDto clientDtoDb = findById(id);
-        clientHistoryService.create(ClientHistoryDto.ClientHistoryDtoBuilder()
-                .clientId(id)
-                .client(clientDtoDb)
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityId(id)
+                .entityType(getEntityName())
                 .fieldName("specialty")
                 .oldValue(clientDtoDb.getSpecialty())
                 .newValue(clientDto.getSpecialty())
@@ -199,13 +205,14 @@ public class ClientServiceImpl implements ClientService {
         ClientDto clientDto = findById(id);
         if (!referralSourceService.existsById(referralSourceId))
             throw new EntityNotFoundException("Referral Source with id " + referralSourceId + " does not exist");
-        clientHistoryService.create(ClientHistoryDto.ClientHistoryDtoBuilder()
-                .clientId(id)
-                .client(clientDto)
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityId(id)
+                .entityType(getEntityName())
                 .fieldName("referralSource")
                 .oldValue(clientDto.getReferralSource() == null ? "" : clientDto.getReferralSource().getSource().getSource())
                 .newValue(referralSourceService.findById(referralSourceId).getSource().getSource())
                 .build());
         getDao().updateReferralSource(id, referralSourceId);
     }
+
 }
