@@ -19,8 +19,9 @@ public class SalesDaoImpl implements SalesDao {
     @Override
     public List<SalesDto> findAll() {
         String query = """
-                           SELECT c.name         as clientName,
+                SELECT c.name         as clientName,
                        co.name        as courseName,
+                       co.code        as courseCode,
                        e.amount_paid  AS amount,
                        'COURSE_PURCHASE'   AS type,
                        pm.method      AS paymentMethod,
@@ -42,6 +43,7 @@ public class SalesDaoImpl implements SalesDao {
                 
                 SELECT c.name         AS clientName,
                        co.name        AS courseName,
+                       co.code        as courseCode,
                        i.amount       AS amount,
                        'INSTALLMENT'  AS type,
                        pm.method      AS paymentMethod,
@@ -64,6 +66,7 @@ public class SalesDaoImpl implements SalesDao {
                 
                 SELECT c.name         AS clientName,
                        co.name        AS courseName,
+                       co.code        as courseCode,
                        r.amount * -1  AS amount,
                        'REFUND'       AS type,
                        pm.method      AS paymentMethod,

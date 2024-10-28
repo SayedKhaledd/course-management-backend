@@ -17,11 +17,12 @@ public class SalesTransformer implements ResultTransformer<SalesDto> {
         SalesDto salesDto = new SalesDto();
         salesDto.setClientName((String) tuple[0]);
         salesDto.setCourseName((String) tuple[1]);
-        salesDto.setAmount((BigDecimal) tuple[2]);
-        salesDto.setPaymentType(PaymentType.valueOf((String) tuple[3]));
-        salesDto.setPaymentMethod(PaymentMethod.valueOf((String) tuple[4]));
-        salesDto.setDate(((Timestamp) tuple[5]).toLocalDateTime());
-        salesDto.setCurrency((String) tuple[6]);
+        salesDto.setCourseCode((String) tuple[2]);
+        salesDto.setAmount((BigDecimal) tuple[3]);
+        salesDto.setPaymentType(PaymentType.valueOf((String) tuple[4]));
+        salesDto.setPaymentMethod(PaymentMethod.valueOf((String) tuple[5]));
+        salesDto.setDate(((Timestamp) tuple[6]).toLocalDateTime());
+        salesDto.setCurrency((String) tuple[7]);
         return salesDto;
     }
 

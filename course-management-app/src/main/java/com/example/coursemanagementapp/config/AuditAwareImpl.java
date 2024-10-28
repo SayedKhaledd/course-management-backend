@@ -19,7 +19,7 @@ public class AuditAwareImpl implements AuditorAware<String> {
     @Override
     public Optional<String> getCurrentAuditor() {
         KeycloakUserDto currentUser = keycloakUserService.getCurrentUser();
-        return Optional.of(currentUser.getFirstName() + currentUser.getLastName());
+        return Optional.of(currentUser.getFirstName() + " " + currentUser.getLastName());
     }
 
 }

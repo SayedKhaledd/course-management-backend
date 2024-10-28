@@ -41,16 +41,49 @@ public class UserController implements AbstractController<UserService, UserDto> 
 
     @PreAuthorize("hasAuthority('SUPER_ADMIN') OR hasAuthority( 'ADMIN')")
     @PostMapping
-    public ApiResponse<UserDto> createUser(@Validated @RequestBody UserDto userDto) {
+    public ApiResponse<UserDto> createUser(@Validated(UserDto.Create.class) @RequestBody UserDto userDto) {
         return getApiResponseBuilder().buildSuccessResponse(getService().create(userDto));
     }
 
     @PreAuthorize("hasAuthority('SUPER_ADMIN') OR hasAuthority( 'ADMIN')")
-    @PutMapping("/{id}/role/{role}")
-    public ApiResponse<?> updateUserRole(@PathVariable Long id, @PathVariable String role) {
-        getService().updateUserRole(id, role);
+    @PatchMapping("/{id}/role")
+    public ApiResponse<?> updateRole(@PathVariable Long id, @RequestBody @Validated(UserDto.UpdateRole.class) UserDto userDto) {
+        getService().updateRole(id, userDto);
         return getApiResponseBuilder().buildSuccessResponse();
     }
 
+    @PreAuthorize("hasAuthority('SUPER_ADMIN') OR hasAuthority( 'ADMIN')")
+    @PatchMapping("/{id}/first-name")
+    public ApiResponse<?> updateFirstName(@PathVariable Long id, @RequestBody @Validated(UserDto.UpdateFirstName.class) UserDto userDto) {
+        getService().updateFirstName(id, userDto);
+        return getApiResponseBuilder().buildSuccessResponse();
+    }
 
+    @PreAuthorize("hasAuthority('SUPER_ADMIN') OR hasAuthority( 'ADMIN')")
+    @PatchMapping("/{id}/last-name")
+    public ApiResponse<?> updateLastName(@PathVariable Long id, @RequestBody @Validated(UserDto.UpdateLastName.class) UserDto userDto) {
+        getService().updateLastName(id, userDto);
+        return getApiResponseBuilder().buildSuccessResponse();
+    }
+
+    @PreAuthorize("hasAuthority('SUPER_ADMIN') OR hasAuthority( 'ADMIN')")
+    @PatchMapping("/{id}/email")
+    public ApiResponse<?> updateEmail(@PathVariable Long id, @RequestBody @Validated(UserDto.UpdateEmail.class) UserDto userDto) {
+        getService().updateEmail(id, userDto);
+        return getApiResponseBuilder().buildSuccessResponse();
+    }
+
+    @PreAuthorize("hasAuthority('SUPER_ADMIN') OR hasAuthority( 'ADMIN')")
+    @PatchMapping("/{id}/phone-number")
+    public ApiResponse<?> updatePhoneNumber(@PathVariable Long id, @RequestBody @Validated(UserDto.UpdatePhoneNumber.class) UserDto userDto) {
+        getService().updatePhoneNumber(id, userDto);
+        return getApiResponseBuilder().buildSuccessResponse();
+    }
+
+    @PreAuthorize("hasAuthority('SUPER_ADMIN') OR hasAuthority( 'ADMIN')")
+    @DeleteMapping("/{id}")
+    public ApiResponse<?> delete(@PathVariable Long id) {
+        getService().delete(id);
+        return getApiResponseBuilder().buildSuccessResponse();
+    }
 }

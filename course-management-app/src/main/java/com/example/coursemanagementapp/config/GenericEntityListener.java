@@ -1,16 +1,19 @@
-package com.example.coursemanagementapp.dao.listeners;
+package com.example.coursemanagementapp.config;
 
 import com.example.coursemanagementapp.service.HistoryService;
 import jakarta.persistence.PreRemove;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
+@Slf4j
 public class GenericEntityListener<T> implements ApplicationContextAware {
 
     private static ApplicationContext applicationContext;
 
     @PreRemove
     public void onPreRemove(T entity) {
+        log.info("GenericEntityListener: onPreRemove - was called with entity: {}", entity);
         HistoryService historyService = applicationContext.getBean(HistoryService.class);
         Long entityId = getEntityId(entity);
         String entityName = entity.getClass().getSimpleName();

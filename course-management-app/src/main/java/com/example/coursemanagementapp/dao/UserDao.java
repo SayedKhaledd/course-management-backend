@@ -6,6 +6,13 @@ import com.example.coursemanagementapp.model.User;
 
 public interface UserDao extends AbstractDao<User, UserRepo> {
 
-    void updateUserByRole(Long id, String role);
+    void updateRole(Long id, String role);
 
+    void updateFirstName(Long id, String firstName);
+
+    void updateLastName(Long id, String lastName);
+
+    void updateEmail(Long id, String email);
+
+    void updatePhoneNumber(Long id, String phoneNumber);
 }
