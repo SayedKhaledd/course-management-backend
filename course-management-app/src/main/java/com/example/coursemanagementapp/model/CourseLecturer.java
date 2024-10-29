@@ -35,11 +35,20 @@ public class CourseLecturer extends AbstractEntity {
     @Column(name = "paid_in_percentage")
     private Boolean paidInPercentage = false;
 
-    @Column(name = "percentage_value")
+    @Column(name = "percentage")
     private Double percentage;
 
-    @Column(name = "fixed_value")
-    private Double fixedValue;
+    @Column(name = "total_percentage_cost")
+    private Double totalPercentageCost;
+
+    @Column(name = "no_of_lectures")
+    private Long noOfLectures;
+
+    @Column(name = "lecture_cost")
+    private Double lectureCost;
+
+    @Column(name = "total_fixed_cost")
+    private Double totalFixedCost;
 
 
 }

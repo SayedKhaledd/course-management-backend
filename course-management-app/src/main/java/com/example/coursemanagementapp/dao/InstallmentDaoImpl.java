@@ -56,6 +56,12 @@ public class InstallmentDaoImpl implements InstallmentDao {
         log.info("InstallmentDao: updatePaymentMethod() - was called");
         getRepo().updatePaymentMethod(id, paymentMethodId);
         getRepo().updateModifiedDateAndModifiedBy(id, auditAware.getCurrentAuditor().get(), LocalDateTime.now());
+    }
 
+    @Override
+    public void updateIsReceived(Long id, Boolean isReceived) {
+        log.info("InstallmentDao: updateIsReceived() - was called");
+        getRepo().updateIsReceived(id, isReceived);
+        getRepo().updateModifiedDateAndModifiedBy(id, auditAware.getCurrentAuditor().get(), LocalDateTime.now());
     }
 }

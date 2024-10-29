@@ -43,6 +43,10 @@ public interface EnrollmentRepo extends JpaRepository<Enrollment, Long> {
     void updatePayInInstallments(Long id, Boolean payInInstallments);
 
     @Modifying
+    @Query(value = "UPDATE enrollment SET inside_egypt = :insideEgypt WHERE id = :id and marked_as_deleted=false ", nativeQuery = true)
+    void updateInsideEgypt(Long id, Boolean insideEgypt);
+
+    @Modifying
     @Query(value = "UPDATE enrollment SET review = :review WHERE id = :id and marked_as_deleted=false ", nativeQuery = true)
     void updateReview(Long id, String review);
 
@@ -81,4 +85,7 @@ public interface EnrollmentRepo extends JpaRepository<Enrollment, Long> {
     @Query(value = "UPDATE enrollment SET course_id = :courseId, remaining_amount = (SELECT price FROM course WHERE id = :courseId), amount_paid = 0, discount = 0 WHERE id = :id and marked_as_deleted=false ", nativeQuery = true)
     void updateCourse(Long id, Long courseId);
 
+    @Modifying
+    @Query(value = "UPDATE enrollment SET is_received = :isReceived WHERE id = :id and marked_as_deleted=false ", nativeQuery = true)
+    void updateIsReceived(Long id, Boolean isReceived);
 }

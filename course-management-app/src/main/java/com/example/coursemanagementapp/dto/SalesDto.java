@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 
 @Data
 public class SalesDto {
+    private Long id;
     private String clientName;
     private String courseCode;
     private String courseName;
@@ -17,5 +18,6 @@ public class SalesDto {
     private PaymentType paymentType;
     private PaymentMethod paymentMethod;
     private String currency;
+    private Boolean isReceived;
 
 }

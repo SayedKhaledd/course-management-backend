@@ -19,14 +19,17 @@ public class SalesDaoImpl implements SalesDao {
     @Override
     public List<SalesDto> findAll() {
         String query = """
-                SELECT c.name         as clientName,
+                SELECT
+                       e.id           as id,
+                       c.name         as clientName,
                        co.name        as courseName,
                        co.code        as courseCode,
                        e.amount_paid  AS amount,
                        'COURSE_PURCHASE'   AS type,
                        pm.method      AS paymentMethod,
                        e.created_date AS saleDate,
-                       e.currency     AS currency
+                       e.currency     AS currency,
+                       e.is_received  AS isReceived
                 FROM enrollment e
                          JOIN client c ON e.client_id = c.id
                          JOIN course co ON e.course_id = co.id
@@ -41,14 +44,17 @@ public class SalesDaoImpl implements SalesDao {
                 
                 UNION
                 
-                SELECT c.name         AS clientName,
+                SELECT
+                       i.id           AS id,
+                       c.name         AS clientName,
                        co.name        AS courseName,
                        co.code        as courseCode,
                        i.amount       AS amount,
                        'INSTALLMENT'  AS type,
                        pm.method      AS paymentMethod,
                        i.created_date AS saleDate,
-                       i.currency     AS currency
+                       i.currency     AS currency,
+                       i.is_received  AS isReceived
                 FROM installment i
                          JOIN enrollment e ON i.enrollment_id = e.id
                          JOIN client c ON e.client_id = c.id
@@ -64,20 +70,24 @@ public class SalesDaoImpl implements SalesDao {
                 
                 UNION
                 
-                SELECT c.name         AS clientName,
+                SELECT 
+                       r.id           AS id,
+                       c.name         AS clientName,
                        co.name        AS courseName,
                        co.code        as courseCode,
-                       r.amount * -1  AS amount,
+                       r.refunded_amount * -1  AS amount,
                        'REFUND'       AS type,
                        pm.method      AS paymentMethod,
                        r.created_date AS saleDate,
-                       r.currency     AS currency
+                       r.currency     AS currency,
+                       r.is_received  AS isReceived
                 FROM refund r
                          JOIN enrollment e ON r.enrollment_id = e.id
                          JOIN client c ON e.client_id = c.id
                          JOIN course co ON e.course_id = co.id
-                         JOIN payment_method pm ON r.payment_method_id = pm.id
-                WHERE  r.is_confirmed = TRUE
+                         JOIN payment_method pm ON r.refund_method_id = pm.id
+                         JOIN refund_status rs ON r.refund_status_id = rs.id
+                WHERE  rs.status = 'CONFIRMED'
                   and c.marked_as_deleted = FALSE
                   and co.marked_as_deleted = FALSE
                   and pm.marked_as_deleted = FALSE

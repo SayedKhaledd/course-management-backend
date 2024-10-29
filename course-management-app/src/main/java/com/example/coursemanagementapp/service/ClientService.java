@@ -34,4 +34,6 @@ public interface ClientService extends AbstractService<Client, ClientDto, Client
     void updateSpecialty(Long id, ClientDto clientDto);
 
     void updateReferralSource(Long id, Long referralSourceId);
+
+    void updateInitialCourseName(Long id, ClientDto clientDto);
 }

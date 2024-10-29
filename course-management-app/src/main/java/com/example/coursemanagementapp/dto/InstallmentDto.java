@@ -31,6 +31,8 @@ public class InstallmentDto extends AbstractDto {
     private Long paymentStatusId;
     private PaymentMethodDto paymentMethod;
     private Long paymentMethodId;
+    private Boolean isReceived = false;
+
 
     public interface Create {
     }

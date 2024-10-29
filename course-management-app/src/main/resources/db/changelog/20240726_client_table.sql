@@ -20,6 +20,7 @@ CREATE TABLE public.client
     country                  VARCHAR(255),
     nationality              VARCHAR(255),
     specialty                VARCHAR(255),
+    initial_course_name      VARCHAR(255),
     status_id                bigint,
     description              TEXT,
     referral_source_id       BIGINT,

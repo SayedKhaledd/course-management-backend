@@ -24,6 +24,9 @@ public interface EnrollmentDao extends AbstractDao<Enrollment, EnrollmentRepo> {
 
     void updatePayInInstallments(Long id, Boolean payInInstallments);
 
+    void updateInsideEgypt(Long id, Boolean insideEgypt);
+
+
     void updateReview(Long id, String review);
 
     void updateRating(Long id, Integer rating);
@@ -42,4 +45,5 @@ public interface EnrollmentDao extends AbstractDao<Enrollment, EnrollmentRepo> {
 
     void updateCourse(Long id, Long courseId);
 
+    void updateIsReceived(Long id, Boolean isReceived);
 }

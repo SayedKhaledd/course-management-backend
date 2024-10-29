@@ -17,4 +17,6 @@ public interface InstallmentService extends AbstractService<Installment, Install
     void updatePaymentStatus(Long id, Long paymentStatusId);
 
     void updatePaymentMethod(Long id, Long paymentMethodId);
+
+    void updateIsReceived(Long id, Boolean isReceived);
 }

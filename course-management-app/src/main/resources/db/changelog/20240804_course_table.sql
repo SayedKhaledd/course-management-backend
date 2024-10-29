@@ -28,10 +28,13 @@ CREATE TABLE public.course
     modified_by       CHARACTER VARYING(100) NOT NULL,
     marked_as_deleted BOOLEAN                NOT NULL DEFAULT FALSE,
     CONSTRAINT course_pk PRIMARY KEY (id),
-    CONSTRAINT course_code_uq UNIQUE (code),
     CONSTRAINT course_status_fk FOREIGN KEY (status_id) REFERENCES course_status (id)
 
 ) TABLESPACE pg_default;
 
 ALTER TABLE public.course
     OWNER TO ${user_owner};
+
+CREATE UNIQUE INDEX course_code_uq
+    ON public.course (code)
+    WHERE marked_as_deleted = false;

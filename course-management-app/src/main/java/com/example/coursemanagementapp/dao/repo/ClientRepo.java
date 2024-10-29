@@ -83,4 +83,7 @@ public interface ClientRepo extends JpaRepository<Client, Long>, JpaSpecificatio
     void updateModifiedDateAndModifiedBy(Long id, String modifiedBy, LocalDateTime currentDate);
 
 
+    @Modifying
+    @Query(value = "UPDATE client SET initial_course_name = :initialCourseName WHERE id = :id AND marked_as_deleted = false", nativeQuery = true)
+    void updateInitialCourseName(Long id, String initialCourseName);
 }

@@ -37,17 +37,24 @@ public class CourseLecturerDaoImpl implements CourseLecturerDao {
     }
 
     @Override
-    public void updatePercentage(Long id, Double percentage) {
+    public void updatePercentageAndTotalPercentageCost(Long id, Double percentage, Double totalPercentageCost) {
         log.info("CourseLecturerDao: updatePercentage() - was called");
-        getRepo().updatePercentage(id, percentage);
+        getRepo().updatePercentageAndTotalPercentageCost(id, percentage, totalPercentageCost);
+        getRepo().updateModifiedDateAndModifiedBy(id, auditAware.getCurrentAuditor().get(), LocalDateTime.now());
+    }
+
+
+    @Override
+    public void updateNoOfLecturesAndTotalFixedCost(Long id, Long noOfLectures, Double totalFixedCost) {
+        log.info("CourseLecturerDao: updateNoOfLecturesAndTotalFixedCost() - was called");
+        getRepo().updateNoOfLecturesAndTotalFixedCost(id, noOfLectures, totalFixedCost);
         getRepo().updateModifiedDateAndModifiedBy(id, auditAware.getCurrentAuditor().get(), LocalDateTime.now());
     }
 
     @Override
-    public void updateFixedValue(Long id, Double fixedValue) {
-        log.info("CourseLecturerDao: updateFixedValue() - was called");
-        getRepo().updateFixedValue(id, fixedValue);
+    public void updateLectureCostAndTotalFixedCost(Long id, Double lectureCost, Double totalFixedCost) {
+        log.info("CourseLecturerDao: updateLectureCostAndTotalFixedCost() - was called");
+        getRepo().updateLectureCostAndTotalFixedCost(id, lectureCost, totalFixedCost);
         getRepo().updateModifiedDateAndModifiedBy(id, auditAware.getCurrentAuditor().get(), LocalDateTime.now());
-
     }
 }

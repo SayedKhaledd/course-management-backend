@@ -70,7 +70,7 @@ public class CourseLecturerServiceImpl implements CourseLecturerService {
 
     @Transactional
     @Override
-    public void updatePercentage(Long id, CourseLecturerDto dto) {
+    public void updatePercentageAndTotalPercentageCost(Long id, CourseLecturerDto dto) {
         log.info("CourseLecturerServiceImpl: updatePercentage() - was called");
         CourseLecturerDto courseLecturerDtoDb = findById(id);
         historyService.create(HistoryDto.HistoryDtoBuilder()
@@ -80,23 +80,56 @@ public class CourseLecturerServiceImpl implements CourseLecturerService {
                 .oldValue(courseLecturerDtoDb.getPercentage() + "")
                 .newValue(dto.getPercentage().toString())
                 .build());
-        getDao().updatePercentage(id, dto.getPercentage());
+        dto.setTotalPercentageCost(courseLecturerDtoDb.getCourse().getPrice() * dto.getPercentage());
+        getDao().updatePercentageAndTotalPercentageCost(id, dto.getPercentage(), dto.getTotalPercentageCost());
     }
 
 
     @Transactional
     @Override
-    public void updateFixedValue(Long id, CourseLecturerDto dto) {
-        log.info("CourseLecturerServiceImpl: updateFixedValue() - was called");
+    public void updateNoOfLectures(Long id, CourseLecturerDto dto) {
+        log.info("CourseLecturerServiceImpl: updateNoOfLectures() - was called");
         CourseLecturerDto courseLecturerDtoDb = findById(id);
         historyService.create(HistoryDto.HistoryDtoBuilder()
                 .entityType(getEntityName())
                 .entityId(courseLecturerDtoDb.getId())
-                .fieldName("fixedValue")
-                .oldValue(courseLecturerDtoDb.getFixedValue() + "")
-                .newValue(dto.getFixedValue().toString())
+                .fieldName("noOfLectures")
+                .oldValue(courseLecturerDtoDb.getNoOfLectures() + "")
+                .newValue(dto.getNoOfLectures().toString())
                 .build());
-        getDao().updateFixedValue(id, dto.getFixedValue());
-
+        dto.setTotalFixedCost(dto.getNoOfLectures() * courseLecturerDtoDb.getLectureCost());
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityType(getEntityName())
+                .entityId(courseLecturerDtoDb.getId())
+                .fieldName("totalFixedCost")
+                .oldValue(courseLecturerDtoDb.getTotalFixedCost() + "")
+                .newValue(dto.getTotalFixedCost().toString())
+                .build());
+        getDao().updateNoOfLecturesAndTotalFixedCost(id, dto.getNoOfLectures(), dto.getTotalFixedCost());
     }
+
+    @Transactional
+    @Override
+    public void updateLectureCost(Long id, CourseLecturerDto dto) {
+        log.info("CourseLecturerServiceImpl: updateLectureCost() - was called");
+        CourseLecturerDto courseLecturerDtoDb = findById(id);
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityType(getEntityName())
+                .entityId(courseLecturerDtoDb.getId())
+                .fieldName("lectureCost")
+                .oldValue(courseLecturerDtoDb.getLectureCost() + "")
+                .newValue(dto.getLectureCost().toString())
+                .build());
+        dto.setTotalFixedCost(courseLecturerDtoDb.getNoOfLectures() * dto.getLectureCost());
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityType(getEntityName())
+                .entityId(courseLecturerDtoDb.getId())
+                .fieldName("totalFixedCost")
+                .oldValue(courseLecturerDtoDb.getTotalFixedCost() + "")
+                .newValue(dto.getTotalFixedCost().toString())
+                .build());
+        getDao().updateLectureCostAndTotalFixedCost(id, dto.getLectureCost(), dto.getTotalFixedCost());
+    }
+
+
 }

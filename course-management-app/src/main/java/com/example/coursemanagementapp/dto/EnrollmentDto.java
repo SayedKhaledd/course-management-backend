@@ -22,9 +22,9 @@ public class EnrollmentDto extends AbstractDto {
     @NotNull(message = "Client is mandatory", groups = {Create.class})
     private Long clientId;
     @NotNull(message = "Amount Paid is mandatory", groups = {UpdateAmountPaid.class})
-    private Double amountPaid;
+    private Double amountPaid = 0.0;
     @NotNull(message = "Remaining Amount is mandatory", groups = {UpdateRemainingAmount.class})
-    private Double remainingAmount;
+    private Double remainingAmount =0.0;
     @NotNull(message = "Currency is mandatory", groups = {UpdateCurrency.class})
     private String currency;
     @NotNull(message = "Discount is mandatory", groups = {UpdateDiscount.class})
@@ -44,6 +44,9 @@ public class EnrollmentDto extends AbstractDto {
     private Long actionTakenId;
     private ReferralSourceDto referralSource;
     private Long referralSourceId;
+
+    private Boolean insideEgypt = true;
+    private Boolean isReceived = false;
 
     public interface Create {
 

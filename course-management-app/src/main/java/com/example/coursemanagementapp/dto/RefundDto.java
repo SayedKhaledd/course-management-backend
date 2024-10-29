@@ -2,6 +2,7 @@ package com.example.coursemanagementapp.dto;
 
 import com.example.backendcoreservice.dto.AbstractDto;
 import com.example.coursemanagementapp.model.PaymentMethod;
+import com.example.coursemanagementapp.model.RefundStatus;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,21 +25,36 @@ public class RefundDto extends AbstractDto {
     private Long enrollmentId;
     private PaymentMethod paymentMethod;
     private Long paymentMethodId;
-    @NotNull(message = "Amount is mandatory", groups = {Create.class, UpdateAmount.class})
-    private Double amount;
+
+    @NotNull(message = "RefundedAmount is mandatory", groups = {Create.class, UpdateRefundedAmount.class})
+    private Double refundedAmount;
+    private Double enrollmentAmount;
+
     @NotNull(message = "Refund date is mandatory", groups = {UpdateRefundDate.class})
     private LocalDateTime refundDate;
-    @NotNull(message = "Explanation is mandatory", groups = {UpdateExplanation.class})
-    private String explanation;
+
+    @NotNull(message = "First Explanation is mandatory", groups = {UpdateFirstExplanation.class})
+    private String firstExplanation;
+
+    @NotNull(message = "Second Explanation is mandatory", groups = {UpdateSecondExplanation.class})
+    private String secondExplanation;
+
     private RefundReasonDto refundReason;
     private Long refundReasonId;
-    private Boolean isConfirmed = false;
+    private RefundStatus refundStatus;
+    private Long refundStatusId;
+    private Boolean isReceived = false;
+
 
     public interface Create {
 
     }
 
-    public interface UpdateAmount {
+    public interface UpdateRefundedAmount {
+
+    }
+
+    public interface UpdateEnrollmentAmount {
 
     }
 
@@ -46,7 +62,11 @@ public class RefundDto extends AbstractDto {
 
     }
 
-    public interface UpdateExplanation {
+    public interface UpdateFirstExplanation {
+
+    }
+
+    public interface UpdateSecondExplanation {
 
     }
 

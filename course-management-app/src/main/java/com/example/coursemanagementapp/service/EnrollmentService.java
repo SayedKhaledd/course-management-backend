@@ -28,6 +28,8 @@ public interface EnrollmentService extends AbstractService<Enrollment, Enrollmen
 
     void updatePayInInstallments(Long id, Boolean payInInstallments);
 
+    void updateInsideEgypt(Long id, Boolean insideEgypt);
+
     void updateReview(Long id, EnrollmentDto dto);
 
     void updateRating(Long id, EnrollmentDto dto);
@@ -45,4 +47,7 @@ public interface EnrollmentService extends AbstractService<Enrollment, Enrollmen
     void updateClient(Long id, Long clientId);
 
     void updateCourse(Long id, Long courseId);
+
+
+    void updateIsReceived(Long id, Boolean isReceived);
 }

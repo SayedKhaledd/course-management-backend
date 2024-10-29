@@ -49,15 +49,24 @@ public class CourseLecturerController implements AbstractController<CourseLectur
 
     @PatchMapping("/{id}/percentage")
     public ApiResponse<?> updatePercentage(@PathVariable Long id, @RequestBody @Validated(CourseLecturerDto.UpdatePercentage.class) CourseLecturerDto dto) {
-        getService().updatePercentage(id, dto);
+        getService().updatePercentageAndTotalPercentageCost(id, dto);
         return getApiResponseBuilder().buildSuccessResponse();
     }
 
-    @PatchMapping("/{id}/fixed-value")
-    public ApiResponse<?> updateFixedValue(@PathVariable Long id, @RequestBody @Validated(CourseLecturerDto.UpdateFixedValue.class) CourseLecturerDto dto) {
-        getService().updateFixedValue(id, dto);
+
+    @PatchMapping("/{id}/no-of-lectures")
+    public ApiResponse<?> updateNoOfLectures(@PathVariable Long id, @RequestBody @Validated(CourseLecturerDto.UpdateNoOfLectures.class) CourseLecturerDto dto) {
+        getService().updateNoOfLectures(id, dto);
         return getApiResponseBuilder().buildSuccessResponse();
     }
+
+    @PatchMapping("/{id}/lecture-cost")
+    public ApiResponse<?> updateLectureCost(@PathVariable Long id, @RequestBody @Validated(CourseLecturerDto.UpdateLectureCost.class) CourseLecturerDto dto) {
+        getService().updateLectureCost(id, dto);
+        return getApiResponseBuilder().buildSuccessResponse();
+    }
+
+
 
     @DeleteMapping("/{id}")
     public ApiResponse<?> delete(@PathVariable Long id) {

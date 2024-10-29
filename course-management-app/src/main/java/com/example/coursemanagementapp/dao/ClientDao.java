@@ -33,4 +33,5 @@ public interface ClientDao extends AbstractDao<Client, ClientRepo> {
 
     void updateReferralSource(Long id, Long referralSourceId);
 
+    void updateInitialCourseName(Long id, String initialCourseName);
 }

@@ -10,11 +10,14 @@ import java.util.List;
 
 public interface CourseLecturerService extends AbstractService<CourseLecturer, CourseLecturerDto, CourseLecturerTransformer, CourseLecturerDao> {
 
+    List<CourseLecturerDto> findAllByCourseId(Long courseId);
+
     void updatePaidInPercentage(Long id, Boolean paidInPercentage);
 
-    void updatePercentage(Long id, CourseLecturerDto dto);
+    void updatePercentageAndTotalPercentageCost(Long id, CourseLecturerDto dto);
 
-    void updateFixedValue(Long id, CourseLecturerDto dto);
+    void updateNoOfLectures(Long id, CourseLecturerDto dto);
 
-    List<CourseLecturerDto> findAllByCourseId(Long courseId);
+    void updateLectureCost(Long id, CourseLecturerDto dto);
+
 }

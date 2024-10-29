@@ -15,26 +15,34 @@ public interface RefundRepo extends JpaRepository<Refund, Long> {
     void updateModifiedDateAndModifiedBy(Long id, String modifiedBy, LocalDateTime currentDate);
 
     @Modifying
-    @Query(value = "UPDATE refund SET amount = :amount WHERE id = :id and marked_as_deleted=false ", nativeQuery = true)
-    void updateAmount(Long id, Double amount);
+    @Query(value = "UPDATE refund SET refunded_amount = :refundedAmount WHERE id = :id and marked_as_deleted=false ", nativeQuery = true)
+    void updateRefundedAmount(Long id, Double refundedAmount);
 
     @Modifying
     @Query(value = "UPDATE refund SET refund_date = :refundDate WHERE id = :id and marked_as_deleted=false ", nativeQuery = true)
     void updateRefundDate(Long id, LocalDateTime refundDate);
 
     @Modifying
-    @Query(value = "UPDATE refund SET is_confirmed = :isConfirmed WHERE id = :id and marked_as_deleted=false ", nativeQuery = true)
-    void updateIsConfirmed(Long id, Boolean isConfirmed);
+    @Query(value = "UPDATE refund SET first_explanation = :firstExplanation WHERE id = :id and marked_as_deleted=false ", nativeQuery = true)
+    void updateFirstExplanation(Long id, String firstExplanation);
 
     @Modifying
-    @Query(value = "UPDATE refund SET explanation = :explanation WHERE id = :id and marked_as_deleted=false ", nativeQuery = true)
-    void updateExplanation(Long id, String explanation);
+    @Query(value = "UPDATE refund SET second_explanation = :secondExplanation WHERE id = :id and marked_as_deleted=false ", nativeQuery = true)
+    void updateSecondExplanation(Long id, String secondExplanation);
 
     @Modifying
     @Query(value = "UPDATE refund SET refund_reason_id = :refundReasonId WHERE id = :id and marked_as_deleted=false ", nativeQuery = true)
     void updateRefundReason(Long id, Long refundReasonId);
 
     @Modifying
-    @Query(value = "UPDATE refund SET payment_method_id = :paymentMethodId WHERE id = :id and marked_as_deleted=false ", nativeQuery = true)
-    void updatePaymentMethod(Long id, Long paymentMethodId);
+    @Query(value = "UPDATE refund SET refund_method_id = :refundMethodId WHERE id = :id and marked_as_deleted=false ", nativeQuery = true)
+    void updateRefundMethod(Long id, Long refundMethodId);
+
+    @Modifying
+    @Query(value = "UPDATE refund SET refund_status_id = :refundStatusId WHERE id = :id and marked_as_deleted=false ", nativeQuery = true)
+    void updateRefundStatus(Long id, Long refundStatusId);
+
+    @Modifying
+    @Query(value = "UPDATE refund SET is_received = :isReceived WHERE id = :id and marked_as_deleted=false ", nativeQuery = true)
+    void updateIsReceived(Long id, Boolean isReceived);
 }

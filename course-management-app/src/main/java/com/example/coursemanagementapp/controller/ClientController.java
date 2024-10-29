@@ -127,6 +127,13 @@ public class ClientController implements AbstractController<ClientService, Clien
         return getApiResponseBuilder().buildSuccessResponse();
     }
 
+    //update initial course name
+    @PatchMapping("/{id}/initial-course-name")
+    public ApiResponse<?> updateInitialCourseName(@PathVariable Long id, @RequestBody @Validated(ClientDto.UpdateInitialCourseName.class) ClientDto clientDto) {
+        getService().updateInitialCourseName(id, clientDto);
+        return getApiResponseBuilder().buildSuccessResponse();
+    }
+
 
     @DeleteMapping("/{id}")
     public ApiResponse<?> delete(@PathVariable Long id) {

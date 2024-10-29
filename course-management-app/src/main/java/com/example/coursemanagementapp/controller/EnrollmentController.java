@@ -84,6 +84,12 @@ public class EnrollmentController implements AbstractController<EnrollmentServic
         return getApiResponseBuilder().buildSuccessResponse();
     }
 
+    @PatchMapping("/{id}/inside-egypt/{insideEgypt}")
+    public ApiResponse<?> updateInsideEgypt(@PathVariable Long id, @PathVariable Boolean insideEgypt) {
+        getService().updateInsideEgypt(id, insideEgypt);
+        return getApiResponseBuilder().buildSuccessResponse();
+    }
+
     @PatchMapping("/{id}/review")
     public ApiResponse<?> updateReview(@PathVariable Long id, @RequestBody @Validated(EnrollmentDto.UpdateReview.class) EnrollmentDto dto) {
         getService().updateReview(id, dto);

@@ -8,17 +8,20 @@ import java.time.LocalDateTime;
 
 public interface RefundDao extends AbstractDao<Refund, RefundRepo> {
 
-    void updateAmount(Long id, Double amount);
+    void updateRefundedAmount(Long id, Double refundedAmount);
 
     void updateRefundDate(Long id, LocalDateTime refundDate);
 
-    void updateIsConfirmed(Long id, Boolean isConfirmed);
+    void updateFirstExplanation(Long id, String firstExplanation);
 
-    void updateExplanation(Long id, String explanation);
+    void updateSecondExplanation(Long id, String secondExplanation);
 
     void updateRefundReason(Long id, Long refundReasonId);
 
-    void updatePaymentMethod(Long id, Long paymentMethodId);
+    void updateRefundMethod(Long id, Long refundMethodId);
 
+    void updateRefundStatus(Long id, Long refundStatusId);
+
+    void updateIsReceived(Long id, Boolean isReceived);
 
 }

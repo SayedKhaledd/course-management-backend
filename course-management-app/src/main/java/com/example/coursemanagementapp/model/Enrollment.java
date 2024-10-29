@@ -91,10 +91,17 @@ public class Enrollment extends AbstractEntity {
     @Column(name = "referral_source_id", insertable = false, updatable = false)
     private Long referralSourceId;
 
+    @Column(name = "inside_Egypt")
+    private Boolean insideEgypt = true;
+
+    @Column(name = "is_received")
+    private Boolean isReceived = false;
+
 
     @OneToMany(mappedBy = "enrollment", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Installment> installments;
 
     @OneToMany(mappedBy = "enrollment", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Refund> refunds;
+
 }

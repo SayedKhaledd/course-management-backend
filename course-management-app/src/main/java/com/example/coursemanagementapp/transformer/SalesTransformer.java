@@ -15,14 +15,16 @@ public class SalesTransformer implements ResultTransformer<SalesDto> {
     @Override
     public SalesDto transformTuple(Object[] tuple, String[] aliases) {
         SalesDto salesDto = new SalesDto();
-        salesDto.setClientName((String) tuple[0]);
-        salesDto.setCourseName((String) tuple[1]);
-        salesDto.setCourseCode((String) tuple[2]);
-        salesDto.setAmount((BigDecimal) tuple[3]);
-        salesDto.setPaymentType(PaymentType.valueOf((String) tuple[4]));
-        salesDto.setPaymentMethod(PaymentMethod.valueOf((String) tuple[5]));
-        salesDto.setDate(((Timestamp) tuple[6]).toLocalDateTime());
-        salesDto.setCurrency((String) tuple[7]);
+        salesDto.setId((Long) tuple[0]);
+        salesDto.setClientName((String) tuple[1]);
+        salesDto.setCourseName((String) tuple[2]);
+        salesDto.setCourseCode((String) tuple[3]);
+        salesDto.setAmount((BigDecimal) tuple[4]);
+        salesDto.setPaymentType(PaymentType.valueOf((String) tuple[5]));
+        salesDto.setPaymentMethod(PaymentMethod.valueOf((String) tuple[6]));
+        salesDto.setDate(((Timestamp) tuple[7]).toLocalDateTime());
+        salesDto.setCurrency((String) tuple[8]);
+        salesDto.setIsReceived((Boolean) tuple[9]);
         return salesDto;
     }
 

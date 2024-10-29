@@ -3,6 +3,8 @@ package com.example.coursemanagementapp.service;
 import com.example.coursemanagementapp.dao.EnrollmentDao;
 import com.example.coursemanagementapp.dto.EnrollmentDto;
 import com.example.coursemanagementapp.dto.HistoryDto;
+import com.example.coursemanagementapp.dto.InstallmentDto;
+import com.example.coursemanagementapp.dto.RefundDto;
 import com.example.coursemanagementapp.enums.PaymentStatus;
 import com.example.coursemanagementapp.enums.ReferralSource;
 import com.example.coursemanagementapp.model.Enrollment;
@@ -17,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.example.coursemanagementapp.enums.ActionTaken.CANCELLED;
 import static com.example.coursemanagementapp.enums.ActionTaken.DID_NOT_ENROLL;
 
 @Slf4j
@@ -33,6 +36,8 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     private final PaymentStatusService paymentStatusService;
     private final PaymentMethodService paymentMethodService;
     private final ActionTakenService actionTakenService;
+    private final InstallmentService installmentService;
+    private final RefundService refundService;
 
     @Override
     public EnrollmentDao getDao() {
@@ -102,7 +107,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
                 .newValue(dto.getAmountPaid() + "")
                 .build());
         getDao().updateAmountPaid(id, dto.getAmountPaid());
-        updateRemainingAmount(id, EnrollmentDto.EnrollmentDtoBuilder().remainingAmount(enrollmentDtoDb.getRemainingAmount() - dto.getAmountPaid()).build());
+        updateRemainingAmount(id, EnrollmentDto.EnrollmentDtoBuilder().remainingAmount(enrollmentDtoDb.getRemainingAmount() - (dto.getAmountPaid() == null ? 0 : dto.getAmountPaid())).build());
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -168,6 +173,30 @@ public class EnrollmentServiceImpl implements EnrollmentService {
                 .newValue(payInInstallments + "")
                 .build());
         getDao().updatePayInInstallments(id, payInInstallments);
+        if (payInInstallments) {
+            installmentService.create(InstallmentDto.InstallmentDtoBuilder()
+                    .enrollment(enrollmentDtoDb)
+                    .amount(enrollmentDtoDb.getRemainingAmount())
+                    .dueDate(enrollmentDtoDb.getModifiedDate())
+                    .isReceived(false)
+                    .build());
+        }
+
+    }
+
+    @Transactional
+    @Override
+    public void updateInsideEgypt(Long id, Boolean insideEgypt) {
+        log.info("EnrollmentService: updateInsideEgypt() called with id: {} and insideEgypt: {}", id, insideEgypt);
+        EnrollmentDto enrollmentDtoDb = findById(id);
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityId(id)
+                .entityType(getEntityName())
+                .fieldName("insideEgypt")
+                .oldValue(enrollmentDtoDb.getInsideEgypt() + "")
+                .newValue(insideEgypt + "")
+                .build());
+        getDao().updateInsideEgypt(id, insideEgypt);
 
     }
 
@@ -269,6 +298,13 @@ public class EnrollmentServiceImpl implements EnrollmentService {
                 .newValue(actionTakenService.findById(actionTakenId).getAction().getAction())
                 .build());
         getDao().updateActionTaken(id, actionTakenId);
+        if (actionTakenService.findById(actionTakenId).getAction().equals(CANCELLED) && enrollmentDtoDb.getPaymentStatus().getStatus().equals(PaymentStatus.PAID) &&
+                enrollmentDtoDb.getAmountPaid() > 0) {
+            refundService.create(RefundDto.RefundDtoBuilder()
+                    .enrollment(enrollmentDtoDb)
+                    .isReceived(false)
+                    .build());
+        }
 
     }
 
@@ -321,5 +357,30 @@ public class EnrollmentServiceImpl implements EnrollmentService {
                 .newValue(courseId + "")
                 .build());
         getDao().updateCourse(id, courseId);
+    }
+
+    @Transactional
+    @Override
+    public void updateIsReceived(Long id, Boolean isReceived) {
+        log.info("EnrollmentService: updateIsReceived() called with id: {} and isReceived: {}", id, isReceived);
+        EnrollmentDto enrollmentDtoDb = findById(id);
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityId(id)
+                .entityType(getEntityName())
+                .fieldName("isReceived")
+                .oldValue(enrollmentDtoDb.getIsReceived() + "")
+                .newValue(isReceived + "")
+                .build());
+        getDao().updateIsReceived(id, isReceived);
+    }
+
+    @Override
+    public void delete(Long id) {
+        log.info("EnrollmentService: delete() called with id: {}", id);
+        Enrollment enrollment = enrollmentDao.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Enrollment not found"));
+        enrollment.getInstallments().size();
+        enrollment.getRefunds().size();
+        EnrollmentService.super.delete(id);
     }
 }

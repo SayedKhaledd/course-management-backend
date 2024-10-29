@@ -41,11 +41,12 @@ public class RefundController implements AbstractController<RefundService, Refun
         return getApiResponseBuilder().buildSuccessResponse(getService().create(dto));
     }
 
-    @PatchMapping("/{id}/amount")
-    public ApiResponse<?> updateAmount(@PathVariable Long id, @RequestBody @Validated(RefundDto.UpdateAmount.class) RefundDto dto) {
-        getService().updateAmount(id, dto);
+    @PatchMapping("/{id}/refunded-amount")
+    public ApiResponse<?> updateRefundedAmount(@PathVariable Long id, @RequestBody @Validated(RefundDto.UpdateRefundedAmount.class) RefundDto dto) {
+        getService().updateRefundedAmount(id, dto);
         return getApiResponseBuilder().buildSuccessResponse();
     }
+
 
     @PatchMapping("/{id}/refund-date")
     public ApiResponse<?> updateRefundDate(@PathVariable Long id, @RequestBody @Validated(RefundDto.UpdateRefundDate.class) RefundDto dto) {
@@ -53,30 +54,38 @@ public class RefundController implements AbstractController<RefundService, Refun
         return getApiResponseBuilder().buildSuccessResponse();
     }
 
-    @PatchMapping("/{id}/is-confirmed/{isConfirmed}")
-    public ApiResponse<?> updateIsConfirmed(@PathVariable Long id, @PathVariable Boolean isConfirmed) {
-        getService().updateIsConfirmed(id, isConfirmed);
+    @PatchMapping("/{id}/first-explanation")
+    public ApiResponse<?> updateFirstExplanation(@PathVariable Long id, @RequestBody @Validated(RefundDto.UpdateFirstExplanation.class) RefundDto dto) {
+        getService().updateFirstExplanation(id, dto);
         return getApiResponseBuilder().buildSuccessResponse();
     }
 
-    @PatchMapping("/{id}/explanation")
-    public ApiResponse<?> updateExplanation(@PathVariable Long id, @RequestBody @Validated(RefundDto.UpdateExplanation.class) RefundDto dto) {
-        getService().updateExplanation(id, dto);
+    @PatchMapping("/{id}/second-explanation")
+    public ApiResponse<?> updateSecondExplanation(@PathVariable Long id, @RequestBody @Validated(RefundDto.UpdateSecondExplanation.class) RefundDto dto) {
+        getService().updateSecondExplanation(id, dto);
         return getApiResponseBuilder().buildSuccessResponse();
     }
 
 
-    @PatchMapping("/{id}/payment-method/{paymentMethodId}")
-    public ApiResponse<?> updatePaymentMethod(@PathVariable Long id, @PathVariable Long paymentMethodId) {
-        getService().updatePaymentMethod(id, paymentMethodId);
+    @PatchMapping("/{id}/refund-method/{refundMethodId}")
+    public ApiResponse<?> updatePaymentMethod(@PathVariable Long id, @PathVariable Long refundMethodId) {
+        getService().updateRefundMethod(id, refundMethodId);
         return getApiResponseBuilder().buildSuccessResponse();
     }
+
 
     @PatchMapping("/{id}/refund-reason/{refundReasonId}")
     public ApiResponse<?> updateRefundReason(@PathVariable Long id, @PathVariable Long refundReasonId) {
         getService().updateRefundReason(id, refundReasonId);
         return getApiResponseBuilder().buildSuccessResponse();
     }
+
+    @PatchMapping("/{id}/refund-status/{refundStatusId}")
+    public ApiResponse<?> updateRefundStatus(@PathVariable Long id, @PathVariable Long refundStatusId) {
+        getService().updateRefundStatus(id, refundStatusId);
+        return getApiResponseBuilder().buildSuccessResponse();
+    }
+
 
     @DeleteMapping("/{id}")
     public ApiResponse<?> delete(@PathVariable Long id) {

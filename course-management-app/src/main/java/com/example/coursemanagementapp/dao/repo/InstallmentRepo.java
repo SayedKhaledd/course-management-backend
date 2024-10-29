@@ -33,4 +33,8 @@ public interface InstallmentRepo extends JpaRepository<Installment, Long> {
     @Modifying
     @Query(value = "UPDATE installment SET payment_method_id = :paymentMethodId WHERE id = :id and marked_as_deleted=false ", nativeQuery = true)
     void updatePaymentMethod(Long id, Long paymentMethodId);
+
+    @Modifying
+    @Query(value = "UPDATE installment SET is_received = :isReceived WHERE id = :id and marked_as_deleted=false ", nativeQuery = true)
+    void updateIsReceived(Long id, Boolean isReceived);
 }

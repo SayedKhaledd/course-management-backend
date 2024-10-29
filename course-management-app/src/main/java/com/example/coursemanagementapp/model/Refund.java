@@ -38,15 +38,20 @@ public class Refund extends AbstractEntity {
     @Column(name = "payment_method_id", insertable = false, updatable = false)
     private Long paymentMethodId;
 
+    @Column(name = "refunded_amount")
+    private Double refundedAmount;
 
-    @Column(name = "amount", nullable = false)
-    private Double amount;
+    @Column(name = "enrollment_amount")
+    private Double enrollmentAmount;
 
     @Column(name = "refund_date", nullable = false)
     private LocalDateTime refundDate;
 
-    @Column(name = "explanation")
-    private String explanation;
+    @Column(name = "first_explanation")
+    private String firstExplanation;
+
+    @Column(name = "second_explanation")
+    private String secondExplanation;
 
     @JoinColumn(name = "refund_reason_id")
     @ManyToOne
@@ -55,7 +60,15 @@ public class Refund extends AbstractEntity {
     @Column(name = "refund_reason_id", insertable = false, updatable = false)
     private Long refundReasonId;
 
-    @Column(name = "is_confirmed", nullable = false)
-    private Boolean isConfirmed = false;
+    @JoinColumn(name = "refund_status_id")
+    @ManyToOne
+    private RefundStatus refundStatus;
+
+    @Column(name = "refund_status_id", insertable = false, updatable = false)
+    private Long refundStatusId;
+
+
+    @Column(name = "is_received")
+    private Boolean isReceived = false;
 
 }

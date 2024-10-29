@@ -8,11 +8,14 @@ import java.util.List;
 
 public interface CourseLecturerDao extends AbstractDao<CourseLecturer, CourseLecturerRepo> {
 
+    List<CourseLecturer> findAllByCourseId(Long courseId);
+
     void updatePaidInPercentage(Long id, Boolean paidInPercentage);
 
-    void updatePercentage(Long id, Double percentage);
+    void updatePercentageAndTotalPercentageCost(Long id, Double percentage, Double totalPercentageCost);
 
-    void updateFixedValue(Long id, Double fixedValue);
+    void updateNoOfLecturesAndTotalFixedCost(Long id, Long noOfLectures, Double totalFixedCost);
 
-    List<CourseLecturer> findAllByCourseId(Long courseId);
+    void updateLectureCostAndTotalFixedCost(Long id, Double lectureCost, Double totalFixedCost);
+
 }

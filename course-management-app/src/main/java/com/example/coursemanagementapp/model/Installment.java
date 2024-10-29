@@ -54,5 +54,8 @@ public class Installment extends AbstractEntity {
     @Column(name = "payment_method_id", insertable = false, updatable = false)
     private Long paymentMethodId;
 
+    @Column(name = "is_received")
+    private Boolean isReceived = false;
+
 
 }

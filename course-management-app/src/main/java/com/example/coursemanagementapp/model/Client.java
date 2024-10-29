@@ -33,6 +33,9 @@ public class Client extends AbstractEntity {
     @Column(name = "phone_number", nullable = false)
     private String phone;
 
+    @Column(name = "initial_course_name")
+    private String initialCourseName;
+
     @Column(name = "alternative_phone_number")
     private String alternativePhone;
 

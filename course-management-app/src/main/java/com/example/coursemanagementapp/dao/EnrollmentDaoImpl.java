@@ -77,6 +77,13 @@ public class EnrollmentDaoImpl implements EnrollmentDao {
     }
 
     @Override
+    public void updateInsideEgypt(Long id, Boolean insideEgypt) {
+        log.info("EnrollmentDao: updateInsideEgypt() - was called");
+        getRepo().updateInsideEgypt(id, insideEgypt);
+        getRepo().updateModifiedDateAndModifiedBy(id, auditAware.getCurrentAuditor().get(), LocalDateTime.now());
+    }
+
+    @Override
     public void updateReview(Long id, String review) {
         log.info("EnrollmentDao: updateReview() - was called");
         getRepo().updateReview(id, review);
@@ -141,5 +148,12 @@ public class EnrollmentDaoImpl implements EnrollmentDao {
         getRepo().updateCourse(id, courseId);
         getRepo().updateModifiedDateAndModifiedBy(id, auditAware.getCurrentAuditor().get(), LocalDateTime.now());
 
+    }
+
+    @Override
+    public void updateIsReceived(Long id, Boolean isReceived) {
+        log.info("EnrollmentDao: updateIsReceived() - was called");
+        getRepo().updateIsReceived(id, isReceived);
+        getRepo().updateModifiedDateAndModifiedBy(id, auditAware.getCurrentAuditor().get(), LocalDateTime.now());
     }
 }

@@ -18,4 +18,5 @@ public interface InstallmentDao extends AbstractDao<Installment, InstallmentRepo
 
     void updatePaymentMethod(Long id, Long paymentMethodId);
 
+    void updateIsReceived(Long id, Boolean isReceived);
 }

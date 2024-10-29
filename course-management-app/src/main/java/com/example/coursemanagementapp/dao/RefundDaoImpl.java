@@ -22,9 +22,9 @@ public class RefundDaoImpl implements RefundDao {
     }
 
     @Override
-    public void updateAmount(Long id, Double amount) {
+    public void updateRefundedAmount(Long id, Double refundedAmount) {
         log.info("RefundDao: updateAmount() - was called");
-        getRepo().updateAmount(id, amount);
+        getRepo().updateRefundedAmount(id, refundedAmount);
         getRepo().updateModifiedDateAndModifiedBy(id, auditAware.getCurrentAuditor().get(), LocalDateTime.now());
     }
 
@@ -35,20 +35,23 @@ public class RefundDaoImpl implements RefundDao {
         getRepo().updateModifiedDateAndModifiedBy(id, auditAware.getCurrentAuditor().get(), LocalDateTime.now());
     }
 
-    @Override
-    public void updateIsConfirmed(Long id, Boolean isConfirmed) {
-        log.info("RefundDao: updateIsConfirmed() - was called");
-        getRepo().updateIsConfirmed(id, isConfirmed);
-        getRepo().updateModifiedDateAndModifiedBy(id, auditAware.getCurrentAuditor().get(), LocalDateTime.now());
-    }
 
     @Override
-    public void updateExplanation(Long id, String explanation) {
-        log.info("RefundDao: updateExplanation() - was called");
-        getRepo().updateExplanation(id, explanation);
+    public void updateFirstExplanation(Long id, String firstExplanation) {
+        log.info("RefundDao: updateFirstExplanation() - was called");
+        getRepo().updateFirstExplanation(id, firstExplanation);
         getRepo().updateModifiedDateAndModifiedBy(id, auditAware.getCurrentAuditor().get(), LocalDateTime.now());
 
     }
+
+    @Override
+    public void updateSecondExplanation(Long id, String secondExplanation) {
+        log.info("RefundDao: updateSecondExplanation() - was called");
+        getRepo().updateSecondExplanation(id, secondExplanation);
+        getRepo().updateModifiedDateAndModifiedBy(id, auditAware.getCurrentAuditor().get(), LocalDateTime.now());
+
+    }
+
 
     @Override
     public void updateRefundReason(Long id, Long refundReasonId) {
@@ -59,10 +62,25 @@ public class RefundDaoImpl implements RefundDao {
     }
 
     @Override
-    public void updatePaymentMethod(Long id, Long paymentMethodId) {
-        log.info("RefundDao: updatePaymentMethod() - was called");
-        getRepo().updatePaymentMethod(id, paymentMethodId);
+    public void updateRefundMethod(Long id, Long refundMethodId) {
+        log.info("RefundDao: updateRefundMethod() - was called");
+        getRepo().updateRefundMethod(id, refundMethodId);
         getRepo().updateModifiedDateAndModifiedBy(id, auditAware.getCurrentAuditor().get(), LocalDateTime.now());
 
+    }
+
+    @Override
+    public void updateRefundStatus(Long id, Long refundStatusId) {
+        log.info("RefundDao: updateRefundStatus() - was called");
+        getRepo().updateRefundStatus(id, refundStatusId);
+        getRepo().updateModifiedDateAndModifiedBy(id, auditAware.getCurrentAuditor().get(), LocalDateTime.now());
+
+    }
+
+    @Override
+    public void updateIsReceived(Long id, Boolean isReceived) {
+        log.info("RefundDao: updateIsReceived() - was called");
+        getRepo().updateIsReceived(id, isReceived);
+        getRepo().updateModifiedDateAndModifiedBy(id, auditAware.getCurrentAuditor().get(), LocalDateTime.now());
     }
 }

@@ -215,4 +215,18 @@ public class ClientServiceImpl implements ClientService {
         getDao().updateReferralSource(id, referralSourceId);
     }
 
+    @Transactional
+    @Override
+    public void updateInitialCourseName(Long id, ClientDto clientDto) {
+        log.info("ClientService: updateInitialCourseName() - was called with id: {} and clientDto: {}", id, clientDto);
+        ClientDto clientDtoDb = findById(id);
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityId(id)
+                .entityType(getEntityName())
+                .fieldName("initialCourseName")
+                .oldValue(clientDtoDb.getInitialCourseName())
+                .newValue(clientDto.getInitialCourseName())
+                .build());
+        getDao().updateInitialCourseName(id, clientDto.getInitialCourseName());
+    }
 }

@@ -3,18 +3,20 @@ package com.example.coursemanagementapp.service;
 import com.example.coursemanagementapp.dao.RefundDao;
 import com.example.coursemanagementapp.dto.HistoryDto;
 import com.example.coursemanagementapp.dto.RefundDto;
+import com.example.coursemanagementapp.enums.ActionTaken;
+import com.example.coursemanagementapp.enums.RefundStatus;
 import com.example.coursemanagementapp.model.Enrollment;
 import com.example.coursemanagementapp.model.Refund;
 import com.example.coursemanagementapp.transformer.RefundTransformer;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
-@AllArgsConstructor
 public class RefundServiceImpl implements RefundService {
 
     private final RefundDao refundDao;
@@ -23,6 +25,22 @@ public class RefundServiceImpl implements RefundService {
     private final PaymentMethodService paymentMethodService;
     private final RefundReasonService refundReasonService;
     private final HistoryService historyService;
+    private final RefundStatusService refundStatusService;
+    private final ActionTakenService actionTakenService;
+
+    public RefundServiceImpl(RefundDao refundDao, RefundTransformer refundTransformer,
+                             @Lazy EnrollmentService enrollmentService, PaymentMethodService paymentMethodService,
+                             RefundReasonService refundReasonService, HistoryService historyService,
+                             RefundStatusService refundStatusService, ActionTakenService actionTakenService) {
+        this.refundDao = refundDao;
+        this.refundTransformer = refundTransformer;
+        this.enrollmentService = enrollmentService;
+        this.paymentMethodService = paymentMethodService;
+        this.refundReasonService = refundReasonService;
+        this.historyService = historyService;
+        this.refundStatusService = refundStatusService;
+        this.actionTakenService = actionTakenService;
+    }
 
     @Override
     public RefundDao getDao() {
@@ -45,23 +63,28 @@ public class RefundServiceImpl implements RefundService {
         Enrollment enrollment = enrollmentService.findEntityByClientIdAndCourseId(dto.getEnrollment().getClientId(), dto.getEnrollment().getCourseId());
         entity.setEnrollmentId(enrollment.getId());
         entity.setEnrollment(enrollment);
+        entity.setEnrollmentAmount(enrollment.getAmountPaid());
+        entity.setRefundedAmount(dto.getRefundedAmount() == null ? enrollment.getAmountPaid() : dto.getRefundedAmount());
+        entity.setRefundStatus(refundStatusService.findEntityByStatus(RefundStatus.NOT_CONFIRMED));
+        entity.setPaymentMethod(enrollment.getPaymentMethod());
+        entity.setIsReceived(false);
         return entity;
     }
 
 
     @Transactional
     @Override
-    public void updateAmount(Long id, RefundDto dto) {
+    public void updateRefundedAmount(Long id, RefundDto dto) {
         log.info("RefundServiceImpl: updateAmount() - was called");
         RefundDto refundDtoDb = findById(id);
         historyService.create(HistoryDto.HistoryDtoBuilder()
                 .entityType(getEntityName())
                 .entityId(refundDtoDb.getId())
                 .fieldName("amount")
-                .oldValue(refundDtoDb.getAmount() + "")
-                .newValue(dto.getAmount() + "")
+                .oldValue(refundDtoDb.getRefundedAmount() + "")
+                .newValue(dto.getRefundedAmount() + "")
                 .build());
-        getDao().updateAmount(id, dto.getAmount());
+        getDao().updateRefundedAmount(id, dto.getRefundedAmount());
     }
 
     @Transactional
@@ -82,33 +105,32 @@ public class RefundServiceImpl implements RefundService {
 
     @Transactional
     @Override
-    public void updateIsConfirmed(Long id, Boolean isConfirmed) {
-        log.info("RefundServiceImpl: updateIsConfirmed() - was called");
+    public void updateFirstExplanation(Long id, RefundDto dto) {
+        log.info("RefundServiceImpl: updateFirstExplanation() - was called");
         RefundDto refundDtoDb = findById(id);
         historyService.create(HistoryDto.HistoryDtoBuilder()
                 .entityType(getEntityName())
                 .entityId(refundDtoDb.getId())
-                .fieldName("isConfirmed")
-                .oldValue(refundDtoDb.getIsConfirmed() + "")
-                .newValue(isConfirmed + "")
+                .fieldName("firstExplanation")
+                .oldValue(refundDtoDb.getFirstExplanation())
+                .newValue(dto.getFirstExplanation())
                 .build());
-        getDao().updateIsConfirmed(id, isConfirmed);
-
+        getDao().updateFirstExplanation(id, dto.getFirstExplanation());
     }
 
     @Transactional
     @Override
-    public void updateExplanation(Long id, RefundDto dto) {
-        log.info("RefundServiceImpl: updateExplanation() - was called");
+    public void updateSecondExplanation(Long id, RefundDto dto) {
+        log.info("RefundServiceImpl: updateSecondExplanation() - was called");
         RefundDto refundDtoDb = findById(id);
         historyService.create(HistoryDto.HistoryDtoBuilder()
                 .entityType(getEntityName())
                 .entityId(refundDtoDb.getId())
-                .fieldName("explanation")
-                .oldValue(refundDtoDb.getExplanation())
-                .newValue(dto.getExplanation())
+                .fieldName("secondExplanation")
+                .oldValue(refundDtoDb.getSecondExplanation())
+                .newValue(dto.getSecondExplanation())
                 .build());
-        getDao().updateExplanation(id, dto.getExplanation());
+        getDao().updateSecondExplanation(id, dto.getSecondExplanation());
 
     }
 
@@ -133,20 +155,56 @@ public class RefundServiceImpl implements RefundService {
 
     @Transactional
     @Override
-    public void updatePaymentMethod(Long id, Long paymentMethodId) {
-        log.info("RefundServiceImpl: updatePaymentMethod() - was called");
+    public void updateRefundMethod(Long id, Long paymentMethodId) {
+        log.info("RefundServiceImpl: updateRefundMethod() - was called");
         if (!paymentMethodService.existsById(paymentMethodId)) {
-            throw new EntityNotFoundException("Payment method is not found");
+            throw new EntityNotFoundException("Refund method is not found");
         }
         RefundDto refundDtoDb = findById(id);
         historyService.create(HistoryDto.HistoryDtoBuilder()
                 .entityType(getEntityName())
                 .entityId(refundDtoDb.getId())
-                .fieldName("paymentMethod")
+                .fieldName("refundMethod")
                 .oldValue(refundDtoDb.getPaymentMethod() == null ? "" : refundDtoDb.getPaymentMethod().getMethod().getMethod())
                 .newValue(paymentMethodService.findById(paymentMethodId).getMethod().getMethod())
                 .build());
-        getDao().updatePaymentMethod(id, paymentMethodId);
+        getDao().updateRefundMethod(id, paymentMethodId);
+    }
 
+    @Transactional
+    @Override
+    public void updateRefundStatus(Long id, Long refundStatusId) {
+        log.info("RefundServiceImpl: updateRefundStatus() - was called");
+        if (!refundStatusService.existsById(refundStatusId)) {
+            throw new EntityNotFoundException("Refund status is not found");
+        }
+        RefundDto refundDtoDb = findById(id);
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityType(getEntityName())
+                .entityId(refundDtoDb.getId())
+                .fieldName("refundStatus")
+                .oldValue(refundDtoDb.getRefundStatus().getStatus().getStatus())
+                .newValue(refundStatusService.findById(refundStatusId).getStatus().getStatus())
+                .build());
+        getDao().updateRefundStatus(id, refundStatusId);
+
+        if(refundStatusService.findById(refundStatusId).getStatus().equals(RefundStatus.CANCELLED)){
+           enrollmentService.updateActionTaken(refundDtoDb.getEnrollmentId(),actionTakenService.findEntityByName(ActionTaken.ENROLLED).getId());
+        }
+
+    }
+    @Transactional
+    @Override
+    public void updateIsReceived(Long id, Boolean isReceived) {
+        log.info("RefundServiceImpl: updateIsReceived() - was called");
+        RefundDto refundDtoDb = findById(id);
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityType(getEntityName())
+                .entityId(refundDtoDb.getId())
+                .fieldName("isReceived")
+                .oldValue(refundDtoDb.getIsReceived() + "")
+                .newValue(isReceived + "")
+                .build());
+        getDao().updateIsReceived(id, isReceived);
     }
 }

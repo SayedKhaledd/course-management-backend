@@ -26,6 +26,8 @@ CREATE TABLE public.enrollment
     referral_source_id BIGINT                 NOT NULL,
     action_taken_id    BIGINT,
     description        TEXT,
+    inside_Egypt       BOOLEAN                NOT NULL DEFAULT TRUE,
+    is_received        BOOLEAN                NOT NULL DEFAULT FALSE,
 
 
     created_date       TIMESTAMP              NOT NULL,

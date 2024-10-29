@@ -2,20 +2,21 @@ package com.example.coursemanagementapp.service;
 
 import com.example.backendcoreservice.exception.CustomException;
 import com.example.coursemanagementapp.dao.InstallmentDao;
+import com.example.coursemanagementapp.dto.EnrollmentDto;
 import com.example.coursemanagementapp.dto.HistoryDto;
 import com.example.coursemanagementapp.dto.InstallmentDto;
+import com.example.coursemanagementapp.enums.PaymentStatus;
 import com.example.coursemanagementapp.model.Enrollment;
 import com.example.coursemanagementapp.model.Installment;
 import com.example.coursemanagementapp.transformer.InstallmentTransformer;
 import jakarta.persistence.EntityNotFoundException;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
-@AllArgsConstructor
 public class InstallmentServiceImpl implements InstallmentService {
 
     private final InstallmentDao installmentDao;
@@ -24,6 +25,17 @@ public class InstallmentServiceImpl implements InstallmentService {
     private final PaymentStatusService paymentStatusService;
     private final PaymentMethodService paymentMethodService;
     private final HistoryService historyService;
+
+    public InstallmentServiceImpl(InstallmentDao installmentDao, InstallmentTransformer installmentTransformer,
+                                  @Lazy EnrollmentService enrollmentService, PaymentStatusService paymentStatusService, PaymentMethodService paymentMethodService, HistoryService historyService) {
+
+        this.installmentDao = installmentDao;
+        this.installmentTransformer = installmentTransformer;
+        this.enrollmentService = enrollmentService;
+        this.paymentStatusService = paymentStatusService;
+        this.paymentMethodService = paymentMethodService;
+        this.historyService = historyService;
+    }
 
     @Override
     public InstallmentDao getDao() {
@@ -64,7 +76,6 @@ public class InstallmentServiceImpl implements InstallmentService {
                 .oldValue(installmentDtoDb.getAmount() + "")
                 .newValue(dto.getAmount() + "")
                 .build());
-
         getDao().updateAmount(id, dto.getAmount());
     }
 
@@ -80,7 +91,6 @@ public class InstallmentServiceImpl implements InstallmentService {
                 .oldValue(installmentDtoDb.getDueDate() + "")
                 .newValue(dto.getDueDate() + "")
                 .build());
-
         getDao().updateDueDate(id, dto.getDueDate());
 
     }
@@ -117,8 +127,13 @@ public class InstallmentServiceImpl implements InstallmentService {
                 .oldValue(installmentDtoDb.getPaymentStatus() == null ? "" : installmentDtoDb.getPaymentStatus().getStatus().getStatus())
                 .newValue(paymentStatusService.findById(paymentStatusId).getStatus().getStatus())
                 .build());
-
         getDao().updatePaymentStatus(id, paymentStatusId);
+        if (paymentStatusService.findById(paymentStatusId).getStatus().equals(PaymentStatus.PAID)) {
+            enrollmentService.updateAmountPaid(installmentDtoDb.getEnrollmentId(),
+                    EnrollmentDto.EnrollmentDtoBuilder()
+                            .amountPaid(installmentDtoDb.getAmount())
+                            .build());
+        }
 
     }
 
@@ -139,6 +154,20 @@ public class InstallmentServiceImpl implements InstallmentService {
                 .build());
 
         getDao().updatePaymentMethod(id, paymentMethodId);
+    }
 
+    @Transactional
+    @Override
+    public void updateIsReceived(Long id, Boolean isReceived) {
+        log.info("InstallmentServiceImpl: updateIsReceived() - was called");
+        InstallmentDto installmentDtoDb = findById(id);
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityId(id)
+                .entityType(getEntityName())
+                .fieldName("isReceived")
+                .oldValue(installmentDtoDb.getIsReceived() + "")
+                .newValue(isReceived + "")
+                .build());
+        getDao().updateIsReceived(id, isReceived);
     }
 }

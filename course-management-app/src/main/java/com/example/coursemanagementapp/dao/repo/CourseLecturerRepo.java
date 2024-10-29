@@ -12,6 +12,8 @@ import java.util.List;
 @Repository
 public interface CourseLecturerRepo extends JpaRepository<CourseLecturer, Long> {
 
+    List<CourseLecturer> findAllByCourseId(Long courseId);
+
 
     @Modifying
     @Query(value = "UPDATE course_lecturer SET modified_date = :currentDate, modified_by = :modifiedBy WHERE id = :id AND marked_as_deleted = false", nativeQuery = true)
@@ -22,12 +24,15 @@ public interface CourseLecturerRepo extends JpaRepository<CourseLecturer, Long> 
     void updatePaidInPercentage(Long id, Boolean paidInPercentage);
 
     @Modifying
-    @Query(value = "UPDATE course_lecturer SET percentage_value = :percentage WHERE id = :id and marked_as_deleted=false ", nativeQuery = true)
-    void updatePercentage(Long id, Double percentage);
+    @Query(value = "UPDATE course_lecturer SET percentage = :percentage, total_percentage_cost = :totalPercentageCost WHERE id = :id and marked_as_deleted=false ", nativeQuery = true)
+    void updatePercentageAndTotalPercentageCost(Long id, Double percentage, Double totalPercentageCost);
+
 
     @Modifying
-    @Query(value = "UPDATE course_lecturer SET fixed_value = :fixedValue WHERE id = :id and marked_as_deleted=false ", nativeQuery = true)
-    void updateFixedValue(Long id, Double fixedValue);
+    @Query(value = "UPDATE course_lecturer SET no_of_lectures = :noOfLectures, total_fixed_cost = :totalFixedCost WHERE id = :id and marked_as_deleted=false ", nativeQuery = true)
+    void updateNoOfLecturesAndTotalFixedCost(Long id, Long noOfLectures, Double totalFixedCost);
 
-    List<CourseLecturer> findAllByCourseId(Long courseId);
+    @Modifying
+    @Query(value = "UPDATE course_lecturer SET lecture_cost = :lectureCost, total_fixed_cost = :totalFixedCost WHERE id = :id and marked_as_deleted=false ", nativeQuery = true)
+    void updateLectureCostAndTotalFixedCost(Long id, Double lectureCost, Double totalFixedCost);
 }

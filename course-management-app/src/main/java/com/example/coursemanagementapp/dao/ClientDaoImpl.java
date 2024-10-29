@@ -118,4 +118,11 @@ public class ClientDaoImpl implements ClientDao {
         getRepo().updateReferralSource(id, referralSourceId);
         getRepo().updateModifiedDateAndModifiedBy(id, auditAware.getCurrentAuditor().get(), LocalDateTime.now());
     }
+
+    @Override
+    public void updateInitialCourseName(Long id, String initialCourseName) {
+        log.info("ClientDao: updateInitialCourseName() - was called");
+        getRepo().updateInitialCourseName(id, initialCourseName);
+        getRepo().updateModifiedDateAndModifiedBy(id, auditAware.getCurrentAuditor().get(), LocalDateTime.now());
+    }
 }
