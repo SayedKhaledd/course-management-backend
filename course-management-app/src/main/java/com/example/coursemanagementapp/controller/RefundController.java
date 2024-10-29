@@ -68,7 +68,7 @@ public class RefundController implements AbstractController<RefundService, Refun
 
 
     @PatchMapping("/{id}/refund-method/{refundMethodId}")
-    public ApiResponse<?> updatePaymentMethod(@PathVariable Long id, @PathVariable Long refundMethodId) {
+    public ApiResponse<?> updateRefundMethod(@PathVariable Long id, @PathVariable Long refundMethodId) {
         getService().updateRefundMethod(id, refundMethodId);
         return getApiResponseBuilder().buildSuccessResponse();
     }

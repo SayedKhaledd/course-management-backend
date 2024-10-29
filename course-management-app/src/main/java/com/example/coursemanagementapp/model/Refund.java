@@ -67,8 +67,18 @@ public class Refund extends AbstractEntity {
     @Column(name = "refund_status_id", insertable = false, updatable = false)
     private Long refundStatusId;
 
+    @JoinColumn(name = "refund_method_id")
+    @ManyToOne
+    private PaymentMethod refundMethod;
+
+
+    @Column(name = "refund_method_id", insertable = false, updatable = false)
+    private Long refundMethodId;
+
 
     @Column(name = "is_received")
     private Boolean isReceived = false;
+
+
 
 }

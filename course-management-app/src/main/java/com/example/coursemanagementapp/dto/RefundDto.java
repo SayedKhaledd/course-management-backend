@@ -42,6 +42,10 @@ public class RefundDto extends AbstractDto {
     private RefundReasonDto refundReason;
     private Long refundReasonId;
     private RefundStatus refundStatus;
+
+    private PaymentMethodDto refundMethod;
+    private Long refundMethodId;
+
     private Long refundStatusId;
     private Boolean isReceived = false;
 
