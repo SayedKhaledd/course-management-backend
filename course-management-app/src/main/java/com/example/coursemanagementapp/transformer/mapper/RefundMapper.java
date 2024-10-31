@@ -7,7 +7,8 @@ import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR,
-        uses = {EnrollmentMapper.class, PaymentMethodMapper.class, RefundReasonMapper.class})
+        uses = {EnrollmentMapper.class, PaymentMethodMapper.class, RefundReasonMapper.class,
+                RefundStatusMapper.class, RefundMethodMapper.class})
 public interface RefundMapper extends AbstractMapper<Refund, RefundDto> {
 
 

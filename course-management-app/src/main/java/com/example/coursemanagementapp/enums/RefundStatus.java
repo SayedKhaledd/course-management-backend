@@ -1,5 +1,6 @@
 package com.example.coursemanagementapp.enums;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -7,7 +8,13 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum RefundStatus {
     CONFIRMED("CONFIRMED"),
-    NOT_CONFIRMED("NOT_CONFIRMED"),
-    CANCELLED("CANCELLED");
+    CANCEL("Cancel refund"),
+    WAITING("waiting");
     private final String status;
+
+    @JsonValue
+    @Override
+    public String toString() {
+        return status;
+    }
 }

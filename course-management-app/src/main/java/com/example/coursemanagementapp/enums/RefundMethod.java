@@ -6,16 +6,18 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum RefundReason {
-    DID_NOT_LIKE_THE_COURSE("DID_NOT_LIKE_THE_COURSE"),
-    DID_NOT_ATTEND("DID_NOT_ATTEND"),
-    CHANGE_SPECIALITY("Change Specaility"),
-    OTHER("Other");
-    private final String reason;
+public enum RefundMethod {
+    CASH("Cash"),
+    BANK_DEPOSIT("Bank Deposit"),
+    VODAFONE("Vodafone"),
+    STRIPE("Stripe"),
+    BANK_TRANSFER("Bank transfer");
+
+    private final String method;
 
     @JsonValue
     @Override
     public String toString() {
-        return reason;
+        return method;
     }
 }

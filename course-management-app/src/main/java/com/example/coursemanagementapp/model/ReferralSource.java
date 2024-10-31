@@ -1,6 +1,7 @@
 package com.example.coursemanagementapp.model;
 
 import com.example.backendcoreservice.model.AbstractEntity;
+import com.example.coursemanagementapp.enums.GenericEnumConverter;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,7 +22,13 @@ public class ReferralSource extends AbstractEntity {
     private Long id;
 
     @Column(name = "source")
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = ReferralSourceConverter.class)
     private com.example.coursemanagementapp.enums.ReferralSource source;
+
+    public static class ReferralSourceConverter extends GenericEnumConverter<com.example.coursemanagementapp.enums.ReferralSource> {
+        public ReferralSourceConverter() {
+            super(com.example.coursemanagementapp.enums.ReferralSource.class);
+        }
+    }
 
 }

@@ -35,7 +35,7 @@ CREATE TABLE public.refund
     CONSTRAINT refund_enrollment_id_fk FOREIGN KEY (enrollment_id) REFERENCES public.enrollment (id),
     CONSTRAINT refund_payment_method_id_fk FOREIGN KEY (payment_method_id) REFERENCES public.payment_method (id),
     CONSTRAINT refund_refund_reason_id_fk FOREIGN KEY (refund_reason_id) REFERENCES public.refund_reason (id),
-    CONSTRAINT refund_refund_method_id_fk FOREIGN KEY (refund_method_id) REFERENCES public.payment_method (id),
+    CONSTRAINT refund_refund_method_id_fk FOREIGN KEY (refund_method_id) REFERENCES public.refund_method (id),
     CONSTRAINT refund_refund_status_id_fk FOREIGN KEY (refund_status_id) REFERENCES public.refund_status (id)
 
 ) TABLESPACE pg_default;

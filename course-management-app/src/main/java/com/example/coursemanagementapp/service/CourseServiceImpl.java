@@ -42,7 +42,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public Course doBeforeCreate(Course entity, CourseDto dto) {
-        entity.setCourseStatus(courseStatusService.findEntityByStatus(CourseStatus.NOT_STARTED));
+        entity.setCourseStatus(courseStatusService.findEntityByStatus(CourseStatus.PENDING));
         return entity;
     }
 

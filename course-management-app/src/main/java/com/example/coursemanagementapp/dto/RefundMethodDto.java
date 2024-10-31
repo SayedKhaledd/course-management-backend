@@ -10,10 +10,10 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@SuperBuilder(toBuilder = true, builderMethodName = "ClientStatusDtoBuilder")
+@SuperBuilder(toBuilder = true, builderMethodName = "RefundMethodDtoBuilder")
 @Data
-public class ClientStatusDto extends AbstractDto {
+public class RefundMethodDto extends AbstractDto {
     private Long id;
-    private com.example.coursemanagementapp.enums.ClientStatus status;
+    private com.example.coursemanagementapp.enums.RefundMethod method;
 
 }

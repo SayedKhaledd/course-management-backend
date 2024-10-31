@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @EqualsAndHashCode(callSuper = true)
@@ -52,6 +53,9 @@ public class Course extends AbstractEntity {
 
     @Column(name = "price")
     private Double price;
+
+    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<Enrollment> enrollments;
 
 
 }

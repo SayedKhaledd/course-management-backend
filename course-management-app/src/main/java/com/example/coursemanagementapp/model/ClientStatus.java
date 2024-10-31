@@ -1,6 +1,7 @@
 package com.example.coursemanagementapp.model;
 
 import com.example.backendcoreservice.model.AbstractEntity;
+import com.example.coursemanagementapp.enums.GenericEnumConverter;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,7 +22,14 @@ public class ClientStatus extends AbstractEntity {
     private Long id;
 
     @Column(name = "status")
-    @Enumerated(EnumType.STRING)
+
+    @Convert(converter = ClientStatusConverter .class)
     private com.example.coursemanagementapp.enums.ClientStatus status;
+
+    public static class ClientStatusConverter extends GenericEnumConverter<com.example.coursemanagementapp.enums.ClientStatus> {
+        public ClientStatusConverter() {
+            super(com.example.coursemanagementapp.enums.ClientStatus.class);
+        }
+    }
 
 }

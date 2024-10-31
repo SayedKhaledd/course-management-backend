@@ -69,8 +69,7 @@ public class Refund extends AbstractEntity {
 
     @JoinColumn(name = "refund_method_id")
     @ManyToOne
-    private PaymentMethod refundMethod;
-
+    private RefundMethod refundMethod;
 
     @Column(name = "refund_method_id", insertable = false, updatable = false)
     private Long refundMethodId;

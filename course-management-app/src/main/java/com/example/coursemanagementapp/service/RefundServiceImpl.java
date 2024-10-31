@@ -9,7 +9,6 @@ import com.example.coursemanagementapp.model.Enrollment;
 import com.example.coursemanagementapp.model.Refund;
 import com.example.coursemanagementapp.transformer.RefundTransformer;
 import jakarta.persistence.EntityNotFoundException;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -22,20 +21,20 @@ public class RefundServiceImpl implements RefundService {
     private final RefundDao refundDao;
     private final RefundTransformer refundTransformer;
     private final EnrollmentService enrollmentService;
-    private final PaymentMethodService paymentMethodService;
+    private final RefundMethodService refundMethodService;
     private final RefundReasonService refundReasonService;
     private final HistoryService historyService;
     private final RefundStatusService refundStatusService;
     private final ActionTakenService actionTakenService;
 
     public RefundServiceImpl(RefundDao refundDao, RefundTransformer refundTransformer,
-                             @Lazy EnrollmentService enrollmentService, PaymentMethodService paymentMethodService,
+                             @Lazy EnrollmentService enrollmentService, RefundMethodService refundMethodService,
                              RefundReasonService refundReasonService, HistoryService historyService,
                              RefundStatusService refundStatusService, ActionTakenService actionTakenService) {
         this.refundDao = refundDao;
         this.refundTransformer = refundTransformer;
         this.enrollmentService = enrollmentService;
-        this.paymentMethodService = paymentMethodService;
+        this.refundMethodService = refundMethodService;
         this.refundReasonService = refundReasonService;
         this.historyService = historyService;
         this.refundStatusService = refundStatusService;
@@ -65,7 +64,7 @@ public class RefundServiceImpl implements RefundService {
         entity.setEnrollment(enrollment);
         entity.setEnrollmentAmount(enrollment.getAmountPaid());
         entity.setRefundedAmount(dto.getRefundedAmount() == null ? enrollment.getAmountPaid() : dto.getRefundedAmount());
-        entity.setRefundStatus(refundStatusService.findEntityByStatus(RefundStatus.NOT_CONFIRMED));
+        entity.setRefundStatus(refundStatusService.findEntityByStatus(RefundStatus.WAITING));
         entity.setPaymentMethod(enrollment.getPaymentMethod());
         entity.setIsReceived(false);
         return entity;
@@ -155,9 +154,9 @@ public class RefundServiceImpl implements RefundService {
 
     @Transactional
     @Override
-    public void updateRefundMethod(Long id, Long paymentMethodId) {
+    public void updateRefundMethod(Long id, Long refundMethodId) {
         log.info("RefundServiceImpl: updateRefundMethod() - was called");
-        if (!paymentMethodService.existsById(paymentMethodId)) {
+        if (!refundMethodService.existsById(refundMethodId)) {
             throw new EntityNotFoundException("Refund method is not found");
         }
         RefundDto refundDtoDb = findById(id);
@@ -165,10 +164,10 @@ public class RefundServiceImpl implements RefundService {
                 .entityType(getEntityName())
                 .entityId(refundDtoDb.getId())
                 .fieldName("refundMethod")
-                .oldValue(refundDtoDb.getPaymentMethod() == null ? "" : refundDtoDb.getPaymentMethod().getMethod().getMethod())
-                .newValue(paymentMethodService.findById(paymentMethodId).getMethod().getMethod())
+                .oldValue(refundDtoDb.getRefundMethod() == null ? "" : refundDtoDb.getRefundMethod().getMethod().getMethod())
+                .newValue(refundMethodService.findById(refundMethodId).getMethod().getMethod())
                 .build());
-        getDao().updateRefundMethod(id, paymentMethodId);
+        getDao().updateRefundMethod(id, refundMethodId);
     }
 
     @Transactional
@@ -188,7 +187,7 @@ public class RefundServiceImpl implements RefundService {
                 .build());
         getDao().updateRefundStatus(id, refundStatusId);
 
-        if(refundStatusService.findById(refundStatusId).getStatus().equals(RefundStatus.CANCELLED)){
+        if(refundStatusService.findById(refundStatusId).getStatus().equals(RefundStatus.CANCEL)){
            enrollmentService.updateActionTaken(refundDtoDb.getEnrollmentId(),actionTakenService.findEntityByName(ActionTaken.ENROLLED).getId());
         }
 

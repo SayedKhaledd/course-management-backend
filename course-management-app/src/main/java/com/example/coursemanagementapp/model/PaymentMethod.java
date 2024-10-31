@@ -1,6 +1,7 @@
 package com.example.coursemanagementapp.model;
 
 import com.example.backendcoreservice.model.AbstractEntity;
+import com.example.coursemanagementapp.enums.GenericEnumConverter;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,7 +22,13 @@ public class PaymentMethod extends AbstractEntity {
     private Long id;
 
     @Column(name = "method")
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = PaymentMethodConverter.class)
     private com.example.coursemanagementapp.enums.PaymentMethod method;
+
+    public static class PaymentMethodConverter extends GenericEnumConverter<com.example.coursemanagementapp.enums.PaymentMethod> {
+        public PaymentMethodConverter() {
+            super(com.example.coursemanagementapp.enums.PaymentMethod.class);
+        }
+    }
 
 }

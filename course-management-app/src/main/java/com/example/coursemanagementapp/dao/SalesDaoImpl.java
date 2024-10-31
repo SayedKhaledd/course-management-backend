@@ -35,7 +35,7 @@ public class SalesDaoImpl implements SalesDao {
                          JOIN course co ON e.course_id = co.id
                          JOIN payment_method pm ON e.payment_method_id = pm.id
                          JOIN payment_status ps ON e.payment_status_id = ps.id
-                WHERE ps.status = 'PAID'
+                WHERE ps.status = 'Done'
                   and c.marked_as_deleted = FALSE
                   and co.marked_as_deleted = FALSE
                   and pm.marked_as_deleted = FALSE
@@ -61,7 +61,7 @@ public class SalesDaoImpl implements SalesDao {
                          JOIN course co ON e.course_id = co.id
                          JOIN payment_method pm ON i.payment_method_id = pm.id
                          JOIN payment_status ps ON i.payment_status_id = ps.id
-                WHERE ps.status = 'PAID'
+                WHERE ps.status = 'Done'
                   and c.marked_as_deleted = FALSE
                   and co.marked_as_deleted = FALSE
                   and pm.marked_as_deleted = FALSE
@@ -77,7 +77,7 @@ public class SalesDaoImpl implements SalesDao {
                        co.code        as courseCode,
                        r.refunded_amount * -1  AS amount,
                        'REFUND'       AS type,
-                       pm.method      AS paymentMethod,
+                       rm.method      AS paymentMethod,
                        r.created_date AS saleDate,
                        r.currency     AS currency,
                        r.is_received  AS isReceived
@@ -85,12 +85,12 @@ public class SalesDaoImpl implements SalesDao {
                          JOIN enrollment e ON r.enrollment_id = e.id
                          JOIN client c ON e.client_id = c.id
                          JOIN course co ON e.course_id = co.id
-                         JOIN payment_method pm ON r.refund_method_id = pm.id
+                         JOIN refund_method rm ON r.refund_method_id = rm.id
                          JOIN refund_status rs ON r.refund_status_id = rs.id
                 WHERE  rs.status = 'CONFIRMED'
                   and c.marked_as_deleted = FALSE
                   and co.marked_as_deleted = FALSE
-                  and pm.marked_as_deleted = FALSE
+                  and rm.marked_as_deleted = FALSE
                   and r.marked_as_deleted = FALSE
                 ORDER BY saleDate DESC
                 

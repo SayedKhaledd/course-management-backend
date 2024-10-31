@@ -5,6 +5,7 @@ import com.example.coursemanagementapp.dto.EnrollmentDto;
 import com.example.coursemanagementapp.dto.HistoryDto;
 import com.example.coursemanagementapp.dto.InstallmentDto;
 import com.example.coursemanagementapp.dto.RefundDto;
+import com.example.coursemanagementapp.enums.ActionTaken;
 import com.example.coursemanagementapp.enums.PaymentStatus;
 import com.example.coursemanagementapp.enums.ReferralSource;
 import com.example.coursemanagementapp.model.Enrollment;
@@ -18,9 +19,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
-import static com.example.coursemanagementapp.enums.ActionTaken.CANCELLED;
-import static com.example.coursemanagementapp.enums.ActionTaken.DID_NOT_ENROLL;
 
 @Slf4j
 @Service
@@ -54,6 +52,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         return Enrollment.class.getSimpleName();
     }
 
+    //TODO: MAY CHANGE THE DEFAULT REFERRAL SOURCE
     @SneakyThrows
     @Override
     public Enrollment doBeforeCreate(Enrollment entity, EnrollmentDto dto) {
@@ -61,11 +60,11 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         entity.setClient(clientService.findEntityById(dto.getClientId()));
         entity.setAmountPaid(dto.getAmountPaid() == null ? 0.0 : dto.getAmountPaid());
         entity.setRemainingAmount(entity.getCourse().getPrice() - entity.getAmountPaid());
-        entity.setReferralSource(dto.getReferralSourceId() == null ? (entity.getClient().getReferralSource() == null ? referralSourceService.findEntityByName(ReferralSource.OTHER) : entity.getClient().getReferralSource()) :
+        entity.setReferralSource(dto.getReferralSourceId() == null ? (entity.getClient().getReferralSource() == null ? referralSourceService.findEntityByName(ReferralSource.REGISTRATION) : entity.getClient().getReferralSource()) :
                 referralSourceService.findEntityById(dto.getReferralSourceId()));
-        entity.setActionTaken(dto.getActionTakenId() == null ? actionTakenService.findEntityByName(DID_NOT_ENROLL) : actionTakenService.findEntityById(dto.getActionTakenId()));
+        entity.setActionTaken(dto.getActionTakenId() == null ? actionTakenService.findEntityByName(ActionTaken.ENROLLED) : actionTakenService.findEntityById(dto.getActionTakenId()));
         entity.setDiscount(dto.getDiscount() == null ? 0.0 : dto.getDiscount());
-        entity.setPaymentStatus(dto.getPaymentStatusId() != null ? paymentStatusService.findEntityById(dto.getPaymentStatusId()) : paymentStatusService.findEntityByName(PaymentStatus.NOT_PAID));
+        entity.setPaymentStatus(dto.getPaymentStatusId() != null ? paymentStatusService.findEntityById(dto.getPaymentStatusId()) : paymentStatusService.findEntityByName(PaymentStatus.WAITING));
         return entity;
     }
 
@@ -298,7 +297,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
                 .newValue(actionTakenService.findById(actionTakenId).getAction().getAction())
                 .build());
         getDao().updateActionTaken(id, actionTakenId);
-        if (actionTakenService.findById(actionTakenId).getAction().equals(CANCELLED) && enrollmentDtoDb.getPaymentStatus().getStatus().equals(PaymentStatus.PAID) &&
+        if (actionTakenService.findById(actionTakenId).getAction().equals(ActionTaken.REFUND) && enrollmentDtoDb.getPaymentStatus().getStatus().equals(PaymentStatus.DONE) &&
                 enrollmentDtoDb.getAmountPaid() > 0) {
             refundService.create(RefundDto.RefundDtoBuilder()
                     .enrollment(enrollmentDtoDb)

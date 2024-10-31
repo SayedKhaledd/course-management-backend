@@ -1,5 +1,6 @@
 package com.example.coursemanagementapp.enums;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -7,8 +8,13 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ActionTaken {
     ENROLLED("ENROLLED"),
-    DID_NOT_ENROLL("DID_NOT_ENROLL"),
-    CANCELLED("CANCELLED");
+    REFUND("Refund"),
+    STOPPED("Stopped");
     private final String action;
 
+    @JsonValue
+    @Override
+    public String toString() {
+        return action;
+    }
 }

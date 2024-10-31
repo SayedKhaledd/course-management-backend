@@ -1,6 +1,7 @@
 package com.example.coursemanagementapp.model;
 
 import com.example.backendcoreservice.model.AbstractEntity;
+import com.example.coursemanagementapp.enums.GenericEnumConverter;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,6 +22,12 @@ public class RefundReason extends AbstractEntity {
     private Long id;
 
     @Column(name = "reason")
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = RefundReasonConverter.class)
     private com.example.coursemanagementapp.enums.RefundReason reason;
+
+    public static class RefundReasonConverter extends GenericEnumConverter<com.example.coursemanagementapp.enums.RefundReason> {
+        public RefundReasonConverter() {
+            super(com.example.coursemanagementapp.enums.RefundReason.class);
+        }
+    }
 }

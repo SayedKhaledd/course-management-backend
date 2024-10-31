@@ -43,7 +43,7 @@ public class RefundDto extends AbstractDto {
     private Long refundReasonId;
     private RefundStatus refundStatus;
 
-    private PaymentMethodDto refundMethod;
+    private RefundMethodDto refundMethod;
     private Long refundMethodId;
 
     private Long refundStatusId;
@@ -55,10 +55,6 @@ public class RefundDto extends AbstractDto {
     }
 
     public interface UpdateRefundedAmount {
-
-    }
-
-    public interface UpdateEnrollmentAmount {
 
     }
 

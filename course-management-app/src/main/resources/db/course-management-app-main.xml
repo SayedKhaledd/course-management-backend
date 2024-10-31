@@ -12,6 +12,7 @@
     <include file="/db/changelog/20240726_referral_source_table.sql"/>
     <include file="/db/changelog/20240804_action_taken_table.sql"/>
     <include file="/db/changelog/20241029_refund_status_table.sql"/>
+    <include file="/db/changelog/20241031_refund_method_table.sql"/>
 
     <include file="/db/changelog/20240726_client_table.sql"/>
     <include file="/db/changelog/20240804_course_table.sql"/>
@@ -31,6 +32,7 @@
     <include file="/db/changelog/20240823_insert_client_statuses.sql"/>
     <include file="/db/changelog/20240823_insert_evaluation_statuses.sql"/>
     <include file="/db/changelog/20241029_insert_refund_statuses.sql"/>
+    <include file="/db/changelog/20241031_insert_refund_methods.sql"/>
     <include file="/db/changelog/20241027_history_table.sql"/>
 
 

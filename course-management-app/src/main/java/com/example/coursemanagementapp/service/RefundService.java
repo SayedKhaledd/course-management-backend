@@ -18,7 +18,7 @@ public interface RefundService extends AbstractService<Refund, RefundDto, Refund
 
     void updateRefundReason(Long id, Long refundReasonId);
 
-    void updateRefundMethod(Long id, Long paymentMethodId);
+    void updateRefundMethod(Long id, Long refundMethodId);
 
     void updateRefundStatus(Long id, Long refundStatusId);
 

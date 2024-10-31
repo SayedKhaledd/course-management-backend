@@ -1,6 +1,7 @@
 package com.example.coursemanagementapp.model;
 
 import com.example.backendcoreservice.model.AbstractEntity;
+import com.example.coursemanagementapp.enums.GenericEnumConverter;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,6 +22,12 @@ public class ActionTaken extends AbstractEntity {
     private Long id;
 
     @Column(name = "action")
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = ActionTakenConverter.class)
     private com.example.coursemanagementapp.enums.ActionTaken action;
+
+    public static class ActionTakenConverter extends GenericEnumConverter<com.example.coursemanagementapp.enums.ActionTaken> {
+        public ActionTakenConverter() {
+            super(com.example.coursemanagementapp.enums.ActionTaken.class);
+        }
+    }
 }

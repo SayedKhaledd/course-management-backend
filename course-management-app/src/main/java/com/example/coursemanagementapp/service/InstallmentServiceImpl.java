@@ -128,7 +128,7 @@ public class InstallmentServiceImpl implements InstallmentService {
                 .newValue(paymentStatusService.findById(paymentStatusId).getStatus().getStatus())
                 .build());
         getDao().updatePaymentStatus(id, paymentStatusId);
-        if (paymentStatusService.findById(paymentStatusId).getStatus().equals(PaymentStatus.PAID)) {
+        if (paymentStatusService.findById(paymentStatusId).getStatus().equals(PaymentStatus.DONE)) {
             enrollmentService.updateAmountPaid(installmentDtoDb.getEnrollmentId(),
                     EnrollmentDto.EnrollmentDtoBuilder()
                             .amountPaid(installmentDtoDb.getAmount())

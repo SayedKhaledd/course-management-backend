@@ -1,5 +1,6 @@
 package com.example.coursemanagementapp.enums;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -12,4 +13,10 @@ public enum PaymentType {
 
     private final String type;
 
+    @JsonValue
+    @Override
+    public String toString() {
+        return type;
+    }
 }
+
