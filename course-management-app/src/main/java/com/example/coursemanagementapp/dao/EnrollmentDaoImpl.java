@@ -156,4 +156,11 @@ public class EnrollmentDaoImpl implements EnrollmentDao {
         getRepo().updateIsReceived(id, isReceived);
         getRepo().updateModifiedDateAndModifiedBy(id, auditAware.getCurrentAuditor().get(), LocalDateTime.now());
     }
+
+    @Override
+    public void updateTotalAmount(Long id, Double totalAmount) {
+        log.info("EnrollmentDao: updateTotalAmount() - was called");
+        getRepo().updateTotalAmount(id, totalAmount);
+        getRepo().updateModifiedDateAndModifiedBy(id, auditAware.getCurrentAuditor().get(), LocalDateTime.now());
+    }
 }

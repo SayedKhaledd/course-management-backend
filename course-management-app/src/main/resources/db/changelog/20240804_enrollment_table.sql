@@ -49,3 +49,6 @@ ALTER TABLE public.enrollment
 CREATE UNIQUE INDEX enrollment_client_id_course_id_uq
     ON public.enrollment (course_id, client_id)
     WHERE marked_as_deleted = false;
+--changeset sayed:20241031_add_total_amount_column_to_enrollment_table
+ALTER TABLE public.enrollment
+    ADD column total_amount decimal;

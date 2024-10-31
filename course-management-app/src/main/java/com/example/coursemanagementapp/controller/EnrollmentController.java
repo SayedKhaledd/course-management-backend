@@ -58,12 +58,6 @@ public class EnrollmentController implements AbstractController<EnrollmentServic
         return getApiResponseBuilder().buildSuccessResponse();
     }
 
-    @PatchMapping("/{id}/remaining-amount")
-    public ApiResponse<?> updateRemainingAmount(@PathVariable Long id, @RequestBody @Validated(EnrollmentDto.UpdateRemainingAmount.class) EnrollmentDto dto) {
-        getService().updateRemainingAmount(id, dto);
-        return getApiResponseBuilder().buildSuccessResponse();
-    }
-
 
     @PatchMapping("/{id}/discount")
     public ApiResponse<?> updateDiscount(@PathVariable Long id, @RequestBody @Validated(EnrollmentDto.UpdateDiscount.class) EnrollmentDto dto) {

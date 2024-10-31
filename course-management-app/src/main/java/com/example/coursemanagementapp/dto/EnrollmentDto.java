@@ -23,8 +23,10 @@ public class EnrollmentDto extends AbstractDto {
     private Long clientId;
     @NotNull(message = "Amount Paid is mandatory", groups = {UpdateAmountPaid.class})
     private Double amountPaid = 0.0;
-    @NotNull(message = "Remaining Amount is mandatory", groups = {UpdateRemainingAmount.class})
     private Double remainingAmount =0.0;
+    private Double totalAmount;
+
+
     @NotNull(message = "Currency is mandatory", groups = {UpdateCurrency.class})
     private String currency;
     @NotNull(message = "Discount is mandatory", groups = {UpdateDiscount.class})
@@ -63,9 +65,6 @@ public class EnrollmentDto extends AbstractDto {
 
     }
 
-    public interface UpdateRemainingAmount {
-
-    }
 
     public interface UpdateDescription {
 

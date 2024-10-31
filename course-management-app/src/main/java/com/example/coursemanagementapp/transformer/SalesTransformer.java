@@ -2,7 +2,6 @@ package com.example.coursemanagementapp.transformer;
 
 
 import com.example.coursemanagementapp.dto.SalesDto;
-import com.example.coursemanagementapp.enums.PaymentMethod;
 import com.example.coursemanagementapp.enums.PaymentType;
 import org.hibernate.transform.ResultTransformer;
 
@@ -21,7 +20,7 @@ public class SalesTransformer implements ResultTransformer<SalesDto> {
         salesDto.setCourseCode((String) tuple[3]);
         salesDto.setAmount((BigDecimal) tuple[4]);
         salesDto.setPaymentType(PaymentType.valueOf((String) tuple[5]));
-        salesDto.setPaymentMethod(PaymentMethod.valueOf((String) tuple[6]));
+        salesDto.setPaymentMethod((String) tuple[6]);
         salesDto.setDate(((Timestamp) tuple[7]).toLocalDateTime());
         salesDto.setCurrency((String) tuple[8]);
         salesDto.setIsReceived((Boolean) tuple[9]);

@@ -7,6 +7,21 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum PaymentMethod {
+   //Cash EGP
+    //Cash USD $
+    //QNB
+    //Paysky
+    //Paysky UAE
+    //Faisl USD
+    //Faisl EGP
+    //WIO Bank
+    //STRIPE
+    //Vodafone
+    //Westran Union
+    //ADIB
+    //Ghait Faisal
+
+
     CASH_EGP("Cash EGP"),
     CASH_USD("Cash USD $"),
     QNB("QNB"),

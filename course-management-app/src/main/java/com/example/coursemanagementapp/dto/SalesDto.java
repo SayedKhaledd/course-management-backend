@@ -16,7 +16,7 @@ public class SalesDto {
     private BigDecimal amount;
     private LocalDateTime date;
     private PaymentType paymentType;
-    private PaymentMethod paymentMethod;
+    private String paymentMethod;
     private String currency;
     private Boolean isReceived;
 

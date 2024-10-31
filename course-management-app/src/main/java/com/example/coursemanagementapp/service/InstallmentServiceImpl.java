@@ -61,6 +61,8 @@ public class InstallmentServiceImpl implements InstallmentService {
         if (enrollment.getRemainingAmount() < dto.getAmount()) {
             throw new CustomException("Amount cannot be greater than remaining amount");
         }
+//        if (!enrollment.getPayInInstallments())
+//            throw new CustomException("This enrollment does not support installments");
         return entity;
     }
 
@@ -131,7 +133,7 @@ public class InstallmentServiceImpl implements InstallmentService {
         if (paymentStatusService.findById(paymentStatusId).getStatus().equals(PaymentStatus.DONE)) {
             enrollmentService.updateAmountPaid(installmentDtoDb.getEnrollmentId(),
                     EnrollmentDto.EnrollmentDtoBuilder()
-                            .amountPaid(installmentDtoDb.getAmount())
+                            .amountPaid(installmentDtoDb.getEnrollment().getAmountPaid() + installmentDtoDb.getAmount())
                             .build());
         }
 

@@ -46,4 +46,6 @@ public interface EnrollmentDao extends AbstractDao<Enrollment, EnrollmentRepo> {
     void updateCourse(Long id, Long courseId);
 
     void updateIsReceived(Long id, Boolean isReceived);
+
+    void updateTotalAmount(Long id, Double totalAmount);
 }

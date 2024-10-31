@@ -1,5 +1,6 @@
 package com.example.coursemanagementapp.service;
 
+import com.example.backendcoreservice.exception.CustomException;
 import com.example.coursemanagementapp.dao.RefundDao;
 import com.example.coursemanagementapp.dto.HistoryDto;
 import com.example.coursemanagementapp.dto.RefundDto;
@@ -67,6 +68,8 @@ public class RefundServiceImpl implements RefundService {
         entity.setRefundStatus(refundStatusService.findEntityByStatus(RefundStatus.WAITING));
         entity.setPaymentMethod(enrollment.getPaymentMethod());
         entity.setIsReceived(false);
+//        if (!enrollment.getActionTaken().equals(actionTakenService.findEntityByName(ActionTaken.REFUND)))
+//            throw new CustomException("This enrollment does not support refunds");
         return entity;
     }
 
@@ -187,11 +190,12 @@ public class RefundServiceImpl implements RefundService {
                 .build());
         getDao().updateRefundStatus(id, refundStatusId);
 
-        if(refundStatusService.findById(refundStatusId).getStatus().equals(RefundStatus.CANCEL)){
-           enrollmentService.updateActionTaken(refundDtoDb.getEnrollmentId(),actionTakenService.findEntityByName(ActionTaken.ENROLLED).getId());
+        if (refundStatusService.findById(refundStatusId).getStatus().equals(RefundStatus.CANCEL)) {
+            enrollmentService.updateActionTaken(refundDtoDb.getEnrollmentId(), actionTakenService.findEntityByName(ActionTaken.ENROLLED).getId());
         }
 
     }
+
     @Transactional
     @Override
     public void updateIsReceived(Long id, Boolean isReceived) {

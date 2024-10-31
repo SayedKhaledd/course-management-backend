@@ -88,4 +88,9 @@ public interface EnrollmentRepo extends JpaRepository<Enrollment, Long> {
     @Modifying
     @Query(value = "UPDATE enrollment SET is_received = :isReceived WHERE id = :id and marked_as_deleted=false ", nativeQuery = true)
     void updateIsReceived(Long id, Boolean isReceived);
+
+
+    @Modifying
+    @Query(value = "UPDATE enrollment SET total_amount = :totalAmount WHERE id = :id and marked_as_deleted=false ", nativeQuery = true)
+    void updateTotalAmount(Long id, Double totalAmount);
 }

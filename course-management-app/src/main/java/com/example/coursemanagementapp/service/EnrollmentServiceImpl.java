@@ -58,8 +58,9 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     public Enrollment doBeforeCreate(Enrollment entity, EnrollmentDto dto) {
         entity.setCourse(courseService.findEntityById(dto.getCourseId()));
         entity.setClient(clientService.findEntityById(dto.getClientId()));
+        entity.setTotalAmount(entity.getCourse().getPrice());
         entity.setAmountPaid(dto.getAmountPaid() == null ? 0.0 : dto.getAmountPaid());
-        entity.setRemainingAmount(entity.getCourse().getPrice() - entity.getAmountPaid());
+        entity.setRemainingAmount(entity.getTotalAmount() - entity.getAmountPaid());
         entity.setReferralSource(dto.getReferralSourceId() == null ? (entity.getClient().getReferralSource() == null ? referralSourceService.findEntityByName(ReferralSource.REGISTRATION) : entity.getClient().getReferralSource()) :
                 referralSourceService.findEntityById(dto.getReferralSourceId()));
         entity.setActionTaken(dto.getActionTakenId() == null ? actionTakenService.findEntityByName(ActionTaken.ENROLLED) : actionTakenService.findEntityById(dto.getActionTakenId()));
@@ -106,22 +107,39 @@ public class EnrollmentServiceImpl implements EnrollmentService {
                 .newValue(dto.getAmountPaid() + "")
                 .build());
         getDao().updateAmountPaid(id, dto.getAmountPaid());
-        updateRemainingAmount(id, EnrollmentDto.EnrollmentDtoBuilder().remainingAmount(enrollmentDtoDb.getRemainingAmount() - (dto.getAmountPaid() == null ? 0 : dto.getAmountPaid())).build());
+        updateRemainingAmount(id, dto.getAmountPaid(), enrollmentDtoDb.getTotalAmount());
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     @Override
-    public void updateRemainingAmount(Long id, EnrollmentDto dto) {
-        log.info("EnrollmentService: updateRemainingAmount() called with id: {} and dto: {}", id, dto);
+    public void updateRemainingAmount(Long id, Double paidAmount, Double totalAmount) {
+        log.info("EnrollmentService: updateRemainingAmount() called with id: {} and paidAmount: {}", id, paidAmount);
         EnrollmentDto enrollmentDtoDb = findById(id);
+        Double remainingAmount = totalAmount - paidAmount;
         historyService.create(HistoryDto.HistoryDtoBuilder()
                 .entityId(id)
                 .entityType(getEntityName())
                 .fieldName("remainingAmount")
                 .oldValue(enrollmentDtoDb.getRemainingAmount() + "")
-                .newValue(dto.getRemainingAmount() + "")
+                .newValue(remainingAmount + "")
                 .build());
-        getDao().updateRemainingAmount(id, dto.getRemainingAmount());
+        getDao().updateRemainingAmount(id, remainingAmount);
+    }
+
+    @Transactional
+    @Override
+    public void updateTotalAmount(Long id, Double totalAmount) {
+        log.info("EnrollmentService: updateTotalAmount() called with id: {} and totalAmount: {}", id, totalAmount);
+        EnrollmentDto enrollmentDtoDb = findById(id);
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityId(id)
+                .entityType(getEntityName())
+                .fieldName("totalAmount")
+                .oldValue(enrollmentDtoDb.getTotalAmount() + "")
+                .newValue(totalAmount + "")
+                .build());
+        getDao().updateTotalAmount(id, totalAmount);
+        updateRemainingAmount(id, enrollmentDtoDb.getAmountPaid(), totalAmount);
     }
 
     @Transactional
@@ -137,9 +155,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
                 .newValue(dto.getDiscount() + "")
                 .build());
         getDao().updateDiscount(id, dto.getDiscount());
-        updateRemainingAmount(id, EnrollmentDto.EnrollmentDtoBuilder()
-                .remainingAmount(enrollmentDtoDb.getRemainingAmount() - enrollmentDtoDb.getRemainingAmount() * dto.getDiscount())
-                .build());
+        updateTotalAmount(id, enrollmentDtoDb.getTotalAmount() - enrollmentDtoDb.getTotalAmount() * dto.getDiscount());
 
     }
 
