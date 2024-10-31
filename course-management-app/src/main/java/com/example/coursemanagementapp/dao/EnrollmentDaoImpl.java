@@ -91,7 +91,7 @@ public class EnrollmentDaoImpl implements EnrollmentDao {
     }
 
     @Override
-    public void updateRating(Long id, Integer rating) {
+    public void updateRating(Long id, String rating) {
         log.info("EnrollmentDao: updateRating() - was called");
         getRepo().updateRating(id, rating);
         getRepo().updateModifiedDateAndModifiedBy(id, auditAware.getCurrentAuditor().get(), LocalDateTime.now());

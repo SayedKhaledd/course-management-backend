@@ -52,7 +52,7 @@ public interface EnrollmentRepo extends JpaRepository<Enrollment, Long> {
 
     @Modifying
     @Query(value = "UPDATE enrollment SET rate = :rating WHERE id = :id and marked_as_deleted=false ", nativeQuery = true)
-    void updateRating(Long id, Integer rating);
+    void updateRating(Long id, String rating);
 
 
     @Modifying

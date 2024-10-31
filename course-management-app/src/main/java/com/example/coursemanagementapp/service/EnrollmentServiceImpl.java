@@ -240,8 +240,8 @@ public class EnrollmentServiceImpl implements EnrollmentService {
                 .entityId(id)
                 .entityType(getEntityName())
                 .fieldName("rating")
-                .oldValue(enrollmentDtoDb.getRating() + "")
-                .newValue(dto.getRating() + "")
+                .oldValue(enrollmentDtoDb.getRating() )
+                .newValue(dto.getRating() )
                 .build());
         getDao().updateRating(id, dto.getRating());
 

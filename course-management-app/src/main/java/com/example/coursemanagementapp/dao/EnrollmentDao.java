@@ -29,7 +29,7 @@ public interface EnrollmentDao extends AbstractDao<Enrollment, EnrollmentRepo> {
 
     void updateReview(Long id, String review);
 
-    void updateRating(Long id, Integer rating);
+    void updateRating(Long id, String rating);
 
     void updateDescription(Long id, String description);
 

@@ -75,7 +75,7 @@ public class Enrollment extends AbstractEntity {
     private String review;
 
     @Column(name = "rate")
-    private Integer rating;
+    private String rating;
 
     @Column(name = "description")
     private String description;

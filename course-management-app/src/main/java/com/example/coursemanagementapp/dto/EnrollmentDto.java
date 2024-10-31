@@ -39,7 +39,7 @@ public class EnrollmentDto extends AbstractDto {
     @NotNull(message = "Review is mandatory", groups = {UpdateReview.class})
     private String review;
     @NotNull(message = "Rating is mandatory", groups = {UpdateRating.class})
-    private Integer rating;
+    private String rating;
     @NotNull(message = "Description is mandatory", groups = {UpdateDescription.class})
     private String description;
     private ActionTakenDto actionTaken;

@@ -52,3 +52,6 @@ CREATE UNIQUE INDEX enrollment_client_id_course_id_uq
 --changeset sayed:20241031_add_total_amount_column_to_enrollment_table
 ALTER TABLE public.enrollment
     ADD column total_amount decimal;
+--changeset sayed:20241031_change_rate_column_type_to_varchar_enrollment_table
+ALTER TABLE public.enrollment
+    ALTER COLUMN rate TYPE VARCHAR(255);
