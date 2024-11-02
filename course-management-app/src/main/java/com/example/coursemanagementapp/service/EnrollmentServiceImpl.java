@@ -1,15 +1,13 @@
 package com.example.coursemanagementapp.service;
 
 import com.example.coursemanagementapp.dao.EnrollmentDao;
-import com.example.coursemanagementapp.dto.EnrollmentDto;
-import com.example.coursemanagementapp.dto.HistoryDto;
-import com.example.coursemanagementapp.dto.InstallmentDto;
-import com.example.coursemanagementapp.dto.RefundDto;
+import com.example.coursemanagementapp.dto.*;
 import com.example.coursemanagementapp.enums.ActionTaken;
 import com.example.coursemanagementapp.enums.PaymentStatus;
 import com.example.coursemanagementapp.enums.ReferralSource;
 import com.example.coursemanagementapp.model.Enrollment;
 import com.example.coursemanagementapp.transformer.EnrollmentTransformer;
+import com.example.coursemanagementapp.validator.EnrollmentValidator;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
@@ -36,6 +34,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     private final ActionTakenService actionTakenService;
     private final InstallmentService installmentService;
     private final RefundService refundService;
+    private final EnrollmentValidator enrollmentValidator;
 
     @Override
     public EnrollmentDao getDao() {
@@ -240,8 +239,8 @@ public class EnrollmentServiceImpl implements EnrollmentService {
                 .entityId(id)
                 .entityType(getEntityName())
                 .fieldName("rating")
-                .oldValue(enrollmentDtoDb.getRating() )
-                .newValue(dto.getRating() )
+                .oldValue(enrollmentDtoDb.getRating())
+                .newValue(dto.getRating())
                 .build());
         getDao().updateRating(id, dto.getRating());
 
@@ -303,18 +302,16 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     public void updateActionTaken(Long id, Long actionTakenId) {
         log.info("EnrollmentService: updateActionTaken() called with id: {} and actionTakenId: {}", id, actionTakenId);
         EnrollmentDto enrollmentDtoDb = findById(id);
-        if (!actionTakenService.existsById(actionTakenId))
-            throw new EntityNotFoundException("ActionTaken with id: " + actionTakenId + " does not exist");
+        ActionTakenDto actionTakenDto = actionTakenService.findById(actionTakenId);
         historyService.create(HistoryDto.HistoryDtoBuilder()
                 .entityId(id)
                 .entityType(getEntityName())
                 .fieldName("actionTaken")
                 .oldValue(enrollmentDtoDb.getActionTaken() == null ? "" : enrollmentDtoDb.getActionTaken().getAction().getAction())
-                .newValue(actionTakenService.findById(actionTakenId).getAction().getAction())
+                .newValue(actionTakenDto.getAction().getAction())
                 .build());
         getDao().updateActionTaken(id, actionTakenId);
-        if (actionTakenService.findById(actionTakenId).getAction().equals(ActionTaken.REFUND) && enrollmentDtoDb.getPaymentStatus().getStatus().equals(PaymentStatus.DONE) &&
-                enrollmentDtoDb.getAmountPaid() > 0) {
+        if (enrollmentValidator.shouldCreateRefund(enrollmentDtoDb, actionTakenDto)) {
             refundService.create(RefundDto.RefundDtoBuilder()
                     .enrollment(enrollmentDtoDb)
                     .isReceived(false)
