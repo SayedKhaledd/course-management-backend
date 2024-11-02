@@ -1,0 +1,27 @@
+--liquibase formatted sql
+--changeset sayed:20240823_insert_payment_methods
+INSERT INTO public.payment_method (id, method, created_date, modified_date, created_by, modified_by, marked_as_deleted)
+VALUES (nextval('payment_method_id_sequence'), 'Cash EGP', current_timestamp, current_timestamp, 'system', 'system',
+        false),
+       (nextval('payment_method_id_sequence'), 'Cash USD $', current_timestamp, current_timestamp, 'system', 'system',
+        false),
+       (nextval('payment_method_id_sequence'), 'QNB', current_timestamp, current_timestamp, 'system', 'system', false),
+       (nextval('payment_method_id_sequence'), 'Paysky', current_timestamp, current_timestamp, 'system', 'system',
+        false),
+       (nextval('payment_method_id_sequence'), 'Paysky UAE', current_timestamp, current_timestamp, 'system', 'system',
+        false),
+       (nextval('payment_method_id_sequence'), 'Faisl USD', current_timestamp, current_timestamp, 'system', 'system',
+        false),
+       (nextval('payment_method_id_sequence'), 'Faisl EGP', current_timestamp, current_timestamp, 'system', 'system',
+        false),
+       (nextval('payment_method_id_sequence'), 'WIO Bank', current_timestamp, current_timestamp, 'system', 'system',
+        false),
+       (nextval('payment_method_id_sequence'), 'STRIPE', current_timestamp, current_timestamp, 'system', 'system',
+        false),
+       (nextval('payment_method_id_sequence'), 'Vodafone', current_timestamp, current_timestamp, 'system', 'system',
+        false),
+       (nextval('payment_method_id_sequence'), 'Westran Union', current_timestamp, current_timestamp, 'system',
+        'system', false),
+       (nextval('payment_method_id_sequence'), 'ADIB', current_timestamp, current_timestamp, 'system', 'system', false),
+       (nextval('payment_method_id_sequence'), 'Ghait Faisal', current_timestamp, current_timestamp, 'system', 'system',
+        false);

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <include file="/db/changelog/20240804_refund_reason_table.sql"/>
+    <include file="/db/changelog/20240804_payment_method_table.sql"/>
+    <include file="/db/changelog/20240817_client_status_table.sql"/>
+    <include file="/db/changelog/20240817_course_status_table.sql"/>
+    <include file="/db/changelog/20240817_evaluation_status_table.sql"/>
+    <include file="/db/changelog/20240817_payment_status_table.sql"/>
+    <include file="/db/changelog/20240726_referral_source_table.sql"/>
+    <include file="/db/changelog/20240804_action_taken_table.sql"/>
+    <include file="/db/changelog/20241029_refund_status_table.sql"/>
+    <include file="/db/changelog/20241031_refund_method_table.sql"/>
+
+    <include file="/db/changelog/20240726_client_table.sql"/>
+    <include file="/db/changelog/20240804_course_table.sql"/>
+    <include file="/db/changelog/20240804_enrollment_table.sql"/>
+    <include file="/db/changelog/20240804_evaluation_table.sql"/>
+    <include file="/db/changelog/20240804_course_lecturer_table.sql"/>
+    <include file="/db/changelog/20240804_installment_table.sql"/>
+    <include file="/db/changelog/20240804_refund_table.sql"/>
+    <include file="/db/changelog/20240804_user_table.sql"/>
+
+    <include file="/db/changelog/20240823_insert_payment_methods.sql"/>
+    <include file="/db/changelog/20240823_insert_course_statuses.sql"/>
+    <include file="/db/changelog/20240823_insert_payment_statuses.sql"/>
+    <include file="/db/changelog/20240823_insert_referral_sources.sql"/>
+    <include file="/db/changelog/20240823_insert_action_taken.sql"/>
+    <include file="/db/changelog/20240823_insert_refund_reasons.sql"/>
+    <include file="/db/changelog/20240823_insert_client_statuses.sql"/>
+    <include file="/db/changelog/20240823_insert_evaluation_statuses.sql"/>
+    <include file="/db/changelog/20241029_insert_refund_statuses.sql"/>
+    <include file="/db/changelog/20241031_insert_refund_methods.sql"/>
+    <include file="/db/changelog/20241027_history_table.sql"/>
+
+
+</databaseChangeLog>
