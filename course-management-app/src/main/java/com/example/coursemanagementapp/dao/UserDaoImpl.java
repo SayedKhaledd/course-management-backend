@@ -1,9 +1,14 @@
 package com.example.coursemanagementapp.dao;
 
+import com.example.backendcoreservice.api.pagination.PaginationRequest;
 import com.example.coursemanagementapp.config.AuditAwareImpl;
 import com.example.coursemanagementapp.dao.repo.UserRepo;
+import com.example.coursemanagementapp.dto.search.RefundSearchDto;
+import com.example.coursemanagementapp.dto.search.UserSearchDto;
+import com.example.coursemanagementapp.model.User;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -18,6 +23,15 @@ public class UserDaoImpl implements UserDao {
     @Override
     public UserRepo getRepo() {
         return userRepo;
+    }
+
+    @Override
+    public Page<User> findAllPaginatedAndFiltered(PaginationRequest<UserSearchDto> paginationRequest) {
+        log.info("UserDao: findAllPaginatedAndFiltered - was called with paginationRequest: {}", paginationRequest);
+        UserSearchDto criteria = paginationRequest.getCriteria();
+        if(criteria == null)
+            return getRepo().findAll(getPageRequest(paginationRequest));
+        return getRepo().findAllFilteredAndPaginated(getPageRequest(paginationRequest), criteria);
     }
 
     @Override

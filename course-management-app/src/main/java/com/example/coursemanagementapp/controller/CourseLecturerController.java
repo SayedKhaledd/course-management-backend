@@ -2,10 +2,15 @@ package com.example.coursemanagementapp.controller;
 
 import com.example.backendcoreservice.api.ApiResponse;
 import com.example.backendcoreservice.api.ApiResponseBuilder;
+import com.example.backendcoreservice.api.pagination.PaginationRequest;
+import com.example.backendcoreservice.api.pagination.PaginationResponse;
 import com.example.backendcoreservice.controller.AbstractController;
 import com.example.coursemanagementapp.dto.CourseLecturerDto;
+import com.example.coursemanagementapp.dto.search.CourseLecturerSearchDto;
 import com.example.coursemanagementapp.service.CourseLecturerService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +40,12 @@ public class CourseLecturerController implements AbstractController<CourseLectur
     public ApiResponse<List<CourseLecturerDto>> findAllByCourseId(@PathVariable Long courseId) {
         return getApiResponseBuilder().buildSuccessResponse(getService().findAllByCourseId(courseId));
     }
+
+    @PostMapping("/find-paginated-and-filtered")
+    public ApiResponse<PaginationResponse<CourseLecturerDto>> findAllPaginatedAndFiltered(@RequestBody @Valid PaginationRequest<CourseLecturerSearchDto> paginationRequest) {
+        return getApiResponseBuilder().buildSuccessResponse(getService().findAllPaginatedAndFiltered(paginationRequest));
+    }
+
 
     @PostMapping()
     public ApiResponse<CourseLecturerDto> create(@Validated({CourseLecturerDto.Create.class}) @RequestBody CourseLecturerDto dto) {
@@ -67,7 +78,7 @@ public class CourseLecturerController implements AbstractController<CourseLectur
     }
 
 
-
+    @PreAuthorize("hasAuthority('SUPER_ADMIN') OR hasAuthority( 'ADMIN')")
     @DeleteMapping("/{id}")
     public ApiResponse<?> delete(@PathVariable Long id) {
         getService().delete(id);

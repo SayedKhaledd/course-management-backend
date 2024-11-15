@@ -1,6 +1,6 @@
 package com.example.coursemanagementapp.dao.repo;
 
-import com.example.coursemanagementapp.dto.ClientSearchDto;
+import com.example.coursemanagementapp.dto.search.ClientSearchDto;
 import com.example.coursemanagementapp.model.Client;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,24 +15,28 @@ import java.time.LocalDateTime;
 @Repository
 public interface ClientRepo extends JpaRepository<Client, Long>, JpaSpecificationExecutor<Client> {
 
-    @Query(value = "SELECT * FROM client c WHERE c.marked_as_deleted = :markedAsDeleted", nativeQuery = true)
-    Page<Client> findAllByMarkedAsDeleted(Pageable pageable, Boolean markedAsDeleted);
-
-    @Query(value = """
-            SELECT c.*
-            FROM client c
-            WHERE
-                ( COALESCE(:#{#clientSearchDto.name}, '') = '' OR c.name LIKE '%' || :#{#clientSearchDto.name} || '%')
-                AND ( COALESCE(:#{#clientSearchDto.email}, '') = '' OR c.email LIKE '%' || :#{#clientSearchDto.email} || '%')
-                AND ( COALESCE(:#{#clientSearchDto.phone}, '') = '' OR c.phone_number LIKE '%' || :#{#clientSearchDto.phone} || '%')
-                AND ( COALESCE(:#{#clientSearchDto.specialty}, '') = '' OR c.specialty LIKE '%' || :#{#clientSearchDto.specialty} || '%')
-                AND ( COALESCE(:#{#clientSearchDto.countries}, '') = '' OR c.country IN (:#{#clientSearchDto.countries}))
-                AND ( COALESCE(:#{#clientSearchDto.nationalities}, '') = '' OR c.nationality IN (:#{#clientSearchDto.nationalities}))
-                AND ( COALESCE(:#{#clientSearchDto.clientStatusIds}, '') = '' OR c.status_id IN (:#{#clientSearchDto.clientStatusIds}))
-                AND ( COALESCE(:#{#clientSearchDto.referralSourceIds}, '') = '' OR c.referral_source_id IN (:#{#clientSearchDto.referralSourceIds}))
-             AND c.marked_as_deleted = :markedAsDeleted
-            """, nativeQuery = true)
-    Page<Client> findAllFilteredAndPaginated(Pageable pageable, ClientSearchDto clientSearchDto, Boolean markedAsDeleted);
+    @Query("""
+                 SELECT c
+                 FROM Client c
+                 WHERE
+                     (:#{#clientSearchDto.name} IS NULL OR c.name LIKE CONCAT('%', :#{#clientSearchDto.name}, '%'))
+                     AND (:#{#clientSearchDto.email} IS NULL OR c.email LIKE CONCAT('%', :#{#clientSearchDto.email}, '%'))
+                     AND (:#{#clientSearchDto.phone} IS NULL OR c.phone LIKE CONCAT('%', :#{#clientSearchDto.phone}, '%'))
+                     AND (:#{#clientSearchDto.alternativePhone} IS NULL OR c.alternativePhone LIKE CONCAT('%', :#{#clientSearchDto.alternativePhone}, '%'))
+                     AND (:#{#clientSearchDto.address} IS NULL OR c.address LIKE CONCAT('%', :#{#clientSearchDto.address}, '%'))
+                     AND (:#{#clientSearchDto.description} IS NULL OR c.description LIKE CONCAT('%', :#{#clientSearchDto.description}, '%'))
+                     AND (:#{#clientSearchDto.specialty} IS NULL OR c.specialty LIKE CONCAT('%', :#{#clientSearchDto.specialty}, '%'))
+                     AND (:#{#clientSearchDto.countries} IS NULL OR c.country IN :#{#clientSearchDto.countries})
+                     AND (:#{#clientSearchDto.nationalities} IS NULL OR c.nationality IN :#{#clientSearchDto.nationalities})
+                     AND (:#{#clientSearchDto.clientStatusIds} IS NULL OR c.clientStatusId IN :#{#clientSearchDto.clientStatusIds})
+                     AND (:#{#clientSearchDto.referralSourceIds} IS NULL OR c.referralSourceId IN :#{#clientSearchDto.referralSourceIds})
+                     AND (:#{#clientSearchDto.initialCourseIds} IS NULL OR c.initialCourseId IN :#{#clientSearchDto.initialCourseIds})
+                     AND (:#{#clientSearchDto.createdBy} IS NULL OR c.createdBy LIKE CONCAT('%', :#{#clientSearchDto.createdBy}, '%'))
+                     AND (:#{#clientSearchDto.modifiedBy} IS NULL OR c.modifiedBy LIKE CONCAT('%', :#{#clientSearchDto.modifiedBy}, '%'))
+                     AND (:#{#clientSearchDto.createdDate} IS NULL OR CAST(c.createdDate AS string) LIKE CONCAT('%', :#{#clientSearchDto.createdDate}, '%'))
+                     AND (:#{#clientSearchDto.modifiedDate} IS NULL OR CAST(c.modifiedDate AS string) LIKE CONCAT('%', :#{#clientSearchDto.modifiedDate}, '%'))
+            """)
+    Page<Client> findAllFilteredAndPaginated(Pageable pageable, ClientSearchDto clientSearchDto);
 
     @Modifying
     @Query(value = "UPDATE client SET name = :name WHERE id = :id AND marked_as_deleted = false", nativeQuery = true)
@@ -84,6 +88,6 @@ public interface ClientRepo extends JpaRepository<Client, Long>, JpaSpecificatio
 
 
     @Modifying
-    @Query(value = "UPDATE client SET initial_course_name = :initialCourseName WHERE id = :id AND marked_as_deleted = false", nativeQuery = true)
-    void updateInitialCourseName(Long id, String initialCourseName);
+    @Query(value = "UPDATE client SET initial_course_id = :initialCourseId WHERE id = :id AND marked_as_deleted = false", nativeQuery = true)
+    void updateInitialCourse(Long id, Long initialCourseId);
 }

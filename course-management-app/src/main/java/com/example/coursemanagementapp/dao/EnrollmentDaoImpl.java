@@ -1,10 +1,13 @@
 package com.example.coursemanagementapp.dao;
 
+import com.example.backendcoreservice.api.pagination.PaginationRequest;
 import com.example.coursemanagementapp.config.AuditAwareImpl;
 import com.example.coursemanagementapp.dao.repo.EnrollmentRepo;
+import com.example.coursemanagementapp.dto.search.EnrollmentSearchDto;
 import com.example.coursemanagementapp.model.Enrollment;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -39,6 +42,16 @@ public class EnrollmentDaoImpl implements EnrollmentDao {
     public Enrollment findByClientIdAndCourseId(Long clientId, Long courseId) {
         log.info("EnrollmentDao: findByClientIdAndCourseId() called with clientId: {} and courseId: {}", clientId, courseId);
         return getRepo().findByClientIdAndCourseId(clientId, courseId);
+    }
+
+    @Override
+    public Page<Enrollment> findAllPaginatedAndFiltered(PaginationRequest<EnrollmentSearchDto> paginationRequest) {
+        log.info("EnrollmentDao: findAllPaginatedAndFiltered() - was called");
+        EnrollmentSearchDto criteria = paginationRequest.getCriteria();
+        if (criteria == null)
+            return getRepo().findAll(getPageRequest(paginationRequest));
+
+        return getRepo().findAllFilteredAndPaginated(getPageRequest(paginationRequest), criteria);
     }
 
     @Override

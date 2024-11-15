@@ -1,10 +1,13 @@
 package com.example.coursemanagementapp.dao;
 
+import com.example.backendcoreservice.api.pagination.PaginationRequest;
 import com.example.coursemanagementapp.config.AuditAwareImpl;
 import com.example.coursemanagementapp.dao.repo.CourseLecturerRepo;
+import com.example.coursemanagementapp.dto.search.CourseLecturerSearchDto;
 import com.example.coursemanagementapp.model.CourseLecturer;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -27,6 +30,16 @@ public class CourseLecturerDaoImpl implements CourseLecturerDao {
     public List<CourseLecturer> findAllByCourseId(Long courseId) {
         log.info("CourseLecturerDao: findAllByCourseId() - was called");
         return getRepo().findAllByCourseId(courseId);
+    }
+
+    @Override
+    public Page<CourseLecturer> findAllPaginatedAndFiltered(PaginationRequest<CourseLecturerSearchDto> paginationRequest) {
+        log.info("CourseLecturerDao: findAllPaginatedAndFiltered() - was called");
+        CourseLecturerSearchDto criteria = paginationRequest.getCriteria();
+        if (criteria == null)
+            return getRepo().findAll(getPageRequest(paginationRequest));
+
+        return getRepo().findAllFilteredAndPaginated(getPageRequest(paginationRequest), criteria);
     }
 
     @Override

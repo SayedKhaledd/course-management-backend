@@ -33,8 +33,12 @@ public class Client extends AbstractEntity {
     @Column(name = "phone_number", nullable = false)
     private String phone;
 
-    @Column(name = "initial_course_name")
-    private String initialCourseName;
+    @JoinColumn(name = "initial_course_id")
+    @ManyToOne
+    private Course initialCourse;
+
+    @Column(name = "initial_course_id", insertable = false, updatable = false)
+    private Long initialCourseId;
 
     @Column(name = "alternative_phone_number")
     private String alternativePhone;

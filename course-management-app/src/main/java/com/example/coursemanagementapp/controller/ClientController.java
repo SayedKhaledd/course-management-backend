@@ -6,10 +6,11 @@ import com.example.backendcoreservice.api.pagination.PaginationRequest;
 import com.example.backendcoreservice.api.pagination.PaginationResponse;
 import com.example.backendcoreservice.controller.AbstractController;
 import com.example.coursemanagementapp.dto.ClientDto;
-import com.example.coursemanagementapp.dto.ClientSearchDto;
+import com.example.coursemanagementapp.dto.search.ClientSearchDto;
 import com.example.coursemanagementapp.service.ClientService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -128,13 +129,13 @@ public class ClientController implements AbstractController<ClientService, Clien
     }
 
     //update initial course name
-    @PatchMapping("/{id}/initial-course-name")
-    public ApiResponse<?> updateInitialCourseName(@PathVariable Long id, @RequestBody @Validated(ClientDto.UpdateInitialCourseName.class) ClientDto clientDto) {
-        getService().updateInitialCourseName(id, clientDto);
+    @PatchMapping("/{id}/initial-course/{initialCourseId}")
+    public ApiResponse<?> updateInitialCourseName(@PathVariable Long id, @PathVariable Long initialCourseId) {
+        getService().updateInitialCourse(id, initialCourseId);
         return getApiResponseBuilder().buildSuccessResponse();
     }
 
-
+    @PreAuthorize("hasAuthority('SUPER_ADMIN') OR hasAuthority( 'ADMIN')")
     @DeleteMapping("/{id}")
     public ApiResponse<?> delete(@PathVariable Long id) {
         getService().delete(id);

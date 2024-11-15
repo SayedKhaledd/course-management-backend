@@ -1,9 +1,13 @@
 package com.example.coursemanagementapp.dao;
 
+import com.example.backendcoreservice.api.pagination.PaginationRequest;
 import com.example.coursemanagementapp.config.AuditAwareImpl;
 import com.example.coursemanagementapp.dao.repo.RefundRepo;
+import com.example.coursemanagementapp.dto.search.RefundSearchDto;
+import com.example.coursemanagementapp.model.Refund;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -19,6 +23,14 @@ public class RefundDaoImpl implements RefundDao {
     @Override
     public RefundRepo getRepo() {
         return refundRepo;
+    }
+
+    @Override
+    public Page<Refund> findAllPaginatedAndFiltered(PaginationRequest<RefundSearchDto> paginationRequest) {
+        RefundSearchDto criteria = paginationRequest.getCriteria();
+        if(criteria == null)
+            return getRepo().findAll(getPageRequest(paginationRequest));
+        return getRepo().findAllFilteredAndPaginated(getPageRequest(paginationRequest), criteria);
     }
 
     @Override

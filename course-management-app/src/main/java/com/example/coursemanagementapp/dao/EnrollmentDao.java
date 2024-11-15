@@ -1,8 +1,11 @@
 package com.example.coursemanagementapp.dao;
 
+import com.example.backendcoreservice.api.pagination.PaginationRequest;
 import com.example.backendcoreservice.dao.AbstractDao;
 import com.example.coursemanagementapp.dao.repo.EnrollmentRepo;
+import com.example.coursemanagementapp.dto.search.EnrollmentSearchDto;
 import com.example.coursemanagementapp.model.Enrollment;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -13,6 +16,8 @@ public interface EnrollmentDao extends AbstractDao<Enrollment, EnrollmentRepo> {
     List<Enrollment> findAllByCourseId(Long courseId);
 
     Enrollment findByClientIdAndCourseId(Long clientId, Long courseId);
+
+    Page<Enrollment> findAllPaginatedAndFiltered(PaginationRequest<EnrollmentSearchDto> paginationRequest);
 
     void updateAmountPaid(Long id, Double amountPaid);
 

@@ -4,12 +4,13 @@ import com.example.backendcoreservice.api.pagination.PaginationRequest;
 import com.example.backendcoreservice.api.pagination.PaginationResponse;
 import com.example.coursemanagementapp.dao.ClientDao;
 import com.example.coursemanagementapp.dto.ClientDto;
-import com.example.coursemanagementapp.dto.ClientSearchDto;
 import com.example.coursemanagementapp.dto.HistoryDto;
+import com.example.coursemanagementapp.dto.search.ClientSearchDto;
 import com.example.coursemanagementapp.model.Client;
 import com.example.coursemanagementapp.transformer.ClientTransformer;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +25,7 @@ public class ClientServiceImpl implements ClientService {
     private final ClientStatusService clientStatusService;
     private final ReferralSourceService referralSourceService;
     private final HistoryService historyService;
+    private final CourseService courseService;
 
     @Override
     public ClientDao getDao() {
@@ -38,6 +40,15 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public String getEntityName() {
         return Client.class.getSimpleName();
+    }
+
+    @SneakyThrows
+    @Override
+    public Client doBeforeCreate(Client entity, ClientDto dto) {
+        entity.setInitialCourse(courseService.findEntityById(dto.getInitialCourseId()));
+        entity.setClientStatus(dto.getClientStatusId() != null ? clientStatusService.findEntityById(dto.getClientStatusId()) : null);
+        entity.setReferralSource(dto.getReferralSource() != null ? referralSourceService.findEntityById(dto.getReferralSourceId()) : null);
+        return entity;
     }
 
     @Override
@@ -217,16 +228,18 @@ public class ClientServiceImpl implements ClientService {
 
     @Transactional
     @Override
-    public void updateInitialCourseName(Long id, ClientDto clientDto) {
-        log.info("ClientService: updateInitialCourseName() - was called with id: {} and clientDto: {}", id, clientDto);
+    public void updateInitialCourse(Long id, Long initialCourseId) {
+        log.info("ClientService: updateInitialCourse() - was called with id: {} and initialCourseId: {}", id, initialCourseId);
         ClientDto clientDtoDb = findById(id);
+        if (!courseService.existsById(initialCourseId))
+            throw new EntityNotFoundException("Course with id " + initialCourseId + " does not exist");
         historyService.create(HistoryDto.HistoryDtoBuilder()
                 .entityId(id)
                 .entityType(getEntityName())
-                .fieldName("initialCourseName")
-                .oldValue(clientDtoDb.getInitialCourseName())
-                .newValue(clientDto.getInitialCourseName())
+                .fieldName("initialCourse")
+                .oldValue(clientDtoDb.getInitialCourse() == null ? "" : clientDtoDb.getInitialCourse().getName())
+                .newValue(courseService.findById(initialCourseId).getName())
                 .build());
-        getDao().updateInitialCourseName(id, clientDto.getInitialCourseName());
+        getDao().updateInitialCourse(id, initialCourseId);
     }
 }

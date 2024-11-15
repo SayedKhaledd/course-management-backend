@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 public class RefundDto extends AbstractDto {
     private Long id;
     private EnrollmentDto enrollment;
+    @NotNull(message = "enrollmentId is mandatory", groups = {Create.class})
     private Long enrollmentId;
     private PaymentMethod paymentMethod;
     private Long paymentMethodId;

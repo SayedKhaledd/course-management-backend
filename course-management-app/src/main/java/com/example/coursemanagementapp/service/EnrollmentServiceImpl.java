@@ -1,7 +1,10 @@
 package com.example.coursemanagementapp.service;
 
+import com.example.backendcoreservice.api.pagination.PaginationRequest;
+import com.example.backendcoreservice.api.pagination.PaginationResponse;
 import com.example.coursemanagementapp.dao.EnrollmentDao;
 import com.example.coursemanagementapp.dto.*;
+import com.example.coursemanagementapp.dto.search.EnrollmentSearchDto;
 import com.example.coursemanagementapp.enums.ActionTaken;
 import com.example.coursemanagementapp.enums.PaymentStatus;
 import com.example.coursemanagementapp.enums.ReferralSource;
@@ -57,15 +60,34 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     public Enrollment doBeforeCreate(Enrollment entity, EnrollmentDto dto) {
         entity.setCourse(courseService.findEntityById(dto.getCourseId()));
         entity.setClient(clientService.findEntityById(dto.getClientId()));
-        entity.setTotalAmount(entity.getCourse().getPrice());
+        entity.setTotalAmount(dto.getTotalAmount() == null || dto.getTotalAmount() == 0 ? entity.getCourse().getPrice() : dto.getTotalAmount());
         entity.setAmountPaid(dto.getAmountPaid() == null ? 0.0 : dto.getAmountPaid());
         entity.setRemainingAmount(entity.getTotalAmount() - entity.getAmountPaid());
         entity.setReferralSource(dto.getReferralSourceId() == null ? (entity.getClient().getReferralSource() == null ? referralSourceService.findEntityByName(ReferralSource.REGISTRATION) : entity.getClient().getReferralSource()) :
                 referralSourceService.findEntityById(dto.getReferralSourceId()));
         entity.setActionTaken(dto.getActionTakenId() == null ? actionTakenService.findEntityByName(ActionTaken.ENROLLED) : actionTakenService.findEntityById(dto.getActionTakenId()));
         entity.setDiscount(dto.getDiscount() == null ? 0.0 : dto.getDiscount());
+        entity.setPaymentMethod(dto.getPaymentMethodId() != null ? paymentMethodService.findEntityById(dto.getPaymentMethodId()) : null);
         entity.setPaymentStatus(dto.getPaymentStatusId() != null ? paymentStatusService.findEntityById(dto.getPaymentStatusId()) : paymentStatusService.findEntityByName(PaymentStatus.WAITING));
         return entity;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Override
+    public EnrollmentDto create(EnrollmentDto dto) {
+        EnrollmentDto enrollmentDto = EnrollmentService.super.create(dto);
+        if (enrollmentDto.getAmountPaid() != enrollmentDto.getTotalAmount()) {
+            enrollmentDto.setPayInInstallments(true);
+            installmentService.create(InstallmentDto.InstallmentDtoBuilder()
+                    .enrollmentId(enrollmentDto.getId())
+                    .amount(enrollmentDto.getRemainingAmount())
+                    .dueDate(enrollmentDto.getModifiedDate())
+                    .isReceived(false)
+                    .build());
+            enrollmentDto = update(enrollmentDto, enrollmentDto.getId());
+        }
+
+        return enrollmentDto;
     }
 
     @Override
@@ -92,6 +114,11 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         return getDao().findByClientIdAndCourseId(clientId, courseId);
     }
 
+    @Override
+    public PaginationResponse<EnrollmentDto> findAllPaginatedAndFiltered(PaginationRequest<EnrollmentSearchDto> paginationRequest) {
+        log.info("EnrollmentService: findAllPaginatedAndFiltered() called");
+        return buildPaginationResponse(getDao().findAllPaginatedAndFiltered(paginationRequest));
+    }
 
     @Transactional
     @Override

@@ -18,13 +18,13 @@ import java.time.LocalDateTime;
 @Data
 public class CourseDto extends AbstractDto {
     private Long id;
-    @NotBlank(message = "Name is mandatory", groups = {Create.class, UpdateName.class})
+    @NotBlank(message = "Name is mandatory", groups = {Create.class, CreateInitial.class, UpdateName.class})
     private String name;
     @NotBlank(message = "Description is mandatory", groups = {UpdateDescription.class})
     private String description;
     @NotBlank(message = "Code is mandatory", groups = {Create.class, UpdateCode.class})
     private String code;
-    @NotBlank(message = "Part is mandatory", groups = {Create.class, UpdatePart.class})
+    @NotBlank(message = "Part is mandatory", groups = {Create.class, CreateInitial.class, UpdatePart.class})
     private String part;
     @NotNull(message = "StartDate is mandatory", groups = {UpdateStartDate.class})
     private LocalDateTime startDate;
@@ -36,6 +36,9 @@ public class CourseDto extends AbstractDto {
     private Double price;
 
     public interface Create {
+    }
+
+    public interface CreateInitial {
     }
 
     public interface UpdateName {

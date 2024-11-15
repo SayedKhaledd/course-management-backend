@@ -26,6 +26,11 @@ public class RoleController {
 
     @GetMapping("/all")
     public ApiResponse<?> findAll() {
-        return getApiResponseBuilder().buildSuccessStringResponse(Arrays.stream(Role.values()).toList().stream().map(Role::getRole).toList());
+        return getApiResponseBuilder().buildSuccessStringResponse(Arrays.stream(Role.values())
+                .toList()
+                .stream()
+                .filter(role -> !role.equals(Role.SUPER_ADMIN))
+                .map(Role::getRole)
+                .toList());
     }
 }

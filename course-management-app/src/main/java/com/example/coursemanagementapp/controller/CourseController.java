@@ -6,12 +6,15 @@ import com.example.backendcoreservice.api.pagination.PaginationRequest;
 import com.example.backendcoreservice.api.pagination.PaginationResponse;
 import com.example.backendcoreservice.controller.AbstractController;
 import com.example.coursemanagementapp.dto.CourseDto;
-import com.example.coursemanagementapp.dto.CourseSearchDto;
+import com.example.coursemanagementapp.dto.search.CourseSearchDto;
 import com.example.coursemanagementapp.service.CourseService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -41,9 +44,14 @@ public class CourseController implements AbstractController<CourseService, Cours
 
 
     @GetMapping("/all")
-    public ApiResponse<?> findAll() {
-        return getApiResponseBuilder().buildSuccessResponse(getService().findAll());
+    public ApiResponse<List<CourseDto>> findAll() {
+        return getApiResponseBuilder().buildSuccessResponse(getService().findAllCoursesNotInitial());
     }
+    @GetMapping("/all-initial-courses")
+    public ApiResponse<List<CourseDto>> findAllInitialCourses() {
+        return getApiResponseBuilder().buildSuccessResponse(getService().findAllInitialCourses());
+    }
+
 
     @PostMapping("/find-paginated-and-filtered")
     public ApiResponse<PaginationResponse<CourseDto>> findAllPaginatedAndFiltered(@RequestBody @Valid PaginationRequest<CourseSearchDto> paginationRequest) {
@@ -53,6 +61,12 @@ public class CourseController implements AbstractController<CourseService, Cours
 
     @PostMapping
     public ApiResponse<CourseDto> create(@RequestBody @Validated(CourseDto.Create.class) CourseDto dto) {
+        return getApiResponseBuilder().buildSuccessResponse(getService().create(dto));
+    }
+
+
+    @PostMapping("/initial")
+    public ApiResponse<CourseDto> createInitial(@RequestBody @Validated(CourseDto.CreateInitial.class) CourseDto dto) {
         return getApiResponseBuilder().buildSuccessResponse(getService().create(dto));
     }
 
@@ -95,15 +109,16 @@ public class CourseController implements AbstractController<CourseService, Cours
     @PatchMapping("/{id}/end-date")
     public ApiResponse<?> updateEndDate(@PathVariable Long id, @RequestBody @Validated(CourseDto.UpdateEndDate.class) CourseDto dto) {
         getService().updateEndDate(id, dto);
-        return apiResponseBuilder.buildSuccessResponse();
+        return getApiResponseBuilder().buildSuccessResponse();
     }
 
     @PatchMapping("/{id}/status/{courseStatusId}")
     public ApiResponse<?> updateCourseStatus(@PathVariable Long id, @PathVariable Long courseStatusId) {
         getService().updateCourseStatus(id, courseStatusId);
-        return apiResponseBuilder.buildSuccessResponse();
+        return getApiResponseBuilder().buildSuccessResponse();
     }
 
+    @PreAuthorize("hasAuthority('SUPER_ADMIN') OR hasAuthority( 'ADMIN')")
     @DeleteMapping("/{id}")
     public ApiResponse<?> delete(@PathVariable Long id) {
         getService().delete(id);
