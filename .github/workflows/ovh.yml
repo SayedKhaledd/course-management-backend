@@ -1,0 +1,62 @@
+on:
+  push:
+    branches:
+      - nobranches
+name: No Push to ovh
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Check out backend core base service repo
+        uses: actions/checkout@v2
+        with:
+          repository: Connect-Academy/backend-core-service
+          path: backend-core-service
+          ref: master
+          token: ${{ secrets.WORKFLOW_TOKEN }}
+
+      - name: Check out keycloak backend client service repo
+        uses: actions/checkout@v2
+        with:
+          repository: Connect-Academy/keycloak-backend-client
+          path: keycloak-backend-client
+          ref: master
+          token: ${{ secrets.WORKFLOW_TOKEN }}
+      - name: Authenticate with OVH Container Registry
+        run: echo "${{ secrets.OVH_PASSWORD }}" | docker login ${{ secrets.OVH_REGISTERY_URL }} -u ${{ secrets.OVH_USERNAME }} -p ${{ secrets.OVH_PASSWORD }}
+
+      - name: List files after checkouts
+        run: ls -la
+
+      - name: Build and Push to OVH Container Registry
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.OVH_REGISTERY_URL }}/connect-academy/course-management-backend:sha-${{ github.sha }}
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to OVH Instance
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{ secrets.OVH_HOST_IP }}
+          username: ubuntu
+          key: ${{ secrets.OVH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            sudo docker login ${{ secrets.OVH_REGISTERY_URL }} -u ${{ secrets.OVH_USERNAME }} -p ${{ secrets.OVH_PASSWORD }}
+            sudo docker pull ${{ secrets.OVH_REGISTERY_URL }}/connect-academy/course-management-backend:sha-${{ github.sha }}
+            sudo docker stop course-management-backend || true
+            sudo docker rm course-management-backend || true
+            sudo docker run -d --restart always -p 0.0.0.0:8090:8090 -e DB_URL=${{ secrets.OVH_DB_URL }} -e DB_USER=${{ secrets.OVH_DB_USER }} -e DB_PASS=${{ secrets.OVH_DB_PASS }}  -e KEYCLOAK_URL=${{ secrets.OVH_KEYCLOAK_URL }} -e KEYCLOAK_SECRET=${{ secrets.OVH_KEYCLOAK_SECRET }}  --name course-management-backend ${{ secrets.OVH_REGISTERY_URL }}/connect-academy/course-management-backend:sha-${{ github.sha }}
+
+
