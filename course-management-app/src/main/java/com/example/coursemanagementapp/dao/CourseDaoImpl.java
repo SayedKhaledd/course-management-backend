@@ -3,7 +3,7 @@ package com.example.coursemanagementapp.dao;
 import com.example.backendcoreservice.api.pagination.PaginationRequest;
 import com.example.coursemanagementapp.config.AuditAwareImpl;
 import com.example.coursemanagementapp.dao.repo.CourseRepo;
-import com.example.coursemanagementapp.dto.CourseSearchDto;
+import com.example.coursemanagementapp.dto.search.CourseSearchDto;
 import com.example.coursemanagementapp.model.Course;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Component
 @AllArgsConstructor
@@ -25,16 +26,25 @@ public class CourseDaoImpl implements CourseDao {
         return courseRepo;
     }
 
-    //TODO: Implement this method
+    @Override
+    public List<Course> findAllCoursesNotInitial() {
+        log.info("CourseDao: findAllCoursesNotInitial() - was called");
+        return getRepo().findAllCoursesNotInitial();
+    }
+
+    @Override
+    public List<Course> findAllInitialCourses() {
+        log.info("CourseDao: findAllInitialCourses() - was called");
+        return getRepo().findAllInitialCourses();
+    }
+
     @Override
     public Page<Course> findAllPaginatedAndFiltered(PaginationRequest<CourseSearchDto> paginationRequest) {
         CourseSearchDto criteria = paginationRequest.getCriteria();
-        Boolean markedAsDeleted = paginationRequest.getDeletedRecords();
         if (criteria == null)
-            return getRepo().findAllByMarkedAsDeleted(getPageRequest(paginationRequest), markedAsDeleted);
+            return getRepo().findAll(getPageRequest(paginationRequest));
 
-//        return getRepo().findAllFilteredAndPaginated(getPageRequest(paginationRequest), criteria, markedAsDeleted);
-        return null;
+        return getRepo().findAllFilteredAndPaginated(getPageRequest(paginationRequest), criteria);
     }
 
     @Override

@@ -1,9 +1,13 @@
 package com.example.coursemanagementapp.dao;
 
+import com.example.backendcoreservice.api.pagination.PaginationRequest;
 import com.example.coursemanagementapp.config.AuditAwareImpl;
 import com.example.coursemanagementapp.dao.repo.InstallmentRepo;
+import com.example.coursemanagementapp.dto.search.InstallmentSearchDto;
+import com.example.coursemanagementapp.model.Installment;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -19,6 +23,14 @@ public class InstallmentDaoImpl implements InstallmentDao {
     @Override
     public InstallmentRepo getRepo() {
         return installmentRepo;
+    }
+
+    @Override
+    public Page<Installment> findAllPaginatedAndFiltered(PaginationRequest<InstallmentSearchDto> paginationRequest) {
+        InstallmentSearchDto criteria = paginationRequest.getCriteria();
+        if (criteria == null)
+            return getRepo().findAll(getPageRequest(paginationRequest));
+        return getRepo().findAllFilteredAndPaginated(getPageRequest(paginationRequest), criteria);
     }
 
     @Override

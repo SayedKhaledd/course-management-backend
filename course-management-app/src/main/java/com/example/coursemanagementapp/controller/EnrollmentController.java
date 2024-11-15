@@ -2,10 +2,15 @@ package com.example.coursemanagementapp.controller;
 
 import com.example.backendcoreservice.api.ApiResponse;
 import com.example.backendcoreservice.api.ApiResponseBuilder;
+import com.example.backendcoreservice.api.pagination.PaginationRequest;
+import com.example.backendcoreservice.api.pagination.PaginationResponse;
 import com.example.backendcoreservice.controller.AbstractController;
 import com.example.coursemanagementapp.dto.EnrollmentDto;
+import com.example.coursemanagementapp.dto.search.EnrollmentSearchDto;
 import com.example.coursemanagementapp.service.EnrollmentService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,9 +46,19 @@ public class EnrollmentController implements AbstractController<EnrollmentServic
         return getApiResponseBuilder().buildSuccessResponse(getService().findAllByClientId(id));
     }
 
+    @GetMapping("/client/{clientId}/course/{courseId}")
+    public ApiResponse<EnrollmentDto> findByClientIdAndCourseId(@PathVariable Long clientId, @PathVariable Long courseId) {
+        return getApiResponseBuilder().buildSuccessResponse(getService().findByClientIdAndCourseId(clientId, courseId));
+    }
+
     @GetMapping("/course/{id}")
     public ApiResponse<List<EnrollmentDto>> findAllByCourseId(@PathVariable Long id) {
         return getApiResponseBuilder().buildSuccessResponse(getService().findAllByCourseId(id));
+    }
+
+    @PostMapping("/find-paginated-and-filtered")
+    public ApiResponse<PaginationResponse<EnrollmentDto>> findAllPaginatedAndFiltered(@RequestBody @Valid PaginationRequest<EnrollmentSearchDto> paginationRequest) {
+        return getApiResponseBuilder().buildSuccessResponse(getService().findAllPaginatedAndFiltered(paginationRequest));
     }
 
 
@@ -137,6 +152,8 @@ public class EnrollmentController implements AbstractController<EnrollmentServic
         getService().updateCourse(id, courseId);
         return getApiResponseBuilder().buildSuccessResponse();
     }
+
+    @PreAuthorize("hasAuthority('SUPER_ADMIN') OR hasAuthority( 'ADMIN')")
     @DeleteMapping("/{id}")
     public ApiResponse<?> delete(@PathVariable Long id) {
         getService().delete(id);

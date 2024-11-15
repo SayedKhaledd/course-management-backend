@@ -18,8 +18,10 @@ import java.time.LocalDateTime;
 @SuperBuilder(toBuilder = true, builderMethodName = "InstallmentDtoBuilder")
 @Data
 public class InstallmentDto extends AbstractDto {
+
     private Long id;
     private EnrollmentDto enrollment;
+    @NotNull(message = "enrollmentId is mandatory", groups = {Create.class})
     private Long enrollmentId;
     @NotNull(message = "Amount is mandatory", groups = {Create.class, UpdateAmount.class})
     private Double amount;

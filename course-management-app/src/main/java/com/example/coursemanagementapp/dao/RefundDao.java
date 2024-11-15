@@ -1,12 +1,17 @@
 package com.example.coursemanagementapp.dao;
 
+import com.example.backendcoreservice.api.pagination.PaginationRequest;
 import com.example.backendcoreservice.dao.AbstractDao;
 import com.example.coursemanagementapp.dao.repo.RefundRepo;
+import com.example.coursemanagementapp.dto.search.RefundSearchDto;
 import com.example.coursemanagementapp.model.Refund;
+import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
 
 public interface RefundDao extends AbstractDao<Refund, RefundRepo> {
+
+    Page<Refund> findAllPaginatedAndFiltered(PaginationRequest<RefundSearchDto> paginationRequest);
 
     void updateRefundedAmount(Long id, Double refundedAmount);
 

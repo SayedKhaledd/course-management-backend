@@ -1,15 +1,18 @@
 package com.example.coursemanagementapp.service;
 
-import com.example.backendcoreservice.exception.CustomException;
+import com.example.backendcoreservice.api.pagination.PaginationRequest;
+import com.example.backendcoreservice.api.pagination.PaginationResponse;
 import com.example.coursemanagementapp.dao.RefundDao;
 import com.example.coursemanagementapp.dto.HistoryDto;
 import com.example.coursemanagementapp.dto.RefundDto;
+import com.example.coursemanagementapp.dto.search.RefundSearchDto;
 import com.example.coursemanagementapp.enums.ActionTaken;
 import com.example.coursemanagementapp.enums.RefundStatus;
 import com.example.coursemanagementapp.model.Enrollment;
 import com.example.coursemanagementapp.model.Refund;
 import com.example.coursemanagementapp.transformer.RefundTransformer;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -57,11 +60,11 @@ public class RefundServiceImpl implements RefundService {
         return Refund.class.getSimpleName();
     }
 
+    @SneakyThrows
     @Override
     public Refund doBeforeCreate(Refund entity, RefundDto dto) {
         log.info("RefundServiceImpl: doBeforeCreate() - was called");
-        Enrollment enrollment = enrollmentService.findEntityByClientIdAndCourseId(dto.getEnrollment().getClientId(), dto.getEnrollment().getCourseId());
-        entity.setEnrollmentId(enrollment.getId());
+        Enrollment enrollment = enrollmentService.findEntityById(dto.getEnrollmentId());
         entity.setEnrollment(enrollment);
         entity.setEnrollmentAmount(enrollment.getAmountPaid());
         entity.setRefundedAmount(dto.getRefundedAmount() == null ? enrollment.getAmountPaid() : dto.getRefundedAmount());
@@ -73,6 +76,11 @@ public class RefundServiceImpl implements RefundService {
         return entity;
     }
 
+    @Override
+    public PaginationResponse<RefundDto> findAllPaginatedAndFiltered(PaginationRequest<RefundSearchDto> paginationRequest) {
+        log.info("RefundServiceImpl: findAllPaginatedAndFiltered() - was called");
+        return buildPaginationResponse(getDao().findAllPaginatedAndFiltered(paginationRequest));
+    }
 
     @Transactional
     @Override

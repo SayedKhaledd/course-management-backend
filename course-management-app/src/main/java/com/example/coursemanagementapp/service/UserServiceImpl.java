@@ -1,10 +1,15 @@
 package com.example.coursemanagementapp.service;
 
+import com.example.backendcoreservice.api.pagination.PaginationRequest;
+import com.example.backendcoreservice.api.pagination.PaginationResponse;
+import com.example.backendcoreservice.exception.CustomException;
 import com.example.coursemanagementapp.dao.UserDao;
 import com.example.coursemanagementapp.dto.HistoryDto;
 import com.example.coursemanagementapp.dto.UserDto;
+import com.example.coursemanagementapp.dto.search.UserSearchDto;
 import com.example.coursemanagementapp.model.User;
 import com.example.coursemanagementapp.transformer.UserTransformer;
+import com.example.coursemanagementapp.validator.UserValidator;
 import com.example.keycloakbackendclient.dto.KeycloakUserDto;
 import com.example.keycloakbackendclient.service.KeycloakUserService;
 import lombok.AllArgsConstructor;
@@ -21,6 +26,7 @@ public class UserServiceImpl implements UserService {
     private final UserTransformer userTransformer;
     private final KeycloakUserService keycloakUserService;
     private final HistoryService historyService;
+    private final UserValidator userValidator;
 
     @Override
     public UserDao getDao() {
@@ -50,11 +56,20 @@ public class UserServiceImpl implements UserService {
         return UserService.super.update(userDto, userDto.getId());
     }
 
+    @Override
+    public PaginationResponse<UserDto> findAllPaginatedAndFiltered(PaginationRequest<UserSearchDto> paginationRequest) {
+        log.info("UserService: findAllPaginatedAndFiltered - was called with paginationRequest: {}", paginationRequest);
+        return buildPaginationResponse(getDao().findAllPaginatedAndFiltered(paginationRequest));
+    }
+
     @Transactional
     @Override
     public void updateRole(Long id, UserDto userDto) {
         log.info("UserService: updateUserRole - was called with id: {} and role: {}", id, userDto.getRole().getRole());
         UserDto userDtoDb = findById(id);
+        if (!userValidator.shouldUpdateRole(userDtoDb.getRole())) {
+            throw new CustomException("You are not allowed to update this user's role");
+        }
         keycloakUserService.updateUserRole(userDtoDb.getKeycloakId(), userDto.getRole().getRole());
         historyService.create(HistoryDto.HistoryDtoBuilder().
                 entityId(id)

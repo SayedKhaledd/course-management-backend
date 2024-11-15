@@ -1,8 +1,11 @@
 package com.example.coursemanagementapp.service;
 
+import com.example.backendcoreservice.api.pagination.PaginationRequest;
+import com.example.backendcoreservice.api.pagination.PaginationResponse;
 import com.example.coursemanagementapp.dao.CourseLecturerDao;
 import com.example.coursemanagementapp.dto.CourseLecturerDto;
 import com.example.coursemanagementapp.dto.HistoryDto;
+import com.example.coursemanagementapp.dto.search.CourseLecturerSearchDto;
 import com.example.coursemanagementapp.model.CourseLecturer;
 import com.example.coursemanagementapp.transformer.CourseLecturerTransformer;
 import lombok.AllArgsConstructor;
@@ -50,6 +53,12 @@ public class CourseLecturerServiceImpl implements CourseLecturerService {
     public List<CourseLecturerDto> findAllByCourseId(Long courseId) {
         log.info("CourseLecturerServiceImpl: findAllByCourseId() - was called");
         return getTransformer().transformEntitiesToDtos(getDao().findAllByCourseId(courseId));
+    }
+
+    @Override
+    public PaginationResponse<CourseLecturerDto> findAllPaginatedAndFiltered(PaginationRequest<CourseLecturerSearchDto> paginationRequest) {
+        log.info("CourseLecturerServiceImpl: findAllPaginatedAndFiltered() - was called");
+        return buildPaginationResponse(getDao().findAllPaginatedAndFiltered(paginationRequest));
     }
 
     @Transactional

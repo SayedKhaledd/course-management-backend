@@ -1,15 +1,19 @@
 package com.example.coursemanagementapp.service;
 
+import com.example.backendcoreservice.api.pagination.PaginationRequest;
+import com.example.backendcoreservice.api.pagination.PaginationResponse;
 import com.example.backendcoreservice.exception.CustomException;
 import com.example.coursemanagementapp.dao.InstallmentDao;
 import com.example.coursemanagementapp.dto.EnrollmentDto;
 import com.example.coursemanagementapp.dto.HistoryDto;
 import com.example.coursemanagementapp.dto.InstallmentDto;
+import com.example.coursemanagementapp.dto.search.InstallmentSearchDto;
 import com.example.coursemanagementapp.enums.PaymentStatus;
 import com.example.coursemanagementapp.model.Enrollment;
 import com.example.coursemanagementapp.model.Installment;
 import com.example.coursemanagementapp.transformer.InstallmentTransformer;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -52,18 +56,23 @@ public class InstallmentServiceImpl implements InstallmentService {
         return Installment.class.getSimpleName();
     }
 
+    @SneakyThrows
     @Override
     public Installment doBeforeCreate(Installment entity, InstallmentDto dto) {
         log.info("InstallmentServiceImpl: doBeforeCreate() - was called");
-        Enrollment enrollment = enrollmentService.findEntityByClientIdAndCourseId(dto.getEnrollment().getClientId(), dto.getEnrollment().getCourseId());
-        entity.setEnrollmentId(enrollment.getId());
-        entity.setEnrollment(enrollment);
-        if (enrollment.getRemainingAmount() < dto.getAmount()) {
+        entity.setEnrollment( enrollmentService.findEntityById(dto.getEnrollmentId()));
+        if (entity.getEnrollment().getRemainingAmount() < dto.getAmount()) {
             throw new CustomException("Amount cannot be greater than remaining amount");
         }
 //        if (!enrollment.getPayInInstallments())
 //            throw new CustomException("This enrollment does not support installments");
         return entity;
+    }
+
+    @Override
+    public PaginationResponse<InstallmentDto> findAllPaginatedAndFiltered(PaginationRequest<InstallmentSearchDto> paginationRequest) {
+        log.info("InstallmentServiceImpl: findAllPaginatedAndFiltered() - was called");
+        return buildPaginationResponse(getDao().findAllPaginatedAndFiltered(paginationRequest));
     }
 
     @Transactional

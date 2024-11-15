@@ -7,6 +7,7 @@ import com.example.coursemanagementapp.dto.EnrollmentDto;
 import com.example.coursemanagementapp.dto.EvaluationDto;
 import com.example.coursemanagementapp.service.EvaluationService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -61,6 +62,7 @@ public class EvaluationController implements AbstractController<EvaluationServic
         return getApiResponseBuilder().buildSuccessResponse();
     }
 
+    @PreAuthorize("hasAuthority('SUPER_ADMIN') OR hasAuthority( 'ADMIN')")
     @DeleteMapping("/{id}")
     public ApiResponse<?> delete(@PathVariable Long id) {
         getService().delete(id);

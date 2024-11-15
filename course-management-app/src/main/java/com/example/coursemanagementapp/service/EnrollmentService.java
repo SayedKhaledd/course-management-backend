@@ -1,8 +1,11 @@
 package com.example.coursemanagementapp.service;
 
+import com.example.backendcoreservice.api.pagination.PaginationRequest;
+import com.example.backendcoreservice.api.pagination.PaginationResponse;
 import com.example.backendcoreservice.service.AbstractService;
 import com.example.coursemanagementapp.dao.EnrollmentDao;
 import com.example.coursemanagementapp.dto.EnrollmentDto;
+import com.example.coursemanagementapp.dto.search.EnrollmentSearchDto;
 import com.example.coursemanagementapp.model.Enrollment;
 import com.example.coursemanagementapp.transformer.EnrollmentTransformer;
 
@@ -17,6 +20,8 @@ public interface EnrollmentService extends AbstractService<Enrollment, Enrollmen
     EnrollmentDto findByClientIdAndCourseId(Long clientId, Long courseId);
 
     Enrollment findEntityByClientIdAndCourseId(Long clientId, Long courseId);
+
+    PaginationResponse<EnrollmentDto> findAllPaginatedAndFiltered(PaginationRequest<EnrollmentSearchDto> paginationRequest);
 
     void updateAmountPaid(Long id, EnrollmentDto dto);
 

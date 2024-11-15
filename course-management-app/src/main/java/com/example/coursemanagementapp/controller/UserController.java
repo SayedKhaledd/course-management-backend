@@ -2,9 +2,13 @@ package com.example.coursemanagementapp.controller;
 
 import com.example.backendcoreservice.api.ApiResponse;
 import com.example.backendcoreservice.api.ApiResponseBuilder;
+import com.example.backendcoreservice.api.pagination.PaginationRequest;
+import com.example.backendcoreservice.api.pagination.PaginationResponse;
 import com.example.backendcoreservice.controller.AbstractController;
 import com.example.coursemanagementapp.dto.UserDto;
+import com.example.coursemanagementapp.dto.search.UserSearchDto;
 import com.example.coursemanagementapp.service.UserService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -36,6 +40,12 @@ public class UserController implements AbstractController<UserService, UserDto> 
     @GetMapping("/all")
     public ApiResponse<List<UserDto>> findAll() {
         return getApiResponseBuilder().buildSuccessResponse(getService().findAll());
+    }
+
+    @PreAuthorize("hasAuthority('SUPER_ADMIN') OR hasAuthority( 'ADMIN')")
+    @PostMapping("/find-paginated-and-filtered")
+    public ApiResponse<PaginationResponse<UserDto>> findPaginatedAndFiltered(@RequestBody @Valid PaginationRequest<UserSearchDto> paginationRequest) {
+        return getApiResponseBuilder().buildSuccessResponse(getService().findAllPaginatedAndFiltered(paginationRequest));
     }
 
 

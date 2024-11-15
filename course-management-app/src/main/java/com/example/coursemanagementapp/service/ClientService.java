@@ -5,7 +5,7 @@ import com.example.backendcoreservice.api.pagination.PaginationResponse;
 import com.example.backendcoreservice.service.AbstractService;
 import com.example.coursemanagementapp.dao.ClientDao;
 import com.example.coursemanagementapp.dto.ClientDto;
-import com.example.coursemanagementapp.dto.ClientSearchDto;
+import com.example.coursemanagementapp.dto.search.ClientSearchDto;
 import com.example.coursemanagementapp.model.Client;
 import com.example.coursemanagementapp.transformer.ClientTransformer;
 
@@ -35,5 +35,5 @@ public interface ClientService extends AbstractService<Client, ClientDto, Client
 
     void updateReferralSource(Long id, Long referralSourceId);
 
-    void updateInitialCourseName(Long id, ClientDto clientDto);
+    void updateInitialCourse(Long id, Long initialCourseId);
 }

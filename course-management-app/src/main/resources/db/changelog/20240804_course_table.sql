@@ -38,3 +38,9 @@ ALTER TABLE public.course
 CREATE UNIQUE INDEX course_code_uq
     ON public.course (code)
     WHERE marked_as_deleted = false;
+--changeset sayed:20241113_alter_course_table_drop_unique_index
+DROP INDEX course_code_uq;
+--changeset sayed:20241113_alter_course_table_add_unique_index
+CREATE UNIQUE INDEX course_code_uq
+    ON public.course (code)
+    WHERE marked_as_deleted = false AND code != 'N/A';

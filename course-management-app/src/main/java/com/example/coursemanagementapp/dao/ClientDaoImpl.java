@@ -3,7 +3,7 @@ package com.example.coursemanagementapp.dao;
 import com.example.backendcoreservice.api.pagination.PaginationRequest;
 import com.example.coursemanagementapp.config.AuditAwareImpl;
 import com.example.coursemanagementapp.dao.repo.ClientRepo;
-import com.example.coursemanagementapp.dto.ClientSearchDto;
+import com.example.coursemanagementapp.dto.search.ClientSearchDto;
 import com.example.coursemanagementapp.model.Client;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -29,11 +29,10 @@ public class ClientDaoImpl implements ClientDao {
     public Page<Client> findAllPaginatedAndFiltered(PaginationRequest<ClientSearchDto> paginationRequest) {
         log.info("ClientDao: findAllPaginatedAndFiltered() - was called");
         ClientSearchDto criteria = paginationRequest.getCriteria();
-        Boolean markedAsDeleted = paginationRequest.getDeletedRecords();
         if (criteria == null)
-            return getRepo().findAllByMarkedAsDeleted(getPageRequest(paginationRequest), markedAsDeleted);
+            return getRepo().findAll(getPageRequest(paginationRequest));
 
-        return getRepo().findAllFilteredAndPaginated(getPageRequest(paginationRequest), criteria, markedAsDeleted);
+        return getRepo().findAllFilteredAndPaginated(getPageRequest(paginationRequest), criteria);
     }
 
     @Override
@@ -120,9 +119,9 @@ public class ClientDaoImpl implements ClientDao {
     }
 
     @Override
-    public void updateInitialCourseName(Long id, String initialCourseName) {
-        log.info("ClientDao: updateInitialCourseName() - was called");
-        getRepo().updateInitialCourseName(id, initialCourseName);
+    public void updateInitialCourse(Long id, Long initialCourseId) {
+        log.info("ClientDao: updateInitialCourse() - was called");
+        getRepo().updateInitialCourse(id, initialCourseId);
         getRepo().updateModifiedDateAndModifiedBy(id, auditAware.getCurrentAuditor().get(), LocalDateTime.now());
     }
 }

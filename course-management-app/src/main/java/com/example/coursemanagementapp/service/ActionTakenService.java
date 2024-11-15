@@ -10,6 +10,6 @@ public interface ActionTakenService extends AbstractService<ActionTaken, ActionT
 
     ActionTakenDto findByName(com.example.coursemanagementapp.enums.ActionTaken action);
 
-    com.example.coursemanagementapp.model.ActionTaken findEntityByName(com.example.coursemanagementapp.enums.ActionTaken action);
+    ActionTaken findEntityByName(com.example.coursemanagementapp.enums.ActionTaken action);
 
 }

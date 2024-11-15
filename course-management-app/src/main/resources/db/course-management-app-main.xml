@@ -35,5 +35,8 @@
     <include file="/db/changelog/20241031_insert_refund_methods.sql"/>
     <include file="/db/changelog/20241027_history_table.sql"/>
 
+    <include file="/db/changelog/20241113_insert_initial_courses.sql"/>
+    <include file="/db/changelog/20241113_alter_clients_table.sql"/>
+
 
 </databaseChangeLog>

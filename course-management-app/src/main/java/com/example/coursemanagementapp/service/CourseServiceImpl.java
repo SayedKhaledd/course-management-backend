@@ -4,8 +4,8 @@ import com.example.backendcoreservice.api.pagination.PaginationRequest;
 import com.example.backendcoreservice.api.pagination.PaginationResponse;
 import com.example.coursemanagementapp.dao.CourseDao;
 import com.example.coursemanagementapp.dto.CourseDto;
-import com.example.coursemanagementapp.dto.CourseSearchDto;
 import com.example.coursemanagementapp.dto.HistoryDto;
+import com.example.coursemanagementapp.dto.search.CourseSearchDto;
 import com.example.coursemanagementapp.enums.CourseStatus;
 import com.example.coursemanagementapp.model.Course;
 import com.example.coursemanagementapp.transformer.CourseTransformer;
@@ -14,6 +14,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -43,7 +45,21 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public Course doBeforeCreate(Course entity, CourseDto dto) {
         entity.setCourseStatus(courseStatusService.findEntityByStatus(CourseStatus.PENDING));
+        entity.setCode(dto.getCode() == null ? "N/A" : dto.getCode());
+        entity.setPrice(dto.getPrice() == null ? 0.0 : dto.getPrice());
         return entity;
+    }
+
+    @Override
+    public List<CourseDto> findAllCoursesNotInitial() {
+        log.info("CourseService: findAllCoursesNotInitial() - was called");
+        return getTransformer().transformEntitiesToDtos(getDao().findAllCoursesNotInitial());
+    }
+
+    @Override
+    public List<CourseDto> findAllInitialCourses() {
+        log.info("CourseService: findAllInitialCourses() - was called");
+        return getTransformer().transformEntitiesToDtos(getDao().findAllInitialCourses());
     }
 
     @Override

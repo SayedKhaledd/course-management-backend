@@ -1,7 +1,9 @@
 package com.example.coursemanagementapp.dto;
 
 import com.example.backendcoreservice.dto.AbstractDto;
+import com.example.coursemanagementapp.model.Course;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -26,8 +28,10 @@ public class ClientDto extends AbstractDto {
     @NotBlank(message = "Phone is mandatory", groups = {Create.class, UpdatePhone.class})
     private String phone;
 
-    @NotBlank(message = "Initial course name is mandatory", groups = {Create.class, UpdateInitialCourseName.class})
-    private String initialCourseName;
+    @NotNull(message = "Initial Course is mandatory", groups = {Create.class})
+    private Long initialCourseId;
+
+    private Course initialCourse;
 
     @NotBlank(message = "Alternative phone is mandatory", groups = {UpdateAlternativePhone.class})
     private String alternativePhone;
@@ -92,10 +96,6 @@ public class ClientDto extends AbstractDto {
     }
 
     public interface UpdateName {
-
-    }
-
-    public interface UpdateInitialCourseName {
 
     }
 
