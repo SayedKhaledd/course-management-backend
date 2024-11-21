@@ -2,10 +2,15 @@ package com.example.coursemanagementapp.controller;
 
 import com.example.backendcoreservice.api.ApiResponse;
 import com.example.backendcoreservice.api.ApiResponseBuilder;
+import com.example.backendcoreservice.api.pagination.PaginationRequest;
+import com.example.backendcoreservice.api.pagination.PaginationResponse;
 import com.example.backendcoreservice.controller.AbstractController;
 import com.example.coursemanagementapp.dto.EnrollmentDto;
 import com.example.coursemanagementapp.dto.EvaluationDto;
+import com.example.coursemanagementapp.dto.search.EnrollmentSearchDto;
+import com.example.coursemanagementapp.dto.search.EvaluationSearchDto;
 import com.example.coursemanagementapp.service.EvaluationService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -33,15 +38,9 @@ public class EvaluationController implements AbstractController<EvaluationServic
         return apiResponseBuilder;
     }
 
-
-    @GetMapping("/client/{clientId}")
-    public ApiResponse<List<EvaluationDto>> findAllByClientId(@PathVariable Long clientId) {
-        return getApiResponseBuilder().buildSuccessResponse(getService().findAllByClientId(clientId));
-    }
-
-    @GetMapping("/course/{courseId}")
-    public ApiResponse<List<EvaluationDto>> findAllByCourseId(@PathVariable Long courseId) {
-        return getApiResponseBuilder().buildSuccessResponse(getService().findAllByCourseId(courseId));
+    @PostMapping("/find-paginated-and-filtered")
+    public ApiResponse<PaginationResponse<EvaluationDto>> findAllPaginatedAndFiltered(@RequestBody @Valid PaginationRequest<EvaluationSearchDto> paginationRequest) {
+        return getApiResponseBuilder().buildSuccessResponse(getService().findAllPaginatedAndFiltered(paginationRequest));
     }
 
     @PostMapping

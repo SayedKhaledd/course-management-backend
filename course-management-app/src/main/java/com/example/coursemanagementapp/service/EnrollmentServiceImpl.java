@@ -6,6 +6,7 @@ import com.example.coursemanagementapp.dao.EnrollmentDao;
 import com.example.coursemanagementapp.dto.*;
 import com.example.coursemanagementapp.dto.search.EnrollmentSearchDto;
 import com.example.coursemanagementapp.enums.ActionTaken;
+import com.example.coursemanagementapp.enums.ClientStatus;
 import com.example.coursemanagementapp.enums.PaymentStatus;
 import com.example.coursemanagementapp.enums.ReferralSource;
 import com.example.coursemanagementapp.model.Enrollment;
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -38,6 +40,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     private final InstallmentService installmentService;
     private final RefundService refundService;
     private final EnrollmentValidator enrollmentValidator;
+    private final ClientStatusService clientStatusService;
 
     @Override
     public EnrollmentDao getDao() {
@@ -72,11 +75,11 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         return entity;
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
     @Override
     public EnrollmentDto create(EnrollmentDto dto) {
         EnrollmentDto enrollmentDto = EnrollmentService.super.create(dto);
-        if (enrollmentDto.getAmountPaid() != enrollmentDto.getTotalAmount()) {
+        clientService.updateStatus(enrollmentDto.getClientId(), clientStatusService.findEntityByName(ClientStatus.COURSE_RESERVED).getId());
+        if (!Objects.equals(enrollmentDto.getAmountPaid(), enrollmentDto.getTotalAmount())) {
             enrollmentDto.setPayInInstallments(true);
             installmentService.create(InstallmentDto.InstallmentDtoBuilder()
                     .enrollmentId(enrollmentDto.getId())

@@ -1,8 +1,11 @@
 package com.example.coursemanagementapp.service;
 
+import com.example.backendcoreservice.api.pagination.PaginationRequest;
+import com.example.backendcoreservice.api.pagination.PaginationResponse;
 import com.example.coursemanagementapp.dao.EvaluationDao;
 import com.example.coursemanagementapp.dto.EvaluationDto;
 import com.example.coursemanagementapp.dto.HistoryDto;
+import com.example.coursemanagementapp.dto.search.EvaluationSearchDto;
 import com.example.coursemanagementapp.model.Enrollment;
 import com.example.coursemanagementapp.model.Evaluation;
 import com.example.coursemanagementapp.transformer.EvaluationTransformer;
@@ -49,17 +52,9 @@ public class EvaluationServiceImpl implements EvaluationService {
         return entity;
     }
 
-
     @Override
-    public List<EvaluationDto> findAllByClientId(Long clientId) {
-        log.info("EvaluationService: findAllByClientId() - was called");
-        return getTransformer().transformEntitiesToDtos(getDao().findAllByClientId(clientId));
-    }
-
-    @Override
-    public List<EvaluationDto> findAllByCourseId(Long courseId) {
-        log.info("EvaluationService: findAllByCourseId() - was called");
-        return getTransformer().transformEntitiesToDtos(getDao().findAllByCourseId(courseId));
+    public PaginationResponse<EvaluationDto> findAllPaginatedAndFiltered(PaginationRequest<EvaluationSearchDto> paginationRequest) {
+        return buildPaginationResponse(getDao().findAllPaginatedAndFiltered(paginationRequest));
     }
 
     @Transactional

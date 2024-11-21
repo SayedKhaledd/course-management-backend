@@ -1,34 +1,21 @@
 package com.example.coursemanagementapp.transformer;
 
 
+import com.example.backendcoreservice.transformer.AbstractTransformer;
 import com.example.coursemanagementapp.dto.SalesDto;
-import com.example.coursemanagementapp.enums.PaymentType;
-import org.hibernate.transform.ResultTransformer;
+import com.example.coursemanagementapp.model.Sales;
+import com.example.coursemanagementapp.transformer.mapper.SalesMapper;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.List;
+@AllArgsConstructor
+@Component
+public class SalesTransformer implements AbstractTransformer<Sales, SalesDto, SalesMapper> {
 
-public class SalesTransformer implements ResultTransformer<SalesDto> {
-
-    @Override
-    public SalesDto transformTuple(Object[] tuple, String[] aliases) {
-        SalesDto salesDto = new SalesDto();
-        salesDto.setId((Long) tuple[0]);
-        salesDto.setClientName((String) tuple[1]);
-        salesDto.setCourseName((String) tuple[2]);
-        salesDto.setCourseCode((String) tuple[3]);
-        salesDto.setAmount((BigDecimal) tuple[4]);
-        salesDto.setPaymentType(PaymentType.valueOf((String) tuple[5]));
-        salesDto.setPaymentMethod((String) tuple[6]);
-        salesDto.setDate(((Timestamp) tuple[7]).toLocalDateTime());
-        salesDto.setCurrency((String) tuple[8]);
-        salesDto.setIsReceived((Boolean) tuple[9]);
-        return salesDto;
-    }
+    private final SalesMapper salesMapper;
 
     @Override
-    public List<SalesDto> transformList(List<SalesDto> collection) {
-        return collection;
+    public SalesMapper getMapper() {
+        return salesMapper;
     }
 }

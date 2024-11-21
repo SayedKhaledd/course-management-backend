@@ -38,56 +38,5 @@ public interface ClientRepo extends JpaRepository<Client, Long>, JpaSpecificatio
             """)
     Page<Client> findAllFilteredAndPaginated(Pageable pageable, ClientSearchDto clientSearchDto);
 
-    @Modifying
-    @Query(value = "UPDATE client SET name = :name WHERE id = :id AND marked_as_deleted = false", nativeQuery = true)
-    void updateName(Long id, String name);
 
-    @Modifying
-    @Query(value = "UPDATE client SET status_id = :statusId WHERE id = :id AND marked_as_deleted = false", nativeQuery = true)
-    void updateStatus(Long id, Long statusId);
-
-    @Modifying
-    @Query(value = "UPDATE client SET description = :description WHERE id = :id AND marked_as_deleted = false", nativeQuery = true)
-    void updateDescription(Long id, String description);
-
-    @Modifying
-    @Query(value = "UPDATE client SET email = :email WHERE id = :id AND marked_as_deleted = false", nativeQuery = true)
-    void updateEmail(Long id, String email);
-
-    @Modifying
-    @Query(value = "UPDATE client SET phone_number = :phone WHERE id = :id AND marked_as_deleted = false", nativeQuery = true)
-    void updatePhone(Long id, String phone);
-
-    @Modifying
-    @Query(value = "UPDATE client SET alternative_phone_number = :alternativePhone WHERE id = :id AND marked_as_deleted = false", nativeQuery = true)
-    void updateAlternativePhone(Long id, String alternativePhone);
-
-    @Modifying
-    @Query(value = "UPDATE client SET country = :country WHERE id = :id AND marked_as_deleted = false", nativeQuery = true)
-    void updateCountry(Long id, String country);
-
-    @Modifying
-    @Query(value = "UPDATE client SET nationality = :nationality WHERE id = :id AND marked_as_deleted = false", nativeQuery = true)
-    void updateNationality(Long id, String nationality);
-
-    @Modifying
-    @Query(value = "UPDATE client SET address = :address WHERE id = :id AND marked_as_deleted = false", nativeQuery = true)
-    void updateAddress(Long id, String address);
-
-    @Modifying
-    @Query(value = "UPDATE client SET specialty = :specialty WHERE id = :id AND marked_as_deleted = false", nativeQuery = true)
-    void updateSpecialty(Long id, String specialty);
-
-    @Modifying
-    @Query(value = "UPDATE client SET referral_source_id = :referralSourceId WHERE id = :id AND marked_as_deleted = false", nativeQuery = true)
-    void updateReferralSource(Long id, Long referralSourceId);
-
-    @Modifying
-    @Query(value = "UPDATE client SET modified_date = :currentDate, modified_by = :modifiedBy WHERE id = :id AND marked_as_deleted = false", nativeQuery = true)
-    void updateModifiedDateAndModifiedBy(Long id, String modifiedBy, LocalDateTime currentDate);
-
-
-    @Modifying
-    @Query(value = "UPDATE client SET initial_course_id = :initialCourseId WHERE id = :id AND marked_as_deleted = false", nativeQuery = true)
-    void updateInitialCourse(Long id, Long initialCourseId);
 }

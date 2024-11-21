@@ -37,6 +37,8 @@
 
     <include file="/db/changelog/20241113_insert_initial_courses.sql"/>
     <include file="/db/changelog/20241113_alter_clients_table.sql"/>
+    <include file="/db/changelog/20241118_sales_view.sql"/>
+
 
 
 </databaseChangeLog>

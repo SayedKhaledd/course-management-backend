@@ -7,10 +7,18 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum RefundReason {
-    DID_NOT_LIKE_THE_COURSE("DID_NOT_LIKE_THE_COURSE"),
-    DID_NOT_ATTEND("DID_NOT_ATTEND"),
-    CHANGE_SPECIALITY("Change Specaility"),
-    OTHER("Other");
+
+    PERSONAL_REASONS("أسباب شخصية"),
+    NOT_INTERESTED("مش هيكمل في الزمالة"),
+    POSTPONED("هيأجل حاليا"),
+    NEEDS_LIVE("محتاج لايف والمواعيد مش مناسبة"),
+    OUTSIDE_EGYPT("خارج مصر - اسباب تقنية"),
+    NOT_LIKED("معجبهوش الكورس"),
+    NOT_SPECIALIZED("غير التخصص"),
+    OTHER("أخرى");
+
+
+
     private final String reason;
 
     @JsonValue

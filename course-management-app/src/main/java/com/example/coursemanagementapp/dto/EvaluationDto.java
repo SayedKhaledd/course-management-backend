@@ -22,7 +22,7 @@ public class EvaluationDto extends AbstractDto {
     @NotNull(message = "Exam name is mandatory", groups = {Create.class, UpdateExamName.class})
     private String examName;
     private EvaluationStatusDto evaluationStatus;
-    private Long statusId;
+    private Long evaluationStatusId;
 
     public interface Create {
     }

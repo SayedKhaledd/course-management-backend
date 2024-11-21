@@ -1,6 +1,7 @@
 package com.example.coursemanagementapp.dao;
 
 import com.example.backendcoreservice.api.pagination.PaginationRequest;
+import com.example.backendcoreservice.dao.EntityManagerDaoImpl;
 import com.example.coursemanagementapp.config.AuditAwareImpl;
 import com.example.coursemanagementapp.dao.repo.CourseLecturerRepo;
 import com.example.coursemanagementapp.dto.search.CourseLecturerSearchDto;
@@ -20,6 +21,8 @@ public class CourseLecturerDaoImpl implements CourseLecturerDao {
     private final CourseLecturerRepo courselecturerRepo;
     @Qualifier("auditAwareImpl")
     private final AuditAwareImpl auditAware;
+
+    private final EntityManagerDaoImpl entityManagerDao;
 
     @Override
     public CourseLecturerRepo getRepo() {
@@ -45,29 +48,28 @@ public class CourseLecturerDaoImpl implements CourseLecturerDao {
     @Override
     public void updatePaidInPercentage(Long id, Boolean paidInPercentage) {
         log.info("CourseLecturerDao: updatePaidInPercentage() - was called");
-        getRepo().updatePaidInPercentage(id, paidInPercentage);
-        getRepo().updateModifiedDateAndModifiedBy(id, auditAware.getCurrentAuditor().get(), LocalDateTime.now());
+        entityManagerDao.updateQuery(CourseLecturer.class.getSimpleName(), id, "paidInPercentage", paidInPercentage, auditAware.getCurrentAuditor().get(), LocalDateTime.now());
     }
 
     @Override
     public void updatePercentageAndTotalPercentageCost(Long id, Double percentage, Double totalPercentageCost) {
         log.info("CourseLecturerDao: updatePercentage() - was called");
-        getRepo().updatePercentageAndTotalPercentageCost(id, percentage, totalPercentageCost);
-        getRepo().updateModifiedDateAndModifiedBy(id, auditAware.getCurrentAuditor().get(), LocalDateTime.now());
+        entityManagerDao.updateQuery(CourseLecturer.class.getSimpleName(), id, "percentage", percentage, auditAware.getCurrentAuditor().get(), LocalDateTime.now());
+        entityManagerDao.updateQuery(CourseLecturer.class.getSimpleName(), id, "totalPercentageCost", totalPercentageCost, auditAware.getCurrentAuditor().get(), LocalDateTime.now());
     }
 
 
     @Override
     public void updateNoOfLecturesAndTotalFixedCost(Long id, Long noOfLectures, Double totalFixedCost) {
         log.info("CourseLecturerDao: updateNoOfLecturesAndTotalFixedCost() - was called");
-        getRepo().updateNoOfLecturesAndTotalFixedCost(id, noOfLectures, totalFixedCost);
-        getRepo().updateModifiedDateAndModifiedBy(id, auditAware.getCurrentAuditor().get(), LocalDateTime.now());
+        entityManagerDao.updateQuery(CourseLecturer.class.getSimpleName(), id, "noOfLectures", noOfLectures, auditAware.getCurrentAuditor().get(), LocalDateTime.now());
+        entityManagerDao.updateQuery(CourseLecturer.class.getSimpleName(), id, "totalFixedCost", totalFixedCost, auditAware.getCurrentAuditor().get(), LocalDateTime.now());
     }
 
     @Override
     public void updateLectureCostAndTotalFixedCost(Long id, Double lectureCost, Double totalFixedCost) {
         log.info("CourseLecturerDao: updateLectureCostAndTotalFixedCost() - was called");
-        getRepo().updateLectureCostAndTotalFixedCost(id, lectureCost, totalFixedCost);
-        getRepo().updateModifiedDateAndModifiedBy(id, auditAware.getCurrentAuditor().get(), LocalDateTime.now());
-    }
+        entityManagerDao.updateQuery(CourseLecturer.class.getSimpleName(), id, "lectureCost", lectureCost, auditAware.getCurrentAuditor().get(), LocalDateTime.now());
+        entityManagerDao.updateQuery(CourseLecturer.class.getSimpleName(), id, "totalFixedCost", totalFixedCost, auditAware.getCurrentAuditor().get(), LocalDateTime.now());
+  }
 }
