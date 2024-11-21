@@ -1,33 +1,34 @@
 package com.example.coursemanagementapp.dao.repo;
 
+import com.example.coursemanagementapp.dto.search.EvaluationSearchDto;
 import com.example.coursemanagementapp.model.Evaluation;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
 public interface EvaluationRepo extends JpaRepository<Evaluation, Long> {
 
-    @Query("SELECT e FROM Evaluation e WHERE e.enrollment.clientId = :clientId")
-    List<Evaluation> findAllByClientId(Long clientId);
+   @Query("""
+            SELECT e FROM Evaluation e
+            WHERE
+           (:#{#criteria.examName} IS NULL OR e.examName LIKE %:#{#criteria.examName}%)
+           AND (:#{#criteria.evaluationStatusIds} IS NULL OR e.evaluationStatus.id IN :#{#criteria.evaluationStatusIds})
+           AND (:#{#criteria.enrollmentId} IS NULL OR e.enrollment.id = :#{#criteria.enrollmentId})
+           AND (:#{#criteria.clientId} IS NULL OR e.enrollment.client.id = :#{#criteria.clientId})
+           AND (:#{#criteria.clientName} IS NULL OR e.enrollment.client.name LIKE CONCAT('%', :#{#criteria.clientName}, '%'))
+           AND (:#{#criteria.courseCode} IS NULL OR e.enrollment.course.code LIKE CONCAT('%', :#{#criteria.courseCode}, '%'))
+           AND (:#{#criteria.courseName} IS NULL OR e.enrollment.course.name LIKE CONCAT('%', :#{#criteria.courseName}, '%'))
+           AND (:#{#criteria.createdBy} IS NULL OR e.createdBy LIKE CONCAT('%', :#{#criteria.createdBy}, '%'))
+           AND (:#{#criteria.modifiedBy} IS NULL OR e.modifiedBy LIKE CONCAT('%', :#{#criteria.modifiedBy}, '%'))
+           AND (:#{#criteria.createdDate} IS NULL OR CAST(e.createdDate AS string) LIKE CONCAT('%', :#{#criteria.createdDate}, '%'))
+           AND (:#{#criteria.modifiedDate} IS NULL OR CAST(e.modifiedDate AS string) LIKE CONCAT('%', :#{#criteria.modifiedDate}, '%'))     
+           """)
+    Page<Evaluation> findAllFilteredAndPaginated(Pageable pageRequest, EvaluationSearchDto criteria);
 
-    @Query("SELECT e FROM Evaluation e WHERE e.enrollment.courseId = :courseId")
-    List<Evaluation> findAllByCourseId(Long courseId);
 
-
-    @Modifying
-    @Query(value = "UPDATE evaluation SET modified_date = :currentDate, modified_by = :modifiedBy WHERE id = :id AND marked_as_deleted = false", nativeQuery = true)
-    void updateModifiedDateAndModifiedBy(Long id, String modifiedBy, LocalDateTime currentDate);
-
-    @Modifying
-    @Query(value = "UPDATE evaluation SET exam_name = :examName WHERE id = :id AND marked_as_deleted = false", nativeQuery = true)
-    void updateExamName(Long id, String examName);
-
-    @Modifying
-    @Query(value = "UPDATE evaluation SET evaluation_status_id = :evaluationStatusId WHERE id = :id AND marked_as_deleted = false", nativeQuery = true)
-    void updateEvaluationStatus(Long id, Long evaluationStatusId);
 }

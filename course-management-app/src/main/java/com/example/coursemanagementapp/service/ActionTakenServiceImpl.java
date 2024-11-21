@@ -1,7 +1,6 @@
 package com.example.coursemanagementapp.service;
 
 import com.example.coursemanagementapp.dao.ActionTakenDao;
-import com.example.coursemanagementapp.dto.ActionTakenDto;
 import com.example.coursemanagementapp.enums.ActionTaken;
 import com.example.coursemanagementapp.transformer.ActionTakenTransformer;
 import lombok.AllArgsConstructor;
@@ -29,12 +28,6 @@ public class ActionTakenServiceImpl implements ActionTakenService {
     @Override
     public String getEntityName() {
         return ActionTaken.class.getSimpleName();
-    }
-
-    @Override
-    public ActionTakenDto findByName(ActionTaken action) {
-        log.info("ActionTakenService: findByName() called with action: {}", action);
-        return getTransformer().transformEntityToDto(findEntityByName(action));
     }
 
     @Override

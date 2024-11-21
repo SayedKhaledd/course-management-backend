@@ -6,4 +6,5 @@ import com.example.coursemanagementapp.model.ClientStatus;
 
 public interface ClientStatusDao extends AbstractDao<ClientStatus, ClientStatusRepo> {
 
+    ClientStatus findEntityByName(com.example.coursemanagementapp.enums.ClientStatus clientStatus);
 }

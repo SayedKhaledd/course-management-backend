@@ -2,6 +2,7 @@ package com.example.coursemanagementapp.model;
 
 import com.example.backendcoreservice.model.AbstractEntity;
 import com.example.coursemanagementapp.config.GenericEntityListener;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -72,6 +73,7 @@ public class Client extends AbstractEntity {
     @Column(name = "description")
     private String description;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Enrollment> enrollments;
 

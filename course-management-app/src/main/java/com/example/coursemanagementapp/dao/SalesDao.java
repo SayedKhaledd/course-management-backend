@@ -1,10 +1,13 @@
 package com.example.coursemanagementapp.dao;
 
-import com.example.coursemanagementapp.dto.SalesDto;
+import com.example.backendcoreservice.api.pagination.PaginationRequest;
+import com.example.backendcoreservice.dao.AbstractDao;
+import com.example.coursemanagementapp.dao.repo.SalesRepo;
+import com.example.coursemanagementapp.dto.search.SalesSearchDto;
+import com.example.coursemanagementapp.model.Sales;
+import org.springframework.data.domain.Page;
 
-import java.util.List;
+public interface SalesDao extends AbstractDao<Sales, SalesRepo> {
 
-public interface SalesDao {
-
-    List<SalesDto> findAll();
+    Page<Sales> findAllPaginatedAndFiltered(PaginationRequest<SalesSearchDto> paginationRequest);
 }

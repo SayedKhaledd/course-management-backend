@@ -34,8 +34,8 @@ public class Evaluation extends AbstractEntity {
 
     @JoinColumn(name = "status_id")
     @ManyToOne
-    private EvaluationStatus status;
+    private EvaluationStatus evaluationStatus;
 
     @Column(name = "status_id", insertable = false, updatable = false)
-    private Long statusId;
+    private Long evaluationStatusId;
 }

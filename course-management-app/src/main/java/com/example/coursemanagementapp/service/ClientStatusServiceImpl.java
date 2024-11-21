@@ -32,4 +32,10 @@ public class ClientStatusServiceImpl implements ClientStatusService {
     public String getEntityName() {
         return ClientStatus.class.getSimpleName();
     }
+
+    @Override
+    public ClientStatus findEntityByName(com.example.coursemanagementapp.enums.ClientStatus clientStatus) {
+        log.info("ClientStatusService: findEntityByName() - was called");
+        return getDao().findEntityByName(clientStatus);
+    }
 }
