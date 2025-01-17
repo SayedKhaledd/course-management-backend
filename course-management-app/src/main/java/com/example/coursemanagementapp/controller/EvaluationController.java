@@ -48,14 +48,14 @@ public class EvaluationController implements AbstractController<EvaluationServic
         return getApiResponseBuilder().buildSuccessResponse(getService().create(evaluationDto));
     }
 
-    @PutMapping("/{id}/exam-name")
+    @PatchMapping("/{id}/exam-name")
     public ApiResponse<?> updateExamName(@RequestBody @Validated({EvaluationDto.UpdateExamName.class}) EvaluationDto evaluationDto, @PathVariable Long id) {
         getService().updateExamName(evaluationDto, id);
         return getApiResponseBuilder().buildSuccessResponse();
     }
 
 
-    @PutMapping("/{id}/evaluation-status/{evaluationStatusId}")
+    @PatchMapping("/{id}/evaluation-status/{evaluationStatusId}")
     public ApiResponse<?> updateEvaluationStatus(@PathVariable Long id, @PathVariable Long evaluationStatusId) {
         getService().updateEvaluationStatus(id, evaluationStatusId);
         return getApiResponseBuilder().buildSuccessResponse();

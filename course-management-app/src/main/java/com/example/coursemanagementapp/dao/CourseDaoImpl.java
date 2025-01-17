@@ -32,13 +32,13 @@ public class CourseDaoImpl implements CourseDao {
     @Override
     public List<Course> findAllCoursesNotInitial() {
         log.info("CourseDao: findAllCoursesNotInitial() - was called");
-        return getRepo().findAllCoursesNotInitial();
+        return getRepo().findAllCoursesNotInitialAndOrderByName();
     }
 
     @Override
     public List<Course> findAllInitialCourses() {
         log.info("CourseDao: findAllInitialCourses() - was called");
-        return getRepo().findAllInitialCourses();
+        return getRepo().findAllInitialCoursesAndOrderByName();
     }
 
     @Override

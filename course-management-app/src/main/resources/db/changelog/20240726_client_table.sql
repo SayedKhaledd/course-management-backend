@@ -57,3 +57,8 @@ DROP INDEX client_alternative_phone_number_uq;
 CREATE UNIQUE INDEX client_phone_number_uq
     ON public.client (phone_number, alternative_phone_number)
     WHERE marked_as_deleted = false;
+--changeset sayed:20241203_alter_client_table_change_indexes
+DROP INDEX client_phone_number_uq;
+CREATE UNIQUE INDEX client_phone_number_uq
+    ON public.client (phone_number, coalesce(alternative_phone_number, ''))
+    WHERE marked_as_deleted = false;

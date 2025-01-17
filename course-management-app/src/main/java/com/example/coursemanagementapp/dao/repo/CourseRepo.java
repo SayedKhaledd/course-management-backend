@@ -5,22 +5,20 @@ import com.example.coursemanagementapp.model.Course;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
 public interface CourseRepo extends JpaRepository<Course, Long> {
 
 
-    @Query(value = "SELECT c from Course  c WHERE c.code!= 'N/A' ")
-    List<Course> findAllCoursesNotInitial();
+    @Query(value = "SELECT c from Course  c WHERE c.code!= 'N/A' ORDER BY c.name ASC ")
+    List<Course> findAllCoursesNotInitialAndOrderByName();
 
-    @Query(value = "SELECT c from Course  c WHERE c.code= 'N/A' ")
-    List<Course> findAllInitialCourses();
+    @Query(value = "SELECT c from Course  c WHERE c.code= 'N/A' ORDER BY c.name ASC")
+    List<Course> findAllInitialCoursesAndOrderByName();
 
 
     @Query("""

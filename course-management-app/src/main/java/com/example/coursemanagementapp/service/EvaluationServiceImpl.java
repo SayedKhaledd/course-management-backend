@@ -11,6 +11,7 @@ import com.example.coursemanagementapp.model.Evaluation;
 import com.example.coursemanagementapp.transformer.EvaluationTransformer;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,12 +44,13 @@ public class EvaluationServiceImpl implements EvaluationService {
         return Evaluation.class.getSimpleName();
     }
 
+    @SneakyThrows
     @Override
     public Evaluation doBeforeCreate(Evaluation entity, EvaluationDto dto) {
         log.info("EvaluationServiceImpl: doBeforeCreate() - was called");
-        Enrollment enrollment = enrollmentService.findEntityByClientIdAndCourseId(dto.getEnrollment().getClientId(), dto.getEnrollment().getCourseId());
-        entity.setEnrollmentId(enrollment.getId());
-        entity.setEnrollment(enrollment);
+        entity.setEnrollment(enrollmentService.findEntityById(dto.getEnrollmentId()));
+        entity.setEnrollmentId(dto.getEnrollmentId());
+        entity.setEvaluationStatus(evaluationStatusService.findEntityById(dto.getEvaluationStatusId()));
         return entity;
     }
 

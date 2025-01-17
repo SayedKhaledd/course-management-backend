@@ -10,7 +10,7 @@ services:
       KEYCLOAK_ADMIN_PASSWORD: admin
       KEYCLOAK_LOG_LEVEL: DEBUG
       KC_DB: postgres
-      KC_DB_URL: jdbc:postgresql://host.docker.internal:5432/keycloak
+      KC_DB_URL: jdbc:postgresql://172.17.0.1:5432/keycloak
       KC_DB_USERNAME: postgres
       KC_DB_PASSWORD: 12345
     command: start-dev --log-level DEBUG

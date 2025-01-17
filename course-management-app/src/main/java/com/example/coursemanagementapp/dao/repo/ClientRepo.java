@@ -20,6 +20,7 @@ public interface ClientRepo extends JpaRepository<Client, Long>, JpaSpecificatio
                  FROM Client c
                  WHERE
                      (:#{#clientSearchDto.name} IS NULL OR c.name LIKE CONCAT('%', :#{#clientSearchDto.name}, '%'))
+                      AND (:#{#clientSearchDto.id} IS NULL OR c.id = :#{#clientSearchDto.id})
                      AND (:#{#clientSearchDto.email} IS NULL OR c.email LIKE CONCAT('%', :#{#clientSearchDto.email}, '%'))
                      AND (:#{#clientSearchDto.phone} IS NULL OR c.phone LIKE CONCAT('%', :#{#clientSearchDto.phone}, '%'))
                      AND (:#{#clientSearchDto.alternativePhone} IS NULL OR c.alternativePhone LIKE CONCAT('%', :#{#clientSearchDto.alternativePhone}, '%'))

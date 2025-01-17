@@ -31,7 +31,7 @@ public class ActionTakenServiceImpl implements ActionTakenService {
     }
 
     @Override
-    public com.example.coursemanagementapp.model.ActionTaken findEntityByName(ActionTaken action) {
+    public com.example.coursemanagementapp.model.ActionTaken findEntityByName(com.example.coursemanagementapp.enums.ActionTaken action) {
         log.info("ActionTakenService: findEntityByName() called with action: {}", action);
         return getDao().findByName(action);
     }

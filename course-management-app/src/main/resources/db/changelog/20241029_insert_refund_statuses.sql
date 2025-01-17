@@ -7,3 +7,13 @@ VALUES (nextval('refund_status_id_sequence'), 'CONFIRMED', current_timestamp, cu
         false),
        (nextval('refund_status_id_sequence'), 'waiting', current_timestamp, current_timestamp, 'system', 'system',
         false);
+--changeset sayed:20240823_update_refund_status_ids,
+UPDATE public.refund_status
+SET id = 4
+WHERE status = 'CONFIRMED';
+UPDATE public.refund_status
+SET id = 5
+WHERE status = 'Cancel refund';
+UPDATE public.refund_status
+SET id = 6
+WHERE status = 'waiting';

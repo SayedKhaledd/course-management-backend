@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/sales")
 @AllArgsConstructor
-public class SalesController implements AbstractController<SalesService, SalesDto> {
+public class    SalesController implements AbstractController<SalesService, SalesDto> {
     private final SalesService salesService;
     private final ApiResponseBuilder<SalesDto> apiResponseBuilder;
 

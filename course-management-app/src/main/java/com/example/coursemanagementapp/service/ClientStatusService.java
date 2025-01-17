@@ -8,6 +8,6 @@ import com.example.coursemanagementapp.transformer.ClientStatusTransformer;
 
 public interface ClientStatusService extends AbstractService<ClientStatus, ClientStatusDto, ClientStatusTransformer, ClientStatusDao> {
 
-    ClientStatus findEntityByName(com.example.coursemanagementapp.enums.ClientStatus clientStatus);
+    com.example.coursemanagementapp.model.ClientStatus findEntityByName(com.example.coursemanagementapp.enums.ClientStatus clientStatus);
 
 }

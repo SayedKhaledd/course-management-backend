@@ -4,10 +4,7 @@ import com.example.backendcoreservice.model.AbstractEntity;
 import com.example.coursemanagementapp.config.GenericEntityListener;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -19,6 +16,7 @@ import java.util.List;
 @Entity
 @Table(name = "client")
 @EntityListeners(GenericEntityListener.class)
+@ToString(exclude = "enrollments")
 public class Client extends AbstractEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "client_id_sequence")

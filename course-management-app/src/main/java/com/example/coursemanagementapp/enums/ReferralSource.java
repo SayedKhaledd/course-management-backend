@@ -20,7 +20,8 @@ public enum ReferralSource {
     INSTAGRAM("Instagram"),
     CONFERENCE("Confrance"),
     WHATSAPP_CAMPAIGN("WhatsAPP Campign"),
-    B_TO_B("B t B");
+    B_TO_B("B t B"),
+    ENROLLED_PREVIOUSLY("مشترك سابق");
 
     private final String source;
 
