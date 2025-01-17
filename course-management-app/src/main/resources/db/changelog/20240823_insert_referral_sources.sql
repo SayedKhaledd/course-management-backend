@@ -34,3 +34,8 @@ VALUES (nextval('referral_source_id_sequence'), 'FB Paid', current_timestamp, cu
         false),
        (nextval('referral_source_id_sequence'), 'B t B', current_timestamp, current_timestamp, 'system', 'system',
         false);
+--changeset sayed:20241127_insert_new_referral_sources
+INSERT INTO public.referral_source (id, source, created_date, modified_date, created_by, modified_by, marked_as_deleted)
+VALUES (nextval('referral_source_id_sequence'), 'مشترك سابق', current_timestamp, current_timestamp, 'system',
+        'system',
+        false);

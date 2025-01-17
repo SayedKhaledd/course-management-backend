@@ -1,6 +1,7 @@
 package com.example.coursemanagementapp.model;
 
 import com.example.backendcoreservice.model.AbstractEntity;
+import com.example.coursemanagementapp.enums.PaymentStatusSource;
 import com.example.coursemanagementapp.enums.PaymentType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -52,6 +53,10 @@ public class Sales extends AbstractEntity {
 
     @Column(name = "payment_status_id")
     private Long paymentStatusId;
+
+    @Column(name = "payment_status_source")
+    @Enumerated(EnumType.STRING)
+    private PaymentStatusSource paymentStatusSource;
 
     @Column(name = "currency")
     private String currency;

@@ -51,7 +51,7 @@ public class EvaluationDaoImpl implements EvaluationDao {
     @Override
     public void updateEvaluationStatus(Long id, Long evaluationStatusId) {
         log.info("EvaluationDao: updateEvaluationStatus() - was called");
-        entityManagerDao.updateQuery(Evaluation.class.getSimpleName(), id, "status_id", evaluationStatusId, auditAware.getCurrentAuditor().get(), LocalDateTime.now());
+        entityManagerDao.updateQuery(Evaluation.class.getSimpleName(), id, "evaluationStatusId", evaluationStatusId, auditAware.getCurrentAuditor().get(), LocalDateTime.now());
     }
 
 }

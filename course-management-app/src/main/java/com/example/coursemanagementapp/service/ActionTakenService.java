@@ -9,5 +9,5 @@ import com.example.coursemanagementapp.transformer.ActionTakenTransformer;
 public interface ActionTakenService extends AbstractService<ActionTaken, ActionTakenDto, ActionTakenTransformer, ActionTakenDao> {
 
 
-    ActionTaken findEntityByName(com.example.coursemanagementapp.enums.ActionTaken action);
+    com.example.coursemanagementapp.model.ActionTaken findEntityByName(com.example.coursemanagementapp.enums.ActionTaken action);
 }

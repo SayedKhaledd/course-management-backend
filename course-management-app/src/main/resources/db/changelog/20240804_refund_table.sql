@@ -42,3 +42,8 @@ CREATE TABLE public.refund
 
 ALTER TABLE public.refund
     OWNER TO ${user_owner};
+--changeset sayed:20241122_alter_refund_table_update_constraint
+ALTER TABLE public.refund
+DROP CONSTRAINT refund_refund_status_id_fk;
+ALTER TABLE public.refund
+ADD CONSTRAINT refund_refund_status_id_fk FOREIGN KEY (refund_status_id) REFERENCES public.refund_status (id) ON UPDATE CASCADE;

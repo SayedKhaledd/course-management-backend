@@ -29,3 +29,8 @@ CREATE TABLE public.history
 ALTER TABLE public.history
     OWNER TO ${user_owner};
 
+--changeset sayed:alter_history_table_change_data_type
+ALTER TABLE public.history
+    ALTER COLUMN old_value TYPE TEXT;
+ALTER TABLE public.history
+    ALTER COLUMN new_value TYPE TEXT;
