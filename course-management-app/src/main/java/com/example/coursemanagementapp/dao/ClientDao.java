@@ -7,15 +7,25 @@ import com.example.coursemanagementapp.dto.search.ClientSearchDto;
 import com.example.coursemanagementapp.model.Client;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 public interface ClientDao extends AbstractDao<Client, ClientRepo> {
 
     Page<Client> findAllPaginatedAndFiltered(PaginationRequest<ClientSearchDto> paginationRequest);
+
+    List<String> findAllClientsPhoneNumbers();
+
+    List<String> findAllClientsAlternativePhoneNumbers();
+
+    List<String> findAllClientsEmails();
 
     void updateName(Long id, String name);
 
     void updateStatus(Long id, Long statusId);
 
     void updateDescription(Long id, String description);
+
+    void updateNotes(Long id, String notes);
 
     void updateEmail(Long id, String email);
 

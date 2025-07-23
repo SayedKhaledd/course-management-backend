@@ -39,6 +39,8 @@
     <include file="/db/changelog/20241113_alter_clients_table.sql"/>
     <include file="/db/changelog/20241118_sales_view.sql"/>
 
+    <include file="/db/changelog/20250401_add_trigger_for_number_of_participants.sql"/>
+
 
 
 </databaseChangeLog>

@@ -44,3 +44,20 @@ DROP INDEX course_code_uq;
 CREATE UNIQUE INDEX course_code_uq
     ON public.course (code)
     WHERE marked_as_deleted = false AND code != 'N/A';
+--changeset sayed:20250401_alter_course_table_add_number_of_participants_column
+ALTER TABLE public.course
+    ADD COLUMN number_of_participants INT;
+--changeset sayed:20250401_alter_course_table_update_number_of_participants_column
+UPDATE public.course
+SET number_of_participants = (SELECT COUNT(*)
+                              FROM public.enrollment
+                              WHERE course_id = public.course.id
+                                AND marked_as_deleted = false
+                                AND action_taken_id = (SELECT id
+                                                       FROM public.action_taken
+                                                       WHERE action = 'ENROLLED'
+                                                       LIMIT 1))
+WHERE marked_as_deleted = false;
+--changeset sayed:20250401_alter_course_table_remove_part_column
+ALTER TABLE public.course
+    DROP COLUMN part;

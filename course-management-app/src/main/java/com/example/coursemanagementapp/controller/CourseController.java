@@ -82,12 +82,6 @@ public class CourseController implements AbstractController<CourseService, Cours
         return getApiResponseBuilder().buildSuccessResponse();
     }
 
-    @PatchMapping("/{id}/part")
-    public ApiResponse<?> updatePart(@PathVariable Long id, @RequestBody @Validated(CourseDto.UpdatePart.class) CourseDto dto) {
-        getService().updatePart(id, dto);
-        return getApiResponseBuilder().buildSuccessResponse();
-    }
-
     @PatchMapping("/{id}/price")
     public ApiResponse<?> updatePrice(@PathVariable Long id, @RequestBody @Validated(CourseDto.UpdatePrice.class) CourseDto dto) {
         getService().updatePrice(id, dto);

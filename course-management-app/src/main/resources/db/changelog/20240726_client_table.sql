@@ -62,3 +62,6 @@ DROP INDEX client_phone_number_uq;
 CREATE UNIQUE INDEX client_phone_number_uq
     ON public.client (phone_number, coalesce(alternative_phone_number, ''))
     WHERE marked_as_deleted = false;
+--changeset sayed:20250321_alter_client_table_add_notes_column
+ALTER TABLE public.client
+    ADD COLUMN notes TEXT;

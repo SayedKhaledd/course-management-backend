@@ -7,12 +7,16 @@ import com.example.coursemanagementapp.dao.SalesDao;
 import com.example.coursemanagementapp.dto.SalesDto;
 import com.example.coursemanagementapp.dto.search.SalesSearchDto;
 import com.example.coursemanagementapp.enums.PaymentType;
+import com.example.coursemanagementapp.enums.Role;
 import com.example.coursemanagementapp.model.Sales;
 import com.example.coursemanagementapp.transformer.SalesTransformer;
+import com.example.keycloakbackendclient.dto.KeycloakUserDto;
+import com.example.keycloakbackendclient.service.KeycloakUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
@@ -25,6 +29,7 @@ public class SalesServiceImpl implements SalesService {
     private final RefundService refundService;
     private final PaymentStatusService paymentStatusService;
     private final RefundStatusService refundStatusService;
+    private final KeycloakUserService keycloakUserService;
 
     @Override
     public SalesDao getDao() {
@@ -44,6 +49,12 @@ public class SalesServiceImpl implements SalesService {
     @Override
     public PaginationResponse<SalesDto> findAllPaginatedAndFiltered(PaginationRequest<SalesSearchDto> paginationRequest) {
         log.info("SalesService: findAllPaginatedAndFiltered() called with paginationRequest: {}", paginationRequest);
+        KeycloakUserDto keycloakUserDto = keycloakUserService.getCurrentUser();
+        Role role = getCurrentUserRole(keycloakUserDto);
+        if (role.equals(Role.SALES) || role.equals(Role.MARKETING)) {
+            paginationRequest.getCriteria().setCreatedBy(keycloakUserDto.getFirstName() + " " + keycloakUserDto.getLastName());
+            paginationRequest.getCriteria().setModifiedBy(null);
+        }
         PaginationResponse<SalesDto> response = buildPaginationResponse(getDao().findAllPaginatedAndFiltered(paginationRequest));
         List<SalesDto> result = response.getResult().stream().map(salesDto -> {
             assignPaymentStatus(salesDto);
@@ -101,6 +112,23 @@ public class SalesServiceImpl implements SalesService {
                 break;
             default:
                 throw new CustomException("Invalid payment type: " + salesDto.getType());
+        }
+    }
+
+    private Role getCurrentUserRole(KeycloakUserDto keycloakUserDto) {
+        log.info("SalesService: getCurrentUserRole() called");
+        return keycloakUserDto.getRoles().stream()
+                .map(this::convertToRole)
+                .filter(Objects::nonNull)
+                .findFirst()
+                .orElseThrow(() -> new CustomException("No valid role found"));
+    }
+
+    private Role convertToRole(String role) {
+        try {
+            return Role.valueOf(role);
+        } catch (IllegalArgumentException ex) {
+            return null;
         }
     }
 }

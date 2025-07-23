@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Component
 @AllArgsConstructor
@@ -39,6 +40,24 @@ public class ClientDaoImpl implements ClientDao {
     }
 
     @Override
+    public List<String> findAllClientsPhoneNumbers() {
+        log.info("ClientDao: findAllClientsPhoneNumbers() - was called");
+        return getRepo().findAllClientsPhoneNumbers();
+    }
+
+    @Override
+    public List<String> findAllClientsAlternativePhoneNumbers() {
+        log.info("ClientDao: findAllClientsAlternativePhoneNumbers() - was called");
+        return getRepo().findAllClientsAlternativePhoneNumbers();
+    }
+
+    @Override
+    public List<String> findAllClientsEmails() {
+        log.info("ClientDao: findAllClientsEmails() - was called");
+        return getRepo().findAllClientsEmails();
+    }
+
+    @Override
     public void updateName(Long id, String name) {
         log.info("ClientDao: updateName() - was called");
         entityManagerDao.updateQuery(Client.class.getSimpleName(), id, "name", name, auditAware.getCurrentAuditor().get(), LocalDateTime.now());
@@ -54,6 +73,13 @@ public class ClientDaoImpl implements ClientDao {
     public void updateDescription(Long id, String description) {
         log.info("ClientDao: updateDescription() - was called");
         entityManagerDao.updateQuery(Client.class.getSimpleName(), id, "description", description, auditAware.getCurrentAuditor().get(), LocalDateTime.now());
+    }
+
+
+    @Override
+    public void updateNotes(Long id, String notes) {
+        log.info("ClientDao: updateNotes() - was called");
+        entityManagerDao.updateQuery(Client.class.getSimpleName(), id, "notes", notes, auditAware.getCurrentAuditor().get(), LocalDateTime.now());
     }
 
     @Override

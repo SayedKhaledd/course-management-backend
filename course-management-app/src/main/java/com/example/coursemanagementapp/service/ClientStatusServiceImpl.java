@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @Service
@@ -37,5 +38,16 @@ public class ClientStatusServiceImpl implements ClientStatusService {
     public ClientStatus findEntityByName(com.example.coursemanagementapp.enums.ClientStatus clientStatus) {
         log.info("ClientStatusService: findEntityByName() - was called");
         return getDao().findEntityByName(clientStatus);
+    }
+
+    public List<ClientStatusDto> findAllByStatusesIn(Set<String> statuses) {
+        log.info("ClientStatusService: findAllByStatusesIn() - was called");
+        return getTransformer().transformEntitiesToDtos(getDao().findAllByStatusesIn(statuses));
+    }
+
+    @Override
+    public Boolean existsByName(String name) {
+        log.info("ClientStatusService: existsByName() - was called");
+        return getDao().existsByName(name);
     }
 }

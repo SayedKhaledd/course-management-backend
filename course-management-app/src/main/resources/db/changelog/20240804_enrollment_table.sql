@@ -55,3 +55,6 @@ ALTER TABLE public.enrollment
 --changeset sayed:20241031_change_rate_column_type_to_varchar_enrollment_table
 ALTER TABLE public.enrollment
     ALTER COLUMN rate TYPE VARCHAR(255);
+--changeset sayed:20250321_alter_enrollment_table_add_commission_column
+ALTER TABLE public.enrollment
+    ADD column commission decimal;

@@ -32,13 +32,11 @@ public class    SalesController implements AbstractController<SalesService, Sale
         return apiResponseBuilder;
     }
 
-    @PreAuthorize("hasAuthority('SUPER_ADMIN') OR hasAuthority( 'ADMIN') OR hasAuthority( 'ACCOUNTANT')  OR hasAuthority( 'CUSTOMER_SERVICE')")
     @PostMapping("/find-paginated-and-filtered")
     public ApiResponse<PaginationResponse<SalesDto>> findPaginatedAndFiltered(@RequestBody PaginationRequest<SalesSearchDto> paginationRequest) {
         return getApiResponseBuilder().buildSuccessResponse(getService().findAllPaginatedAndFiltered(paginationRequest));
     }
 
-    @PreAuthorize("hasAuthority('SUPER_ADMIN') OR hasAuthority( 'ADMIN') OR hasAuthority( 'ACCOUNTANT')  OR hasAuthority( 'CUSTOMER_SERVICE')")
     @PatchMapping("/{id}/payment-type/{paymentType}/is-received/{isReceived}")
     public ApiResponse<?> updateIsReceivedByPaymentType(@PathVariable Long id, @PathVariable PaymentType paymentType, @PathVariable Boolean isReceived) {
         getService().updateIsReceivedByPaymentType(id, paymentType, isReceived);
@@ -46,7 +44,6 @@ public class    SalesController implements AbstractController<SalesService, Sale
     }
 
 
-    @PreAuthorize("hasAuthority('SUPER_ADMIN') OR hasAuthority( 'ADMIN') OR hasAuthority( 'ACCOUNTANT')  OR hasAuthority( 'CUSTOMER_SERVICE')")
     @PatchMapping("/{id}/payment-type/{paymentType}/payment-status/{paymentStatusId}")
     public ApiResponse<?> updatePaymentStatus(@PathVariable Long id, @PathVariable PaymentType paymentType, @PathVariable Long paymentStatusId) {
         getService().updatePaymentStatusByPaymentType(id, paymentType, paymentStatusId);

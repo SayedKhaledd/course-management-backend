@@ -42,6 +42,9 @@ public class Enrollment extends AbstractEntity {
     @Column(name = "amount_paid")
     private Double amountPaid;
 
+    @Column(name = "commission")
+    private Double commission;
+
     @Column(name = "remaining_amount")
     private Double remainingAmount;
 

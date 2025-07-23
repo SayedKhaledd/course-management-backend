@@ -80,6 +80,12 @@ public class ClientController implements AbstractController<ClientService, Clien
         return getApiResponseBuilder().buildSuccessResponse();
     }
 
+    @PatchMapping("/{id}/notes")
+    public ApiResponse<?> updateNotes(@PathVariable Long id, @RequestBody @Validated(ClientDto.UpdateNotes.class) ClientDto clientDto) {
+        getService().updateNotes(id, clientDto);
+        return getApiResponseBuilder().buildSuccessResponse();
+    }
+
     @PatchMapping("/{id}/email")
     public ApiResponse<?> updateEmail(@PathVariable Long id, @RequestBody @Validated(ClientDto.UpdateEmail.class) ClientDto clientDto) {
         getService().updateEmail(id, clientDto);

@@ -71,6 +71,9 @@ public class Client extends AbstractEntity {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "notes")
+    private String notes;
+
     @JsonIgnore
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Enrollment> enrollments;

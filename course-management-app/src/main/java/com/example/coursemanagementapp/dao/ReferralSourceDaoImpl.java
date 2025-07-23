@@ -5,6 +5,9 @@ import com.example.coursemanagementapp.model.ReferralSource;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.Set;
+
 @Component
 @AllArgsConstructor
 public class ReferralSourceDaoImpl implements ReferralSourceDao {
@@ -19,5 +22,16 @@ public class ReferralSourceDaoImpl implements ReferralSourceDao {
     @Override
     public ReferralSource findEntityByName(com.example.coursemanagementapp.enums.ReferralSource referralSource) {
         return getRepo().findEntityBySource(referralSource);
+    }
+
+    @Override
+    public List<ReferralSource> findAllBySourcesIn(Set<String> sources) {
+        log.info("ReferralSourceDao: findAllBySourcesIn() - was called");
+        return getRepo().findAllBySourceIn(sources);
+    }
+
+    @Override
+    public Boolean existsByName(String name) {
+        return getRepo().existsByName(name);
     }
 }

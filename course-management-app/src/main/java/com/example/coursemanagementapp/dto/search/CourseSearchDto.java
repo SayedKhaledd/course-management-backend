@@ -9,8 +9,8 @@ public class CourseSearchDto {
     private String name;
     private String description;
     private String code;
-    private String part;
     private Double price;
+    private Integer numberOfParticipants;
     private Set<Long> courseStatusIds;
     private Boolean isInitial = false;
     private String startDate;

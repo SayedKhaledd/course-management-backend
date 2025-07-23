@@ -36,3 +36,8 @@ CREATE TABLE public.installment
 
 ALTER TABLE public.installment
     OWNER TO ${user_owner};
+--changeset sayed:20250401_alter_installment_table_fix_null_in_payment_status_id
+UPDATE public.installment i
+SET payment_status_id = (SELECT id FROM public.payment_status WHERE status = 'waiting')
+WHERE payment_status_id IS NULL
+  AND marked_as_deleted = false;
