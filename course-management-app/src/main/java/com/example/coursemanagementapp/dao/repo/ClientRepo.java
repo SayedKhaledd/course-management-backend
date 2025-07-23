@@ -6,11 +6,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Repository
 public interface ClientRepo extends JpaRepository<Client, Long>, JpaSpecificationExecutor<Client> {
@@ -40,4 +39,12 @@ public interface ClientRepo extends JpaRepository<Client, Long>, JpaSpecificatio
     Page<Client> findAllFilteredAndPaginated(Pageable pageable, ClientSearchDto clientSearchDto);
 
 
+    @Query("SELECT c.phone FROM Client c")
+    List<String> findAllClientsPhoneNumbers();
+
+    @Query("SELECT c.alternativePhone FROM Client c")
+    List<String> findAllClientsAlternativePhoneNumbers();
+
+    @Query("SELECT c.email FROM Client c")
+    List<String> findAllClientsEmails();
 }

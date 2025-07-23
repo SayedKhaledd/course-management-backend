@@ -41,6 +41,12 @@ public class EnrollmentController implements AbstractController<EnrollmentServic
         return getApiResponseBuilder().buildSuccessResponse(getService().findAll());
     }
 
+    @GetMapping("/{id}")
+    public ApiResponse<EnrollmentDto> findById(@PathVariable Long id) {
+        return getApiResponseBuilder().buildSuccessResponse(getService().findById(id));
+    }
+
+
     @GetMapping("/client/{id}")
     public ApiResponse<List<EnrollmentDto>> findAllByClientId(@PathVariable Long id) {
         return getApiResponseBuilder().buildSuccessResponse(getService().findAllByClientId(id));
@@ -70,6 +76,12 @@ public class EnrollmentController implements AbstractController<EnrollmentServic
     @PatchMapping("/{id}/amount-paid")
     public ApiResponse<?> updateAmountPaid(@PathVariable Long id, @RequestBody @Validated(EnrollmentDto.UpdateAmountPaid.class) EnrollmentDto dto) {
         getService().updateAmountPaid(id, dto);
+        return getApiResponseBuilder().buildSuccessResponse();
+    }
+
+    @PatchMapping("/{id}/commission")
+    public ApiResponse<?> updateCommission(@PathVariable Long id, @RequestBody @Validated(EnrollmentDto.UpdateCommission.class) EnrollmentDto dto) {
+        getService().updateCommission(id, dto);
         return getApiResponseBuilder().buildSuccessResponse();
     }
 

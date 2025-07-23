@@ -63,6 +63,12 @@ public class EnrollmentDaoImpl implements EnrollmentDao {
     }
 
     @Override
+    public void updateCommission(Long id, Double commission) {
+        log.info("EnrollmentDao: updateCommission() - was called");
+        entityManagerDao.updateQuery(Enrollment.class.getSimpleName(), id, "commission", commission, auditAware.getCurrentAuditor().get(), LocalDateTime.now());
+    }
+
+    @Override
     public void updateRemainingAmount(Long id, Double remainingAmount) {
         log.info("EnrollmentDao: updateRemainingAmount() - was called");
         entityManagerDao.updateQuery(Enrollment.class.getSimpleName(), id, "remainingAmount", remainingAmount, auditAware.getCurrentAuditor().get(), LocalDateTime.now());

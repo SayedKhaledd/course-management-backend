@@ -30,12 +30,11 @@ public class Course extends AbstractEntity {
     @Column(name = "description")
     private String description;
 
-
     @Column(name = "code")
     private String code;
 
-    @Column(name = "part")
-    private String part;
+    @Column(name = "number_of_participants")
+    private Integer numberOfParticipants;
 
     @Column(name = "start_date")
     private LocalDateTime startDate;

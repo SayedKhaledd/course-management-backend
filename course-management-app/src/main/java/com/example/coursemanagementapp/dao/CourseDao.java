@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 public interface CourseDao extends AbstractDao<Course, CourseRepo> {
 
@@ -18,13 +19,13 @@ public interface CourseDao extends AbstractDao<Course, CourseRepo> {
 
     Page<Course> findAllPaginatedAndFiltered(PaginationRequest<CourseSearchDto> paginationRequest);
 
+    List<Course> findAllInitialCoursesByNamesIn(Set<String> names);
+
     void updateCourseStatus(Long id, Long statusId);
 
     void updateName(Long id, String name);
 
     void updatePrice(Long id, Double price);
-
-    void updatePart(Long id, String part);
 
     void updateCode(Long id, String code);
 
@@ -34,4 +35,5 @@ public interface CourseDao extends AbstractDao<Course, CourseRepo> {
 
     void updateEndDate(Long id, LocalDateTime endDate);
 
+    boolean existsByNameAndIsInitial(String initialCourse);
 }

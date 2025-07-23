@@ -16,13 +16,15 @@ import org.hibernate.annotations.Immutable;
 @Data
 @Entity
 @Table(name = "sales_view")
-@IdClass(SalesId.class)
 public class Sales extends AbstractEntity {
+
     @Id
+    @Column(name = "id")
+    private Long id;
+
     @Column(name = "entity_id")
     private Long entityId;
 
-    @Id
     @Column(name = "type")
     @Enumerated(EnumType.STRING)
     private PaymentType type;
@@ -60,6 +62,9 @@ public class Sales extends AbstractEntity {
 
     @Column(name = "currency")
     private String currency;
+
+    @Column(name = "inside_egypt")
+    private Boolean insideEgypt;
 
     @Column(name = "is_received")
     private Boolean isReceived;

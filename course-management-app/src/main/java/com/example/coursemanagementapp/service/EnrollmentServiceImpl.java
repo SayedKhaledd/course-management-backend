@@ -139,6 +139,21 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         updateRemainingAmount(id, dto.getAmountPaid(), enrollmentDtoDb.getTotalAmount());
     }
 
+    @Transactional
+    @Override
+    public void updateCommission(Long id, EnrollmentDto dto) {
+        log.info("EnrollmentService: updateCommission() called with id: {} and dto: {}", id, dto);
+        EnrollmentDto enrollmentDtoDb = findById(id);
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityId(id)
+                .entityType(getEntityName())
+                .fieldName("commission")
+                .oldValue(enrollmentDtoDb.getCommission() + "")
+                .newValue(dto.getCommission() + "")
+                .build());
+        getDao().updateCommission(id, dto.getCommission());
+    }
+
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     @Override
     public void updateRemainingAmount(Long id, Double paidAmount, Double totalAmount) {

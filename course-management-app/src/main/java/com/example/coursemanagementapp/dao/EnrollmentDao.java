@@ -5,6 +5,7 @@ import com.example.backendcoreservice.dao.AbstractDao;
 import com.example.coursemanagementapp.dao.repo.EnrollmentRepo;
 import com.example.coursemanagementapp.dto.search.EnrollmentSearchDto;
 import com.example.coursemanagementapp.model.Enrollment;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -20,6 +21,8 @@ public interface EnrollmentDao extends AbstractDao<Enrollment, EnrollmentRepo> {
     Page<Enrollment> findAllPaginatedAndFiltered(PaginationRequest<EnrollmentSearchDto> paginationRequest);
 
     void updateAmountPaid(Long id, Double amountPaid);
+
+    void updateCommission(Long id, Double commission);
 
     void updateRemainingAmount(Long id, Double remainingAmount);
 
@@ -53,4 +56,5 @@ public interface EnrollmentDao extends AbstractDao<Enrollment, EnrollmentRepo> {
     void updateIsReceived(Long id, Boolean isReceived);
 
     void updateTotalAmount(Long id, Double totalAmount);
+
 }

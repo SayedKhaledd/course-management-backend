@@ -17,6 +17,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder(toBuilder = true, builderMethodName = "SalesDtoBuilder")
 @Data
 public class SalesDto extends AbstractDto {
+    private Long id;
     private Long entityId;
     private PaymentType type;
     private Client client;
@@ -29,5 +30,6 @@ public class SalesDto extends AbstractDto {
     private Long paymentStatusId;
     private Object paymentStatus;
     private String currency;
+    private Boolean insideEgypt;
     private Boolean isReceived;
 }

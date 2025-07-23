@@ -24,8 +24,7 @@ public class CourseDto extends AbstractDto {
     private String description;
     @NotBlank(message = "Code is mandatory", groups = {Create.class, UpdateCode.class})
     private String code;
-    @NotBlank(message = "Part is mandatory", groups = {Create.class, CreateInitial.class, UpdatePart.class})
-    private String part;
+    private Integer numberOfParticipants;
     @NotNull(message = "StartDate is mandatory", groups = {UpdateStartDate.class})
     private LocalDateTime startDate;
     @NotNull(message = "EndDate is mandatory", groups = {UpdateEndDate.class})
@@ -45,9 +44,6 @@ public class CourseDto extends AbstractDto {
     }
 
     public interface UpdateCode {
-    }
-
-    public interface UpdatePart {
     }
 
     public interface UpdatePrice {

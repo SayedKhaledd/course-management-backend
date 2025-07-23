@@ -15,6 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Slf4j
 @Service
 @AllArgsConstructor
@@ -49,6 +51,17 @@ public class ClientServiceImpl implements ClientService {
         entity.setClientStatus(dto.getClientStatusId() != null ? clientStatusService.findEntityById(dto.getClientStatusId()) : null);
         entity.setReferralSource(dto.getReferralSource() != null ? referralSourceService.findEntityById(dto.getReferralSourceId()) : null);
         return entity;
+    }
+
+    @SneakyThrows
+    @Override
+    public List<Client> doBeforeCreate(List<Client> clients, List<ClientDto> clientDtos) {
+        for (int i = 0; i < clients.size(); i++) {
+            clients.get(i).setInitialCourse(courseService.findEntityById(clientDtos.get(i).getInitialCourseId()));
+            clients.get(i).setClientStatus(clientDtos.get(i).getClientStatusId() != null ? clientStatusService.findEntityById(clientDtos.get(i).getClientStatusId()) : null);
+            clients.get(i).setReferralSource(clientDtos.get(i).getReferralSourceId() != null ? referralSourceService.findEntityById(clientDtos.get(i).getReferralSourceId()) : null);
+        }
+        return clients;
     }
 
     @Override
@@ -102,6 +115,21 @@ public class ClientServiceImpl implements ClientService {
                 .newValue(clientDto.getDescription())
                 .build());
         getDao().updateDescription(id, clientDto.getDescription());
+    }
+
+    @Transactional
+    @Override
+    public void updateNotes(Long id, ClientDto clientDto) {
+        log.info("ClientService: updateNotes() - was called with id: {} and clientDto: {}", id, clientDto);
+        ClientDto clientDtoDb = findById(id);
+        historyService.create(HistoryDto.HistoryDtoBuilder()
+                .entityId(id)
+                .entityType(getEntityName())
+                .fieldName("notes")
+                .oldValue(clientDtoDb.getNotes())
+                .newValue(clientDto.getNotes())
+                .build());
+        getDao().updateNotes(id, clientDto.getNotes());
     }
 
     @Transactional

@@ -11,6 +11,7 @@ import com.example.coursemanagementapp.transformer.CourseTransformer;
 import jakarta.validation.Valid;
 
 import java.util.List;
+import java.util.Set;
 
 public interface CourseService extends AbstractService<Course, CourseDto, CourseTransformer, CourseDao> {
 
@@ -20,6 +21,8 @@ public interface CourseService extends AbstractService<Course, CourseDto, Course
 
     PaginationResponse<CourseDto> findAllPaginatedAndFiltered(@Valid PaginationRequest<CourseSearchDto> paginationRequest);
 
+    List<CourseDto> findAllInitialCoursesByNamesIn(Set<String> names);
+
     void updateName(Long id, CourseDto dto);
 
     void updateCode(Long id, CourseDto dto);
@@ -28,12 +31,11 @@ public interface CourseService extends AbstractService<Course, CourseDto, Course
 
     void updatePrice(Long id, CourseDto dto);
 
-    void updatePart(Long id, CourseDto dto);
-
     void updateStartDate(Long id, CourseDto dto);
 
     void updateEndDate(Long id, CourseDto dto);
 
     void updateCourseStatus(Long id, Long courseStatusId);
 
+    boolean existsByNameAndIsInitial(String initialCourse);
 }

@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public interface CourseRepo extends JpaRepository<Course, Long> {
@@ -28,11 +29,11 @@ public interface CourseRepo extends JpaRepository<Course, Long> {
                    (:#{#criteria.name} IS NULL OR c.name LIKE CONCAT('%', :#{#criteria.name}, '%'))
                    AND (:#{#criteria.code} IS NULL OR c.code LIKE CONCAT('%', :#{#criteria.code}, '%'))
                    AND (:#{#criteria.isInitial} IS NULL OR (:#{#criteria.isInitial} = true AND c.code = 'N/A') OR (:#{#criteria.isInitial} = false AND c.code != 'N/A'))
-                   AND (:#{#criteria.part} IS NULL OR c.part LIKE CONCAT('%', :#{#criteria.part}, '%'))
                    AND (:#{#criteria.description} IS NULL OR c.description LIKE CONCAT('%', :#{#criteria.description}, '%'))
                    AND (:#{#criteria.startDate} IS NULL OR CAST(c.createdDate AS string) LIKE CONCAT('%', :#{#criteria.startDate}, '%'))
                    AND (:#{#criteria.endDate} IS NULL OR CAST(c.createdDate AS string) LIKE CONCAT('%', :#{#criteria.endDate}, '%'))
                    AND (:#{#criteria.price} IS NULL OR c.price = :#{#criteria.price})
+                   AND (:#{#criteria.numberOfParticipants} IS NULL OR c.numberOfParticipants = :#{#criteria.numberOfParticipants})
                    AND (:#{#criteria.courseStatusIds} IS NULL OR c.courseStatusId IN :#{#criteria.courseStatusIds})
                    AND (:#{#criteria.createdBy} IS NULL OR c.createdBy LIKE CONCAT('%', :#{#criteria.createdBy}, '%'))
                    AND (:#{#criteria.modifiedBy} IS NULL OR c.modifiedBy LIKE CONCAT('%', :#{#criteria.modifiedBy}, '%'))
@@ -41,4 +42,10 @@ public interface CourseRepo extends JpaRepository<Course, Long> {
             """)
     Page<Course> findAllFilteredAndPaginated(Pageable pageRequest, CourseSearchDto criteria);
 
+
+    @Query("SELECT c FROM Course c WHERE c.name IN :names AND c.code = 'N/A'")
+    List<Course> findAllInitialCoursesByNamesIn(Set<String> names);
+
+    @Query("SELECT CASE WHEN COUNT(c) > 0 THEN TRUE ELSE FALSE END FROM Course c WHERE c.name = :name AND c.code = 'N/A'")
+    boolean existsByNameAndIsInitial(String name);
 }

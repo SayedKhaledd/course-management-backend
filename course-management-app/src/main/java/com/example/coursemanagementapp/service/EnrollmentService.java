@@ -25,6 +25,8 @@ public interface EnrollmentService extends AbstractService<Enrollment, Enrollmen
 
     void updateAmountPaid(Long id, EnrollmentDto dto);
 
+    void updateCommission(Long id, EnrollmentDto dto);
+
     void updateRemainingAmount(Long id, Double paidAmount, Double totalAmount);
 
     void updateTotalAmount(Long id, Double totalAmount);
@@ -57,4 +59,5 @@ public interface EnrollmentService extends AbstractService<Enrollment, Enrollmen
 
 
     void updateIsReceived(Long id, Boolean isReceived);
+
 }

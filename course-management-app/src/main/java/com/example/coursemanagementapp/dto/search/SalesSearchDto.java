@@ -16,7 +16,10 @@ public class SalesSearchDto {
     private Set<PaymentStatusSource> paymentStatusSources;
     private Set<String> currencies;
     private String courseCode;
-    private Boolean isReceived;
+    private String clientName;
+    private Set<Boolean> insideEgypt;
+    private Double amount;
+    private Set<Boolean> isReceived;
     private String createdBy;
     private String modifiedBy;
     private String createdDate;
@@ -57,5 +60,17 @@ public class SalesSearchDto {
         if (paymentStatusSources == null || paymentStatusSources.isEmpty())
             return null;
         return paymentStatusSources;
+    }
+
+    public Set<Boolean> getInsideEgypt() {
+        if (insideEgypt == null || insideEgypt.isEmpty())
+            return null;
+        return insideEgypt;
+    }
+
+    public Set<Boolean> getIsReceived() {
+        if (isReceived == null || isReceived.isEmpty())
+            return null;
+        return isReceived;
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Component
 @AllArgsConstructor
@@ -51,6 +52,12 @@ public class CourseDaoImpl implements CourseDao {
     }
 
     @Override
+    public List<Course> findAllInitialCoursesByNamesIn(Set<String> names) {
+        log.info("CourseDao: findAllInitialCoursesByNamesIn() - was called");
+        return getRepo().findAllInitialCoursesByNamesIn(names);
+    }
+
+    @Override
     public void updateCourseStatus(Long id, Long statusId) {
         log.info("CourseDao: updateCourseStatus() - was called with id: {} and statusId: {}", id, statusId);
         entityManagerDao.updateQuery(Course.class.getSimpleName(), id, "courseStatusId", statusId, auditAware.getCurrentAuditor().get(), LocalDateTime.now());
@@ -66,12 +73,6 @@ public class CourseDaoImpl implements CourseDao {
     public void updatePrice(Long id, Double price) {
         log.info("CourseDao: updatePrice() - was called");
         entityManagerDao.updateQuery(Course.class.getSimpleName(), id, "price", price, auditAware.getCurrentAuditor().get(), LocalDateTime.now());
-    }
-
-    @Override
-    public void updatePart(Long id, String part) {
-        log.info("CourseDao: updatePart() - was called");
-        entityManagerDao.updateQuery(Course.class.getSimpleName(), id, "part", part, auditAware.getCurrentAuditor().get(), LocalDateTime.now());
     }
 
     @Override
@@ -96,5 +97,11 @@ public class CourseDaoImpl implements CourseDao {
     public void updateEndDate(Long id, LocalDateTime endDate) {
         log.info("CourseDao: updateEndDate() - was called");
         entityManagerDao.updateQuery(Course.class.getSimpleName(), id, "endDate", endDate, auditAware.getCurrentAuditor().get(), LocalDateTime.now());
+    }
+
+    @Override
+    public boolean existsByNameAndIsInitial(String initialCourse) {
+        log.info("CourseDao: existsByNameAndIsInitial() - was called");
+        return getRepo().existsByNameAndIsInitial(initialCourse);
     }
 }

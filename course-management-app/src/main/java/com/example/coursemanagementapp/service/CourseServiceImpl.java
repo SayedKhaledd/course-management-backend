@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @Service
@@ -66,6 +67,12 @@ public class CourseServiceImpl implements CourseService {
     public PaginationResponse<CourseDto> findAllPaginatedAndFiltered(PaginationRequest<CourseSearchDto> paginationRequest) {
         log.info("CourseService: findAllPaginatedAndFiltered() - was called");
         return buildPaginationResponse(getDao().findAllPaginatedAndFiltered(paginationRequest));
+    }
+
+    @Override
+    public List<CourseDto> findAllInitialCoursesByNamesIn(Set<String> names) {
+        log.info("CourseService: findAllInitialCoursesByNamesIn() - was called");
+        return getTransformer().transformEntitiesToDtos(getDao().findAllInitialCoursesByNamesIn(names));
     }
 
     @Transactional
@@ -135,24 +142,6 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Transactional
-
-    @Override
-    public void updatePart(Long id, CourseDto dto) {
-        log.info("CourseService: updatePart() - was called");
-        CourseDto courseDtoDb = findById(id);
-        historyService.create(HistoryDto.HistoryDtoBuilder()
-                .entityType(getEntityName())
-                .entityId(courseDtoDb.getId())
-                .fieldName("part")
-                .oldValue(courseDtoDb.getPart())
-                .newValue(dto.getPart())
-                .build());
-        getDao().updatePart(id, dto.getPart());
-
-    }
-
-    @Transactional
-
     @Override
     public void updateStartDate(Long id, CourseDto dto) {
         log.info("CourseService: updateStartDate() - was called");
@@ -202,5 +191,11 @@ public class CourseServiceImpl implements CourseService {
                 .build());
         getDao().updateCourseStatus(id, courseStatusId);
 
+    }
+
+    @Override
+    public boolean existsByNameAndIsInitial(String initialCourse) {
+        log.info("CourseService: existsByNameAndIsInitial() - was called");
+        return getDao().existsByNameAndIsInitial(initialCourse);
     }
 }

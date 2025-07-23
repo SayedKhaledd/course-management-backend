@@ -57,6 +57,9 @@ public class ClientDto extends AbstractDto {
     @NotBlank(message = "Description is mandatory", groups = {UpdateDescription.class})
     private String description;
 
+    @NotBlank(message = "Notes is mandatory", groups = {UpdateNotes.class})
+    private String notes;
+
     public interface Create {
     }
 
@@ -96,6 +99,10 @@ public class ClientDto extends AbstractDto {
     }
 
     public interface UpdateName {
+
+    }
+
+    public interface UpdateNotes {
 
     }
 

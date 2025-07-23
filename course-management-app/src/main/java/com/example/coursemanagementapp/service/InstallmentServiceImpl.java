@@ -9,7 +9,6 @@ import com.example.coursemanagementapp.dto.HistoryDto;
 import com.example.coursemanagementapp.dto.InstallmentDto;
 import com.example.coursemanagementapp.dto.search.InstallmentSearchDto;
 import com.example.coursemanagementapp.enums.PaymentStatus;
-import com.example.coursemanagementapp.model.Enrollment;
 import com.example.coursemanagementapp.model.Installment;
 import com.example.coursemanagementapp.transformer.InstallmentTransformer;
 import jakarta.persistence.EntityNotFoundException;
@@ -60,12 +59,15 @@ public class InstallmentServiceImpl implements InstallmentService {
     @Override
     public Installment doBeforeCreate(Installment entity, InstallmentDto dto) {
         log.info("InstallmentServiceImpl: doBeforeCreate() - was called");
-        entity.setEnrollment( enrollmentService.findEntityById(dto.getEnrollmentId()));
+        entity.setEnrollment(enrollmentService.findEntityById(dto.getEnrollmentId()));
         if (entity.getEnrollment().getRemainingAmount() < dto.getAmount()) {
             throw new CustomException("Amount cannot be greater than remaining amount");
         }
-//        if (!enrollment.getPayInInstallments())
-//            throw new CustomException("This enrollment does not support installments");
+        if (dto.getPaymentStatusId() == null) {
+            com.example.coursemanagementapp.model.PaymentStatus paymentStatus = paymentStatusService.findEntityByName(PaymentStatus.WAITING);
+            entity.setPaymentStatus(paymentStatus);
+            entity.setPaymentStatusId(paymentStatus.getId());
+        }
         return entity;
     }
 
